@@ -1,3 +1,3 @@
 export default function VariablesPage() {
-    return <div>Variables page</div>
+  return <div>Variables page</div>;
 }
