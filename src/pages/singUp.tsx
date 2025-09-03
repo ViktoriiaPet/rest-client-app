@@ -1,3 +1,3 @@
 export default function SingUp() {
-  return <div>SingUp</div>;
+  return <div className="p-[5vw]">SingUp</div>;
 }

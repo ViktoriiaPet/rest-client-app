@@ -2,7 +2,7 @@ import { NavLink } from 'react-router';
 
 export default function Header() {
   return (
-    <nav>
+    <nav className="flex flex-row justify-around sticky top-0">
       <NavLink to="/" end>
         <div>Logo</div>
       </NavLink>
