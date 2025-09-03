@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
 
-test("dummy", () => {
+test('dummy', () => {
   expect(true).toBe(true);
 });
