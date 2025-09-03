@@ -1,5 +1,5 @@
-import { Outlet, Scripts } from "react-router";
-import Header from "./components/Header";
+import { Outlet, Scripts } from 'react-router';
+import Header from './components/Header';
 import './App.css';
 
 export default function Root() {
@@ -10,11 +10,11 @@ export default function Root() {
       </head>
       <body>
         <div className="bg-pink-100 min-h-screen">
-        <Header />
-        <main>
-          <Outlet />
-        </main>
-        <Scripts />
+          <Header />
+          <main>
+            <Outlet />
+          </main>
+          <Scripts />
         </div>
       </body>
     </html>
