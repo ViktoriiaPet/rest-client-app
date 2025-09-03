@@ -8,7 +8,7 @@ import {
 export default [
   index('./pages/home.tsx'),
 
-  layout('./pages/layout.tsx', [
+  layout('./layouts/layout.tsx', [
     route('mainClint', './pages/authClientPage.tsx'),
     route('singIn', './pages/singIn.tsx'),
     route('singUp', './pages/singUp.tsx'),
