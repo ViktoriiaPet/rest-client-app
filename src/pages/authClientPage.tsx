@@ -3,7 +3,7 @@ import { Outlet } from 'react-router';
 
 export default function AuthorizedUserPage() {
   return (
-    <nav>
+    <nav className="p-[5vw]">
       <NavLink to="/auth/clientVariales" end>
         <div>Variables</div>
       </NavLink>
