@@ -13,16 +13,19 @@ type Pages = {
   "/": {
     params: {};
   };
+  "/mainClint": {
+    params: {};
+  };
   "/singIn": {
     params: {};
   };
   "/singUp": {
     params: {};
   };
-  "/clientVariales": {
+  "/auth/clientVariales": {
     params: {};
   };
-  "/clientHistory": {
+  "/auth/clientHistory": {
     params: {};
   };
 };
@@ -30,15 +33,19 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/singIn" | "/singUp" | "/clientVariales" | "/clientHistory";
+    page: "/" | "/mainClint" | "/singIn" | "/singUp" | "/auth/clientVariales" | "/auth/clientHistory";
   };
-  "./app/routes/home.tsx": {
-    id: "app/routes/home";
+  "./pages/home.tsx": {
+    id: "pages/home";
     page: "/";
   };
   "./pages/layout.tsx": {
     id: "pages/layout";
-    page: "/singIn" | "/singUp" | "/clientVariales" | "/clientHistory";
+    page: "/mainClint" | "/singIn" | "/singUp" | "/auth/clientVariales" | "/auth/clientHistory";
+  };
+  "./pages/authClientPage.tsx": {
+    id: "pages/authClientPage";
+    page: "/mainClint";
   };
   "./pages/singIn.tsx": {
     id: "pages/singIn";
@@ -50,10 +57,10 @@ type RouteFiles = {
   };
   "./pages/variables.tsx": {
     id: "pages/variables";
-    page: "/clientVariales";
+    page: "/auth/clientVariales";
   };
   "./pages/history.tsx": {
     id: "pages/history";
-    page: "/clientHistory";
+    page: "/auth/clientHistory";
   };
 };
