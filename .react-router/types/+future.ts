@@ -3,7 +3,7 @@
 import 'react-router';
 
 declare module 'react-router' {
-  type Future = {
+  interface Future {
     unstable_middleware: false;
-  };
+  }
 }

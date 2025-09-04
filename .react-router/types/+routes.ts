@@ -3,10 +3,10 @@
 import 'react-router';
 
 declare module 'react-router' {
-  type Register = {
+  interface Register {
     pages: Pages;
     routeFiles: RouteFiles;
-  };
+  }
 }
 
 type Pages = {
