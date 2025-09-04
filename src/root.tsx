@@ -1,7 +1,12 @@
 import { Outlet, Scripts } from 'react-router';
+
 import './i18n/i18n.ts';
 import Header from './components/Header';
+
+
+
 import Footer from './components/Footer';
+
 import './App.css';
 
 export default function Root() {
