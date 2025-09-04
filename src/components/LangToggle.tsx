@@ -11,13 +11,13 @@ export default function LangToggle() {
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow"
         onClick={() => changeLanguage('en')}
       >
-        En
+        {t('English')}
       </button>
       <button
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow"
-        onClick={() => changeLanguage('es')}
+        onClick={() => changeLanguage('ru')}
       >
-        Ru
+        {t('Russian')}
       </button>
     </div>
   );

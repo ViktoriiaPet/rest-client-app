@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LangToggle from './LangToggle';
 
 export default function Header() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <nav className="flex flex-row justify-around sticky top-0">
@@ -17,7 +17,7 @@ export default function Header() {
         <div>{t('SignIn')}</div>
       </NavLink>
       <NavLink to="/singUp" end>
-        <div>Sing Up</div>
+        <div>{t('SignUp')}</div>
       </NavLink>
       <NavLink to="/mainClint" end>
         <div>Authorized user's page</div>

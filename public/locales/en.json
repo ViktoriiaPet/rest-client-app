@@ -1,3 +1,6 @@
 {
-  "SignIn": "sing up"
+  "SignIn": "Sign in",
+  "SignUp": "Sign up",
+  "English": "English",
+  "Russian": "Russian"
 }

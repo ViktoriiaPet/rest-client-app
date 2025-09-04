@@ -11,7 +11,7 @@ i18next
     debug: true,
     resources: {
       en: { translation: en },
-      es: { translation: ru },
+      ru: { translation: ru },
     },
     fallbackLng: 'en',
     interpolation: {
