@@ -8,7 +8,16 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import prettierPlugin from 'eslint-plugin-prettier';
 
 export default tseslint.config(
-  { ignores: ['dist', 'build', 'coverage', 'node_modules'] },
+  {
+    ignores: [
+      'dist',
+      'build',
+      'coverage',
+      'node_modules',
+      '.react-router',
+      'react-router.config.ts',
+    ],
+  },
 
   {
     files: ['**/*.{ts,tsx}'],
