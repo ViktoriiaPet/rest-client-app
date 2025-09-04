@@ -43,32 +43,58 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
-      '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: { attributes: false } }],
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        { checksVoidReturn: { attributes: false } },
+      ],
       '@typescript-eslint/no-unnecessary-condition': 'warn',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
-      '@typescript-eslint/explicit-function-return-type': ['warn', { allowExpressions: true }],
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/explicit-function-return-type': [
+        'warn',
+        { allowExpressions: true },
+      ],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
       '@typescript-eslint/prefer-nullish-coalescing': 'warn',
       '@typescript-eslint/prefer-optional-chain': 'warn',
-      '@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': 'allow-with-description' }],
+      '@typescript-eslint/ban-ts-comment': [
+        'error',
+        { 'ts-expect-error': 'allow-with-description' },
+      ],
 
       'import/no-duplicates': 'error',
       'import/newline-after-import': 'warn',
       'import/no-cycle': 'warn',
-      'import/order': ['warn', {
-        'newlines-between': 'always',
-        alphabetize: { order: 'asc', caseInsensitive: true },
-        groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index'], 'type'],
-      }],
+      'import/order': [
+        'warn',
+        {
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+          groups: [
+            ['builtin', 'external'],
+            'internal',
+            ['parent', 'sibling', 'index'],
+            'type',
+          ],
+        },
+      ],
 
       eqeqeq: ['error', 'smart'],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
-      'react/jsx-no-leaked-render': ['error', { validStrategies: ['coerce', 'ternary'] }],
+      'react/jsx-no-leaked-render': [
+        'error',
+        { validStrategies: ['coerce', 'ternary'] },
+      ],
       'react/no-array-index-key': 'warn',
       'react/prop-types': 'off',
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
 
       'prettier/prettier': 'error',
     },
-  },
+  }
 );
