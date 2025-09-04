@@ -14,7 +14,7 @@ export default function Header() {
         <div>Sing Up</div>
       </NavLink>
       <NavLink to="/mainClint" end>
-        <div>Authorized user's page</div>
+        <div>Authorized user&apos;s page</div>
       </NavLink>
     </nav>
   );

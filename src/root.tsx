@@ -1,6 +1,7 @@
 import { Outlet, Scripts } from 'react-router';
-import Header from './components/Header';
+
 import Footer from './components/Footer';
+import Header from './components/Header';
 import './App.css';
 
 export default function Root() {
