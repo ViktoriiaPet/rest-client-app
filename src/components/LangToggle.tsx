@@ -1,8 +1,11 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default function LangToggle() {
+import type { JSX } from 'react';
+
+export default function LangToggle(): JSX.Element {
   const { t, i18n } = useTranslation();
-  const changeLanguage = (lng: string) => {
+  const changeLanguage = (lng: string): void => {
     void i18n.changeLanguage(lng);
   };
   return (
