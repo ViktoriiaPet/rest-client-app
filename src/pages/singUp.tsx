@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { registrationSchema } from '../utils/validateRegistration';
 
 import type { FormData, FormErrors } from '../types/validationType.ts';
-import React from 'react';
 
 export default function SignUp() {
   const [formData, setFormData] = useState<FormData>({
@@ -49,7 +48,7 @@ export default function SignUp() {
         value={formData.username}
         onChange={handleChange}
       />
-      {submitted && errors.username && (
+      {!!submitted && !!errors.username && (
         <p className="errors">{errors.username}</p>
       )}
 
@@ -59,7 +58,7 @@ export default function SignUp() {
         value={formData.email}
         onChange={handleChange}
       />
-      {submitted && errors.email && (
+      {!!submitted && !!errors.email && (
         <p className="errors">{errors.email}</p>
       )}
 
@@ -70,7 +69,7 @@ export default function SignUp() {
         value={formData.password}
         onChange={handleChange}
       />
-      {submitted && errors.password && (
+      {!!submitted && !!errors.password && (
         <p className="errors">{errors.password}</p>
       )}
 

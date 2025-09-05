@@ -72,6 +72,7 @@ export default tseslint.config(
         'error',
         { 'ts-expect-error': 'allow-with-description' },
       ],
+      '@typescript-eslint/no-unnecessary-type-conversion': 'off',
 
       'import/no-duplicates': 'error',
       'import/newline-after-import': 'warn',
