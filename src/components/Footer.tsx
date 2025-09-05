@@ -1,6 +1,9 @@
+import React from 'react';
 import { Link } from 'react-router';
 
-export default function Footer() {
+import type { JSX } from 'react';
+
+export default function Footer(): JSX.Element {
   return (
     <div className="flex flex-row justify-around fixed bottom-0 left-0 w-full ">
       <Link to="https://github.com/ViktoriiaPet/rest-client-app">
