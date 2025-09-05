@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { registrationSchema } from '../utils/validateRegistration';
+import { registrationSchema } from '../utils/validateRegistration.ts';
 
 import type { FormData, FormErrors } from '../types/validationType.ts';
 
@@ -14,9 +14,23 @@ export default function SignUp() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+
+  setFormData(prev => ({ ...prev, [name]: value }));
+
+  const result = registrationSchema.safeParse({ ...formData, [name]: value });
+
+  if (result.success) {
+    setErrors(prev => ({ ...prev, [name]: undefined }));
+  } else {
+    const fieldError = result.error.issues.find(issue => issue.path[0] === name);
+    setErrors(prev => ({
+      ...prev,
+      [name]: fieldError ? fieldError.message : undefined,
+    }));
+  }
+};
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,7 +62,7 @@ export default function SignUp() {
         value={formData.username}
         onChange={handleChange}
       />
-      {!!submitted && !!errors.username && (
+      {!!errors.username && (
         <p className="errors">{errors.username}</p>
       )}
 
@@ -58,7 +72,7 @@ export default function SignUp() {
         value={formData.email}
         onChange={handleChange}
       />
-      {!!submitted && !!errors.email && (
+      {!!errors.email && (
         <p className="errors">{errors.email}</p>
       )}
 
@@ -69,7 +83,7 @@ export default function SignUp() {
         value={formData.password}
         onChange={handleChange}
       />
-      {!!submitted && !!errors.password && (
+      {!!errors.password && (
         <p className="errors">{errors.password}</p>
       )}
 
