@@ -10,8 +10,8 @@ export default [
 
   layout('./layouts/layout.tsx', [
     route('mainClint', './pages/authClientPage.tsx'),
-    route('singIn', './pages/singIn.tsx'),
-    route('singUp', './pages/singUp.tsx'),
+    route('signIn', './pages/signIn.tsx'),
+    route('signUp', './pages/signUp.tsx'),
     route('auth/clientVariales', './pages/variables.tsx'),
     route('auth/clientHistory', './pages/history.tsx'),
   ]),

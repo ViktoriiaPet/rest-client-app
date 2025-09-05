@@ -17,10 +17,10 @@ export default function Header(): JSX.Element {
       <div>
         <LangToggle />
       </div>
-      <NavLink to="/singIn" end>
+      <NavLink to="/signIn" end>
         <div>{t('SignIn')}</div>
       </NavLink>
-      <NavLink to="/singUp" end>
+      <NavLink to="/signUp" end>
         <div>{t('SignUp')}</div>
       </NavLink>
       <NavLink to="/mainClint" end>
