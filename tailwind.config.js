@@ -35,6 +35,15 @@ export default {
           300: '#fde2c8',
         },
       },
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+      },
+      fontSize: {
+        base: ['16px', { letterSpacing: '0.01em', lineHeight: '1.5' }],
+        lg: ['18px', { letterSpacing: '0.01em', lineHeight: '1.6' }],
+        xl: ['20px', { letterSpacing: '-0.01em', lineHeight: '1.6' }],
+        '2xl': ['24px', { letterSpacing: '-0.015em', lineHeight: '1.4' }],
+      },
     },
   },
   plugins: [],

@@ -56,15 +56,15 @@ export default function SignIn() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-position">
-      <h1>App</h1>
+    <form onSubmit={handleSubmit} className="form-position  text-purple-600">
       <h2>{t('SignIn')}</h2>
-
-      <input
+      <div className='flex flex-col p-[5vw] '>
+<input
         name="username"
         placeholder={t('Name')}
         value={formData.username}
         onChange={handleChange}
+        className='bg-transparent border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600'
       />
       {!!errors.username && <p className="errors">{errors.username}</p>}
 
@@ -73,6 +73,7 @@ export default function SignIn() {
         placeholder={t('Email')}
         value={formData.email}
         onChange={handleChange}
+        className='bg-transparent border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600'
       />
       {!!errors.email && <p className="errors">{errors.email}</p>}
 
@@ -82,6 +83,7 @@ export default function SignIn() {
         placeholder={t('Password')}
         value={formData.password}
         onChange={handleChange}
+        className='bg-transparent border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600'
       />
       {!!errors.password && <p className="errors">{errors.password}</p>}
 
@@ -90,6 +92,8 @@ export default function SignIn() {
           {t('Submit')}
         </button>
       </div>
+      </div>
+      
     </form>
   );
 }

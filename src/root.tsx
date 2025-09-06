@@ -19,8 +19,11 @@ export default function Root(): JSX.Element {
       <body>
         <div className="bg-pink-100 min-h-screen flex flex-col">
           <Header />
-          <main>
+          <main  className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
+            <div className='p-[5vw] font-inter text-xl text-purple-600'>Postman API</div>
+            <div className=" p-[5vw] pl-[7vw] w-11/12 max-w-4xl min-h-[80vh] rounded-[15%] bg-pink-200 shadow-2xl">
             <Outlet />
+            </div>
           </main>
           <Scripts />
           <Footer />

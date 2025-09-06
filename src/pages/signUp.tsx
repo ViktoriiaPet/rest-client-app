@@ -57,7 +57,6 @@ export default function SignUp() {
 
   return (
     <form onSubmit={handleSubmit} className="form-position">
-      <h1>App</h1>
       <h2>{t('SignUp')}</h2>
 
       <input
