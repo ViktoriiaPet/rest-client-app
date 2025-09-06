@@ -16,10 +16,10 @@ type Pages = {
   "/mainClint": {
     params: {};
   };
-  "/singIn": {
+  "/signIn": {
     params: {};
   };
-  "/singUp": {
+  "/signUp": {
     params: {};
   };
   "/auth/clientVariales": {
@@ -33,7 +33,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/mainClint" | "/singIn" | "/singUp" | "/auth/clientVariales" | "/auth/clientHistory";
+    page: "/" | "/mainClint" | "/signIn" | "/signUp" | "/auth/clientVariales" | "/auth/clientHistory";
   };
   "./pages/home.tsx": {
     id: "pages/home";
@@ -41,19 +41,19 @@ type RouteFiles = {
   };
   "./layouts/layout.tsx": {
     id: "layouts/layout";
-    page: "/mainClint" | "/singIn" | "/singUp" | "/auth/clientVariales" | "/auth/clientHistory";
+    page: "/mainClint" | "/signIn" | "/signUp" | "/auth/clientVariales" | "/auth/clientHistory";
   };
   "./pages/authClientPage.tsx": {
     id: "pages/authClientPage";
     page: "/mainClint";
   };
-  "./pages/singIn.tsx": {
-    id: "pages/singIn";
-    page: "/singIn";
+  "./pages/signIn.tsx": {
+    id: "pages/signIn";
+    page: "/signIn";
   };
-  "./pages/singUp.tsx": {
-    id: "pages/singUp";
-    page: "/singUp";
+  "./pages/signUp.tsx": {
+    id: "pages/signUp";
+    page: "/signUp";
   };
   "./pages/variables.tsx": {
     id: "pages/variables";

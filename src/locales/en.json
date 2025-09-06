@@ -2,5 +2,16 @@
   "SignIn": "Sign in",
   "SignUp": "Sign up",
   "English": "English",
-  "Russian": "Russian"
+  "Russian": "Russian",
+  "Name": "Name",
+  "Email": "Email",
+  "Password": "Password",
+  "Submit": "Submit",
+  "IsAccount": "Already have an account?",
+  "validation": {
+    "usernameRequired": "Enter username",
+    "usernameLetters": "Username can only contain letters",
+    "emailInvalid": "Enter a valid email",
+    "passwordInvalid": "Password must be at least 8 characters and include uppercase, lowercase and a number"
+  }
 }
