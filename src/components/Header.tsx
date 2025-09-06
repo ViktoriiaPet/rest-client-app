@@ -10,7 +10,7 @@ export default function Header(): JSX.Element {
   const { t } = useTranslation();
 
   return (
-    <nav className="flex flex-row justify-around sticky top-0">
+    <nav className="flex flex-row justify-around sticky top-3">
       <NavLink to="/" end>
         <img src="/app-logo.svg" width="50" height="50" />
       </NavLink>
