@@ -8,7 +8,7 @@ var __commonJS = (cb, mod) =>
     );
   };
 
-// node_modules/react/cjs/react.development.js
+
 var require_react_development = __commonJS({
   'node_modules/react/cjs/react.development.js'(exports, module) {
     'use strict';
@@ -1266,7 +1266,7 @@ var require_react_development = __commonJS({
   },
 });
 
-// node_modules/react/index.js
+
 var require_react = __commonJS({
   'node_modules/react/index.js'(exports, module) {
     if (false) {

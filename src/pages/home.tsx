@@ -1,6 +1,10 @@
+import React from 'react';
 import { NavLink } from 'react-router';
 
-export default function HomePage() {
+import type { JSX } from 'react';
+
+export default function HomePage(): JSX.Element {
+
   return (
     <div className="p-[5vw]">
       <div>Start Page (Welcome)</div>

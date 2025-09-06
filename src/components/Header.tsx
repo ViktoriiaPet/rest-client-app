@@ -1,14 +1,22 @@
-import { NavLink } from 'react-router';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router';
+
 import LangToggle from './LangToggle';
 
-export default function Header() {
+import type { JSX } from 'react';
+
+export default function Header(): JSX.Element {
+
   const { t } = useTranslation();
 
   return (
     <nav className="flex flex-row justify-around sticky top-0">
       <NavLink to="/" end>
-        <div>Logo</div>
+
+
+        <img src="/app-logo.svg" width="50" height="50" />
+
       </NavLink>
       <div>
         <LangToggle />
