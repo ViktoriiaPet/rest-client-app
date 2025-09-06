@@ -1,17 +1,19 @@
+import { t } from 'i18next';
 import { z } from 'zod';
 
-export const registrationSchema = z.object({
-  username: z
-    .string()
-    .min(1, 'Введите имя пользователя')
-    .regex(/^[А-Яа-яЁёA-Za-z]+$/, 'Имя должно содержать только буквы'),
+export const getRegistrationSchema = () =>
+  z.object({
+    username: z
+      .string()
+      .min(1, t('validation.usernameRequired'))
+      .regex(/^[A-Za-zА-Яа-яЁё]+$/, t('validation.usernameLetters')),
 
-  email: z.email('Введите корректный email'),
+    email: z.email(t('validation.emailInvalid')),
 
-  password: z
-    .string()
-    .regex(
-      /^(?=.*\p{L})(?=.*\d)(?=.*[^\p{L}\d]).{8,}$/u,
-      'Пароль должен быть не менее 8 символов и содержать заглавную букву, строчную и цифру'
-    ),
-});
+    password: z
+      .string()
+      .regex(
+        /^(?=.*\p{L})(?=.*\d)(?=.*[^\p{L}\d]).{8,}$/u,
+        t('validation.passwordInvalid')
+      ),
+  });
