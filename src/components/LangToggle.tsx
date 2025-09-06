@@ -17,8 +17,6 @@ export default function LangToggle(): JSX.Element {
     void i18n.changeLanguage(lang);
   }, [lang]);
 
-  
-
   const changeLanguage = (): void => {
     const newLang = lang === 'en' ? 'ru' : 'en';
     dispatch(setLanguage(newLang));
