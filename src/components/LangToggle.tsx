@@ -24,7 +24,7 @@ export default function LangToggle(): JSX.Element {
           isEnglish ? 'text-rose-500 font-bold' : 'text-rose-400 font-semibold'
         }
       >
-        {t('lang.English')}
+        {t('lang.english')}
       </div>
       <Switch onClick={changeLanguage} />
       <div
@@ -33,7 +33,7 @@ export default function LangToggle(): JSX.Element {
         }
       >
         {' '}
-        {t('Russian')}
+        {t('lang.russian')}
       </div>
     </div>
   );

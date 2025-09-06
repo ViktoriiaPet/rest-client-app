@@ -2,7 +2,12 @@ import { useTranslation } from 'react-i18next';
 
 import { Button } from './ui/button';
 
-export const SignButton = (text: string) => {
+interface SignButtonProps {
+  text: string;
+}
+
+
+export const SignButton = ({text}: SignButtonProps) => {
   const { t } = useTranslation();
   return (
     <Button

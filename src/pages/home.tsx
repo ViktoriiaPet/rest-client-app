@@ -4,24 +4,21 @@ import { NavLink } from 'react-router';
 
 import type { JSX } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { SignButton } from '@/components/SignButton';
 
 export default function HomePage(): JSX.Element {
   const { t } = useTranslation();
   return (
-    <div className="p-[5vw]">
-      <div>Start Page (Welcome)</div>
+    <div className="flex flex-col items-center justify-center min-h-screen p-[5vw]">
+      <div className="text-rose-600 text-3xl font-bold mb-8">
+        {t('auth.welcome')}
+      </div>
       <div className="flex flex-row gap-[5vw]">
         <NavLink to="/singIn" end>
-          <Button
-            variant="outline"
-            className="bg-rose-400 hover:bg-rose-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
-          >
-            {t('SignIn')}
-          </Button>
+          <SignButton text={t('auth.signIn')} />
         </NavLink>
         <NavLink to="/singUp" end>
-          <button>Sing Up</button>
+          <SignButton text={t('auth.signUp')} />
         </NavLink>
       </div>
     </div>

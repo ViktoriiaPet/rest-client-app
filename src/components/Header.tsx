@@ -8,7 +8,7 @@ import userIcon from '../assets/img/user-icon.jpg';
 import type { JSX } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { SignButton } from './SignButton';
 
 export default function Header(): JSX.Element {
   const { t } = useTranslation();
@@ -23,20 +23,10 @@ export default function Header(): JSX.Element {
       </div>
       <div className="flex flex-row justify-around ">
         <NavLink to="/singIn" end>
-          <Button
-            variant="outline"
-            className="bg-rose-400 hover:bg-rose-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
-          >
-            {t('SignIn')}
-          </Button>
+          <SignButton text={t('auth.signIn')} />
         </NavLink>
         <NavLink to="/singUp" end>
-          <Button
-            variant="outline"
-            className="bg-rose-400 hover:bg-rose-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
-          >
-            {t('SignUp')}
-          </Button>
+          <SignButton text={t('auth.signUp')} />
         </NavLink>
       </div>
 
