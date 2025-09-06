@@ -18,21 +18,22 @@ export default function LangToggle(): JSX.Element {
     setLang(newLang);
   };
   return (
-    <div className="flex flex-row gap-3 items-center">
+    <div className="flex flex-row gap-3 items-center w-full justify-center">
       <div
-        className={
+        className={`w-1/3 flex justify-end ${
           isEnglish ? 'text-rose-500 font-bold' : 'text-rose-400 font-semibold'
-        }
+        }`}
       >
         {t('lang.english')}
       </div>
       <Switch onClick={changeLanguage} />
       <div
-        className={
-          isEnglish ? 'text-rose-400 font-semibold' : 'text-rose-500 font-bold'
-        }
+        className={`w-1/3 flex ${
+          isEnglish
+            ? 'text-rose-400 font-semibold w-1/3'
+            : 'text-rose-500 font-bold w-1/3'
+        }`}
       >
-        {' '}
         {t('lang.russian')}
       </div>
     </div>

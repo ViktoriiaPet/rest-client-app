@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, Scripts } from 'react-router';
+
 import './i18n/i18n.ts';
 import Footer from './components/Footer';
 import Header from './components/Header';

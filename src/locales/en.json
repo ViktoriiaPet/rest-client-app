@@ -1,35 +1,35 @@
 {
-    "auth": {
-      "signIn": "Sign in",
-      "signUp": "Sign up",
-      "email": "Email",
-      "password": "Password",
-      "welcome": "Welcome",
-      "welcomeBack": "Welcome Back"
-    },
-    "lang": {
-      "english": "English",
-      "russian": "Russian"
-    },
-    "app": {
-      "title": "RESTClient",
-      "history": "History",
-      "historyRequests": "History Requests",
-      "variables": "Variables"
-    },
-    "request": {
-      "method": "Method",
-      "endpointUrl": "Endpoint URL",
-      "headers": "Headers",
-      "headerKey": "Header Key",
-      "headerValue": "Header Value",
-      "code": "Code",
-      "body": "Body",
-      "response": "Response",
-      "status": "Status"
-    },
-    "emptyState": {
-      "noRequests": "You haven't executed any requests",
-      "hint": "It's empty here. Try:"
-    }
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "welcome": "Welcome",
+    "welcomeBack": "Welcome Back"
+  },
+  "lang": {
+    "english": "English",
+    "russian": "Russian"
+  },
+  "app": {
+    "title": "RESTClient",
+    "history": "History",
+    "historyRequests": "History Requests",
+    "variables": "Variables"
+  },
+  "request": {
+    "method": "Method",
+    "endpointUrl": "Endpoint URL",
+    "headers": "Headers",
+    "headerKey": "Header Key",
+    "headerValue": "Header Value",
+    "code": "Code",
+    "body": "Body",
+    "response": "Response",
+    "status": "Status"
+  },
+  "emptyState": {
+    "noRequests": "You haven't executed any requests",
+    "hint": "It's empty here. Try:"
+  }
 }

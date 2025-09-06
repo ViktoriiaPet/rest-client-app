@@ -13,11 +13,11 @@ export default function HomePage(): JSX.Element {
       <div className="text-rose-600 text-3xl font-bold mb-8">
         {t('auth.welcome')}
       </div>
-      <div className="flex flex-row gap-[5vw]">
-        <NavLink to="/singIn" end>
+      <div className="flex flex-row items-center justify-center  w-[200px]">
+        <NavLink to="/singIn" end className="w-1/2 flex justify-end">
           <SignButton text={t('auth.signIn')} />
         </NavLink>
-        <NavLink to="/singUp" end>
+        <NavLink to="/singUp" end className="w-1/2">
           <SignButton text={t('auth.signUp')} />
         </NavLink>
       </div>
