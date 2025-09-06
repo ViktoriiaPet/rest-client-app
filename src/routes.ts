@@ -14,5 +14,6 @@ export default [
     route('signUp', './pages/signUp.tsx'),
     route('auth/clientVariales', './pages/variables.tsx'),
     route('auth/clientHistory', './pages/history.tsx'),
+    route('*', './pages/notFound.tsx'),
   ]),
 ] satisfies RouteConfig;
