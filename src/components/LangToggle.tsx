@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '@/store';
+import { setLanguage } from '@/store/languageSlice';
 import { useTranslation } from 'react-i18next';
 
 import type { JSX } from 'react';
@@ -6,16 +9,16 @@ import type { JSX } from 'react';
 import { Switch } from '@/components/ui/switch';
 
 export default function LangToggle(): JSX.Element {
+   const dispatch = useDispatch();
+   const lang = useSelector((state: RootState) => state.language.lang);
   const { t, i18n } = useTranslation();
-  const [lang, setLang] = useState<'en' | 'ru'>(
-    i18n.language === 'ru' ? 'ru' : 'en'
-  );
+
   const isEnglish = i18n.language === 'en';
 
   const changeLanguage = (): void => {
     const newLang = lang === 'en' ? 'ru' : 'en';
     void i18n.changeLanguage(newLang);
-    setLang(newLang);
+    dispatch(setLanguage(newLang));
   };
   return (
     <div className="flex flex-row gap-3 items-center w-full justify-center">

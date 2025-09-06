@@ -4,10 +4,10 @@ import { Button } from './ui/button';
 
 type SignButtonProps = {
   text: string;
-  className?: string 
+  className?: string;
 };
 
-export const SignButton = ({ text, className}: SignButtonProps) => {
+export const SignButton = ({ text, className }: SignButtonProps) => {
   const { t } = useTranslation();
   return (
     <div className={className}>
