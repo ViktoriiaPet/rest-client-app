@@ -8,7 +8,7 @@
   "Password": "Пароль",
   "Submit": "Отправить",
   "IsAccount": "Уже есть аккаунт?",
-    "validation": {
+  "validation": {
     "usernameRequired": "Введите имя пользователя",
     "usernameLetters": "Имя должно содержать только буквы",
     "emailInvalid": "Введите корректный email",
