@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -8,7 +7,6 @@ export default function LangToggle(): JSX.Element {
   const { t, i18n } = useTranslation();
   const changeLanguage = (lng: string): void => {
     void i18n.changeLanguage(lng);
-
   };
   return (
     <div>
@@ -22,7 +20,6 @@ export default function LangToggle(): JSX.Element {
       </button>
       <button
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow"
-
         onClick={() => {
           changeLanguage('ru');
         }}
