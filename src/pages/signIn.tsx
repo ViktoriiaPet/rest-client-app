@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { registrationSchema } from '../utils/validateRegistration.ts';
-import { Button } from '@/components/ui/button.tsx';
 
 import type { FormData, FormErrors } from '../types/validationType.ts';
+
+import { Button } from '@/components/ui/button.tsx';
 
 export default function SignIn() {
   const { t } = useTranslation();
@@ -56,9 +58,14 @@ export default function SignIn() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-position  text-purple-600  flex flex-col items-center" >
-      <h2 className="p-[1vw] font-inter text-xl text-purple-600">{t('SignIn')}</h2>
-      <div className="flex flex-col items-center p-[5vw] gap-[1vw]">
+    <form
+      onSubmit={handleSubmit}
+      className="form-position  text-purple-600  flex flex-col items-center"
+    >
+      <h2 className="pb-[3vw] font-inter text-xl text-purple-600">
+        {t('SignIn')}
+      </h2>
+      <div className="flex flex-col items-center p-[5vw] gap-[1vw] rounded-[15%] border-2 border-purple-300">
         <input
           name="username"
           placeholder={t('Name')}
@@ -66,9 +73,7 @@ export default function SignIn() {
           onChange={handleChange}
           className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
         />
-        <p className="errors text-center w-full">
-        {errors.username || ''}
-</p>
+        <p className="errors text-center w-full">{errors.username || ''}</p>
         <input
           name="email"
           placeholder={t('Email')}
@@ -76,10 +81,7 @@ export default function SignIn() {
           onChange={handleChange}
           className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
         />
-        <p className="errors text-center w-full">
-          {errors.email || ''}
-        </p>
-        
+        <p className="errors text-center w-full">{errors.email || ''}</p>
 
         <input
           name="password"
@@ -89,10 +91,8 @@ export default function SignIn() {
           onChange={handleChange}
           className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
         />
-        <p className="errors text-center w-full">
-        {errors.password || ''}
-</p>
-        <div className="buttons-block">
+        <p className="errors text-center w-full">{errors.password || ''}</p>
+        <div className="buttons-block pt-[3vw]">
           <Button variant="custom" type="submit">
             {t('Submit')}
           </Button>

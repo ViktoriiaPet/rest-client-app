@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '../components/ui/button.tsx';
 
+import { Button } from '../components/ui/button.tsx';
 import { registrationSchema } from '../utils/validateRegistration.ts';
 
 import type { FormData, FormErrors } from '../types/validationType.ts';
@@ -57,50 +57,49 @@ export default function SignUp() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-position  text-purple-600  flex flex-col items-center">
-      <h2 className='p-[1vw] font-inter text-xl text-purple-600'>{t('SignUp')}</h2>
-      <div className='flex flex-col items-center p-[5vw] gap-[1vw]'>
-      <input
-        name="username"
-        placeholder={t('Name')}
-        value={formData.username}
-        onChange={handleChange}
-        className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
-      />
-      <p className="errors text-center w-full">
-        {errors.username || ''}
-</p>
+    <form
+      onSubmit={handleSubmit}
+      className="form-position  text-purple-600  flex flex-col items-center"
+    >
+      <h2 className="pb-[3vw] font-inter text-xl text-purple-600">
+        {t('SignUp')}
+      </h2>
+      <div className="flex flex-col items-center p-[5vw] gap-[1vw] rounded-[15%] border-2 border-purple-300">
+        <input
+          name="username"
+          placeholder={t('Name')}
+          value={formData.username}
+          onChange={handleChange}
+          className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+        />
+        <p className="errors text-center w-full">{errors.username || ''}</p>
 
-      <input
-        name="email"
-        placeholder={t('Email')}
-        value={formData.email}
-        onChange={handleChange}
-        className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
-      />
-      <p className="errors text-center w-full">
-        {errors.email || ''}
-</p>
-      <input
-        name="password"
-        type="password"
-        placeholder={t('Password')}
-        value={formData.password}
-        onChange={handleChange}
-        className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
-      />
-      <p className="errors text-center w-full">
-        {errors.password || ''}
-</p>
+        <input
+          name="email"
+          placeholder={t('Email')}
+          value={formData.email}
+          onChange={handleChange}
+          className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+        />
+        <p className="errors text-center w-full">{errors.email || ''}</p>
+        <input
+          name="password"
+          type="password"
+          placeholder={t('Password')}
+          value={formData.password}
+          onChange={handleChange}
+          className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+        />
+        <p className="errors text-center w-full">{errors.password || ''}</p>
 
-      <div className="buttons-block">
-        <Button variant="custom" className='mr-[2vw]' type="submit">
-          {t('Submit')}
-        </Button>
-        <Button variant="custom" type="button">
-          {t('IsAccount')}
-        </Button>
-      </div>
+        <div className="buttons-block pt-[3vw]">
+          <Button variant="custom" className="mr-[2vw]" type="submit">
+            {t('Submit')}
+          </Button>
+          <Button variant="custom" type="button">
+            {t('IsAccount')}
+          </Button>
+        </div>
       </div>
     </form>
   );
