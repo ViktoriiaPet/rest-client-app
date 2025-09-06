@@ -2,9 +2,9 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 type Lang = 'en' | 'ru';
 
-interface LanguageState {
+type LanguageState = {
   lang: 'en' | 'ru';
-}
+};
 
 const getSavedLang = (): Lang => {
   if (typeof window !== 'undefined') {
