@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { registrationSchema } from '../utils/validateRegistration.ts';
+import { Button } from '@/components/ui/button.tsx';
 
 import type { FormData, FormErrors } from '../types/validationType.ts';
 
@@ -56,44 +56,48 @@ export default function SignIn() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-position  text-purple-600">
-      <h2>{t('SignIn')}</h2>
-      <div className='flex flex-col p-[5vw] '>
-<input
-        name="username"
-        placeholder={t('Name')}
-        value={formData.username}
-        onChange={handleChange}
-        className='bg-transparent border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600'
-      />
-      {!!errors.username && <p className="errors">{errors.username}</p>}
+    <form onSubmit={handleSubmit} className="form-position  text-purple-600  flex flex-col items-center" >
+      <h2 className="p-[1vw] font-inter text-xl text-purple-600">{t('SignIn')}</h2>
+      <div className="flex flex-col items-center p-[5vw] gap-[1vw]">
+        <input
+          name="username"
+          placeholder={t('Name')}
+          value={formData.username}
+          onChange={handleChange}
+          className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+        />
+        <p className="errors text-center w-full">
+        {errors.username || ''}
+</p>
+        <input
+          name="email"
+          placeholder={t('Email')}
+          value={formData.email}
+          onChange={handleChange}
+          className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+        />
+        <p className="errors text-center w-full">
+          {errors.email || ''}
+        </p>
+        
 
-      <input
-        name="email"
-        placeholder={t('Email')}
-        value={formData.email}
-        onChange={handleChange}
-        className='bg-transparent border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600'
-      />
-      {!!errors.email && <p className="errors">{errors.email}</p>}
-
-      <input
-        name="password"
-        type="password"
-        placeholder={t('Password')}
-        value={formData.password}
-        onChange={handleChange}
-        className='bg-transparent border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600'
-      />
-      {!!errors.password && <p className="errors">{errors.password}</p>}
-
-      <div className="buttons-block">
-        <button className="button-reg" type="submit">
-          {t('Submit')}
-        </button>
+        <input
+          name="password"
+          type="password"
+          placeholder={t('Password')}
+          value={formData.password}
+          onChange={handleChange}
+          className="text-center bg-transparent max-w-[40vw] border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+        />
+        <p className="errors text-center w-full">
+        {errors.password || ''}
+</p>
+        <div className="buttons-block">
+          <Button variant="custom" type="submit">
+            {t('Submit')}
+          </Button>
+        </div>
       </div>
-      </div>
-      
     </form>
   );
 }
