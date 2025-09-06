@@ -1,5 +1,4 @@
 import { Outlet, Scripts } from 'react-router';
-
 import './i18n/i18n.ts';
 import React from 'react';
 

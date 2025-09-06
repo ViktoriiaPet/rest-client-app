@@ -2,5 +2,8 @@
   "SignIn": "Sign in",
   "SignUp": "Sign up",
   "English": "English",
-  "Russian": "Russian"
+  "Russian": "Russian",
+  "lang":{
+    "English": "English"
+  }
 }

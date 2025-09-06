@@ -1,31 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { JSX } from 'react';
 
+import { Switch } from '@/components/ui/switch';
+
 export default function LangToggle(): JSX.Element {
   const { t, i18n } = useTranslation();
-  const changeLanguage = (lng: string): void => {
-    void i18n.changeLanguage(lng);
+  const [lang, setLang] = useState<'en' | 'ru'>(
+    i18n.language === 'ru' ? 'ru' : 'en'
+  );
+  const isEnglish = i18n.language === 'en';
+
+  const changeLanguage = (): void => {
+    const newLang = lang === 'en' ? 'ru' : 'en';
+    void i18n.changeLanguage(newLang);
+    setLang(newLang);
   };
   return (
-    <div>
-      <button
-        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow"
-        onClick={() => {
-          changeLanguage('en');
-        }}
+    <div className="flex flex-row gap-3 items-center">
+      <div
+        className={
+          isEnglish ? 'text-rose-500 font-bold' : 'text-rose-400 font-semibold'
+        }
       >
-        {t('English')}
-      </button>
-      <button
-        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow"
-        onClick={() => {
-          changeLanguage('ru');
-        }}
+        {t('lang.English')}
+      </div>
+      <Switch onClick={changeLanguage} />
+      <div
+        className={
+          isEnglish ? 'text-rose-400 font-semibold' : 'text-rose-500 font-bold'
+        }
       >
+        {' '}
         {t('Russian')}
-      </button>
+      </div>
     </div>
   );
 }
