@@ -33,7 +33,7 @@ export default function LangToggle(): JSX.Element {
         }
       >
         {' '}
-        {t('Russian')}
+        {t('lang.Russian')}
       </div>
     </div>
   );
