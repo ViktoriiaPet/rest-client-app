@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { registrationSchema } from '../utils/validateRegistration.ts';
 
 import type { FormData, FormErrors } from '../types/validationType.ts';
 
 export default function SignIn() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<FormData>({
     username: '',
     email: '',
@@ -56,11 +58,11 @@ export default function SignIn() {
   return (
     <form onSubmit={handleSubmit} className="form-position">
       <h1>App</h1>
-      <h2>Sign In</h2>
+      <h2>{t('SignIn')}</h2>
 
       <input
         name="username"
-        placeholder="Name"
+        placeholder={t('Name')}
         value={formData.username}
         onChange={handleChange}
       />
@@ -68,7 +70,7 @@ export default function SignIn() {
 
       <input
         name="email"
-        placeholder="Email"
+        placeholder={t('Email')}
         value={formData.email}
         onChange={handleChange}
       />
@@ -77,7 +79,7 @@ export default function SignIn() {
       <input
         name="password"
         type="password"
-        placeholder="Password"
+        placeholder={t('Password')}
         value={formData.password}
         onChange={handleChange}
       />
@@ -85,10 +87,9 @@ export default function SignIn() {
 
       <div className="buttons-block">
         <button className="button-reg" type="submit">
-          Submit
+          {t('Submit')}
         </button>
       </div>
     </form>
   );
 }
-

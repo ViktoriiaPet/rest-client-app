@@ -2,5 +2,10 @@
   "SignIn": "Sign in",
   "SignUp": "Sign up",
   "English": "English",
-  "Russian": "Russian"
+  "Russian": "Russian",
+  "Name": "Name",
+  "Email": "Email",
+  "Password": "Password",
+  "Submit": "Submit",
+  "IsAccount": "Do you already have an account?"
 }
