@@ -7,7 +7,7 @@
   "Email": "Email",
   "Password": "Password",
   "Submit": "Submit",
-  "IsAccount": "Do you already have an account?",
+  "IsAccount": "Already have an account?",
   "validation": {
     "usernameRequired": "Enter username",
     "usernameLetters": "Username can only contain letters",

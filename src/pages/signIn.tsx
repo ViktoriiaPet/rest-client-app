@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
+import {FaEnvelope, FaLock } from 'react-icons/fa';
+
 import { getRegistrationSchema } from '../utils/validateRegistration.ts';
 
 import type { FormData, FormErrors } from '../types/validationType.ts';
@@ -73,24 +74,26 @@ export default function SignIn() {
         <p className="errors text-center w-full">{errors.username || ''}</p>
         <div className="relative w-full max-w-[40vw]">
           <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" />
-        <input
-          name="email"
-          placeholder={t('Email')}
-          value={formData.email}
-          onChange={handleChange}
-          className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
-        /></div>
+          <input
+            name="email"
+            placeholder={t('Email')}
+            value={formData.email}
+            onChange={handleChange}
+            className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+          />
+        </div>
         <p className="errors text-center w-full">{errors.email || ''}</p>
         <div className="relative w-full max-w-[40vw]">
-        <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" />
-        <input
-          name="password"
-          type="password"
-          placeholder={t('Password')}
-          value={formData.password}
-          onChange={handleChange}
-          className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
-        /></div>
+          <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" />
+          <input
+            name="password"
+            type="password"
+            placeholder={t('Password')}
+            value={formData.password}
+            onChange={handleChange}
+            className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+          />
+        </div>
         <p className="errors text-center w-full">{errors.password || ''}</p>
         <div className="buttons-block pt-[3vw]">
           <Button variant="custom" type="submit">
