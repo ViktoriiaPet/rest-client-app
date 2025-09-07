@@ -21,16 +21,14 @@ export default function Header(): JSX.Element {
       <div className="w-[300px] flex items-center justify-center">
         <LangToggle />
       </div>
-
       <div className="flex flex-row items-center justify-center  w-[200px]">
-        <NavLink to="/singIn" end className="w-1/2 flex justify-end">
+        <NavLink to="/signIn" end className="w-1/2 flex justify-end">
           <SignButton text={t('auth.signIn')} />
         </NavLink>
-        <NavLink to="/singUp" end className="w-1/2">
+        <NavLink to="/signUp" end className="w-1/2">
           <SignButton text={t('auth.signUp')} />
         </NavLink>
       </div>
-
       <NavLink to="/mainClint" end>
         <div className="w-1/4">
           {/* <div>User&apos;s page</div> */}

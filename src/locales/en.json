@@ -32,4 +32,26 @@
     "noRequests": "You haven't executed any requests",
     "hint": "It's empty here. Try:"
   }
+  "SignIn": "Sign in",
+  "SignUp": "Sign up",
+  "English": "English",
+  "Russian": "Russian",
+  "Name": "Name",
+  "Email": "Email",
+  "Password": "Password",
+  "Submit": "Submit",
+  "IsAccount": "Already have an account?",
+  "validation": {
+    "usernameRequired": "Enter username",
+    "usernameLetters": "Username can only contain letters",
+    "emailInvalid": "Enter a valid email",
+    "passwordInvalid": "Password must be at least 8 characters and include uppercase, lowercase and a number"
+  },
+  "Github": "Github",
+  "notFound": {
+    "title": "404 — Page not found",
+    "description": "The page you’re looking for doesn’t exist or has moved.",
+    "back": "Go back",
+    "home": "Go home"
+  }
 }
