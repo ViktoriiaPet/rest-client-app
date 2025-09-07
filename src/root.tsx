@@ -19,19 +19,19 @@ export default function Root(): JSX.Element {
       </head>
       <body>
         <Provider store={store}>
-        <div className="bg-pink-100 min-h-screen flex flex-col">
-          <Header />
-          <main className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
-            <div className="p-[2vw] font-inter text-xl text-purple-600 ">
-              Postman API
-            </div>
-            <div className=" p-[2vw] w-11/12 max-w-4xl rounded-[10%] bg-pink-200 flex flex-col items-center">
-              <Outlet />
-            </div>
-          </main>
-          <Scripts />
-          <Footer />
-        </div>
+          <div className="bg-pink-100 min-h-screen flex flex-col">
+            <Header />
+            <main className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
+              <div className="p-[2vw] font-inter text-xl text-purple-600 ">
+                Postman API
+              </div>
+              <div className=" p-[2vw] w-11/12 max-w-4xl rounded-[10%] bg-pink-200 flex flex-col items-center">
+                <Outlet />
+              </div>
+            </main>
+            <Scripts />
+            <Footer />
+          </div>
         </Provider>
       </body>
     </html>

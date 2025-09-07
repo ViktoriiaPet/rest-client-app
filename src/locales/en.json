@@ -31,11 +31,7 @@
   "emptyState": {
     "noRequests": "You haven't executed any requests",
     "hint": "It's empty here. Try:"
-  }
-  "SignIn": "Sign in",
-  "SignUp": "Sign up",
-  "English": "English",
-  "Russian": "Russian",
+  },
   "Name": "Name",
   "Email": "Email",
   "Password": "Password",

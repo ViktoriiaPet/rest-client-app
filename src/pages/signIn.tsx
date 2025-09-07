@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 import { getRegistrationSchema } from '../utils/validateRegistration.ts';
 
@@ -68,7 +68,7 @@ export default function SignIn() {
       className="form-position  text-purple-600  flex flex-col items-center"
     >
       <h2 className="pb-[3vw] font-inter text-xl text-purple-600">
-        {t('SignIn')}
+        {t('auth.SignIn')}
       </h2>
       <div className="flex flex-col items-center p-[5vw] gap-[1vw] rounded-[15%] border-2 border-purple-300">
         <p className="errors text-center w-full">{errors.username || ''}</p>
