@@ -49,6 +49,7 @@ export default tseslint.config(
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
 
+      '@typescript-eslint/no-deprecated': 'off',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
@@ -72,6 +73,7 @@ export default tseslint.config(
         'error',
         { 'ts-expect-error': 'allow-with-description' },
       ],
+      '@typescript-eslint/no-deprecated': 'off',
       '@typescript-eslint/no-unnecessary-type-conversion': 'off',
 
       'import/no-duplicates': 'error',

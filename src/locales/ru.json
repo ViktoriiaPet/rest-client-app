@@ -1,4 +1,37 @@
 {
+  "auth": {
+    "signIn": "Войти",
+    "signUp": "Регистрация",
+    "email": "Почта",
+    "password": "Пароль",
+    "welcome": "Добро пожаловать",
+    "welcomeBack": "С возвращением"
+  },
+  "lang": {
+    "english": "Английский",
+    "russian": "Русский"
+  },
+  "app": {
+    "title": "RESTClient",
+    "history": "История",
+    "historyRequests": "Запросы истории",
+    "variables": "Переменные"
+  },
+  "request": {
+    "method": "Метод",
+    "endpointUrl": "URL эндпоинта",
+    "headers": "Заголовки",
+    "headerKey": "Ключ заголовка",
+    "headerValue": "Значение заголовка",
+    "code": "Код",
+    "body": "Тело",
+    "response": "Ответ",
+    "status": "Статус"
+  },
+  "emptyState": {
+    "noRequests": "Вы ещё не выполняли запросы",
+    "hint": "Здесь пусто. Попробуйте:"
+  }
   "SignIn": "Войти",
   "SignUp": "Регистрация",
   "English": "Английский",
