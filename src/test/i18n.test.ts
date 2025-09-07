@@ -7,7 +7,7 @@ describe('i18n translation', () => {
     await i18n.changeLanguage('en');
     expect(i18n.t('auth.signIn')).toEqual('Sign in');
   });
-  it('should return Russian translation', async() => {
+  it('should return Russian translation', async () => {
     await i18n.changeLanguage('ru');
     expect(i18n.t('auth.signIn')).toEqual('Войти');
   });
