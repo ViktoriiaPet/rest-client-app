@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 import { NavLink } from 'react-router';
-
+import { registerWithEmailAndPassword } from '@/service/firebase.ts';
 import { Button } from '../components/ui/button.tsx';
 import { getRegistrationSchema } from '../utils/validateRegistration.ts';
 
@@ -40,15 +40,32 @@ export default function SignUp() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitted(true);
 
     const schema = getRegistrationSchema();
     const result = schema.safeParse(formData);
 
-    if (result.success) {
+ if (result.success) {
       setErrors({});
+      try {
+        const res = await registerWithEmailAndPassword(
+          formData.username,
+          formData.email,
+          formData.password
+        );
+        
+              if (res) {
+        console.log("✅ Зарегистрирован:", res.user);
+        console.log("🔑 JWT токен:", res.token);
+        localStorage.setItem("token", res.token);
+        //window.location.href = "/";
+      }
+        console.log('Reg is done');
+      } catch (err) {
+        console.error('Error rith reg', err);
+      }
     } else {
       const fieldErrors: FormErrors = {};
       result.error.issues.forEach((issue) => {
