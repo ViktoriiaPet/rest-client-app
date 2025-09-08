@@ -1,21 +1,20 @@
-import React from 'react';
-import { NavLink } from 'react-router';
-import { useAuth } from '@/context/AuthContext.tsx';
+import React, { useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router';
+
 import type { JSX } from 'react';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
 
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/context/AuthContext.tsx';
 
 export default function HomePage(): JSX.Element {
-   const {user} = useAuth();
-   const navigate = useNavigate();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-   useEffect(() => {
-       if (user) {
-         void navigate('/mainClint');
-       }
-     }, [user, navigate]);
+  useEffect(() => {
+    if (user) {
+      void navigate('/mainClint');
+    }
+  }, [user, navigate]);
   return (
     <div className="p-[5vw]">
       <div>Start Page (Welcome)</div>
