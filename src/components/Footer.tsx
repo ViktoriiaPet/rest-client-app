@@ -5,8 +5,6 @@ import type { JSX } from 'react';
 
 export default function Footer(): JSX.Element {
   const { t } = useTranslation();
-  const year = new Date().getFullYear();
-
   return (
     <footer className="sticky bottom-0 w-full">
       <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
@@ -18,7 +16,7 @@ export default function Footer(): JSX.Element {
           {t('Github')}
         </a>
 
-        <span>{year}</span>
+        <span>2025</span>
 
         <a href="https://rs.school/" target="_blank" rel="noreferrer">
           Logo
