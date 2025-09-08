@@ -9,7 +9,7 @@ export default function AuthorizedUserPage(): JSX.Element {
   const { user, loading } = useAuth();
 
   if (loading) return <div>Loading...</div>;
-  if (!user) return <Navigate to="/signIn" replace />;
+  if (!user) return <Navigate to="/" replace />;
 
   return (
     <nav className="p-[5vw]">

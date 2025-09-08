@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router';
-
+import { Button } from './ui/button';
 import LangToggle from './LangToggle';
 
 import type { JSX } from 'react';
@@ -33,14 +33,14 @@ export default function Header(): JSX.Element {
         <LangToggle />
       </div>
       {user ? (
-        <div onClick={handleLogout}>{t('LogOut')}</div>
+        <Button variant="custom" onClick={handleLogout}>{t('LogOut')}</Button>
       ) : (
         <>
           <NavLink to="/signIn" end>
-            <div>{t('SignIn')}</div>
+            <Button variant="custom">{t('SignIn')}</Button>
           </NavLink>
           <NavLink to="/signUp" end>
-            <div>{t('SignUp')}</div>
+            <Button variant="custom">{t('SignUp')}</Button>
           </NavLink>
         </>
       )}
