@@ -1,8 +1,9 @@
 import React from 'react';
-import { NavLink, Outlet } from 'react-router';
-import { useAuth } from '@/context/AuthContext';
+import { NavLink, Outlet, Navigate } from 'react-router';
+
 import type { JSX } from 'react';
-import { Navigate } from 'react-router';
+
+import { useAuth } from '@/context/AuthContext';
 
 export default function AuthorizedUserPage(): JSX.Element {
   const { user, loading } = useAuth();

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
-import { NavLink } from 'react-router';
-import { useNavigate } from "react-router";
+import { NavLink, useNavigate } from 'react-router';
+
 import { Button } from '../components/ui/button.tsx';
 import { getRegistrationSchema } from '../utils/validateRegistration.ts';
-import { useEffect } from 'react';
+
 import type { FormData, FormErrors } from '../types/validationType.ts';
 
 import { useAuth } from '@/context/AuthContext.tsx';
@@ -21,11 +21,11 @@ export default function SignUp() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
   const { setUser, setToken, user } = useAuth();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      navigate('/mainClint');
+      void navigate('/mainClint');
     }
   }, [user, navigate]);
 
@@ -71,7 +71,7 @@ export default function SignUp() {
           console.log('🔑 JWT токен:', res.token);
           setUser(res.user);
           setToken(res.token);
-          navigate('/mainClint');
+          void navigate('/mainClint');
         }
         console.log('Reg is done');
       } catch (err) {

@@ -5,8 +5,6 @@ import {
   layout,
 } from '@react-router/dev/routes';
 
-import PrivateRoute from '@/components/PrivateRoute';
-
 export default [
   index('./pages/home.tsx'),
 

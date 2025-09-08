@@ -1,5 +1,7 @@
 import { Outlet, Scripts } from 'react-router';
+
 import { AuthProvider } from './context/AuthContext.tsx';
+
 import './i18n/i18n.ts';
 import React from 'react';
 
@@ -18,20 +20,20 @@ export default function Root(): JSX.Element {
       </head>
       <body>
         <AuthProvider>
-        <div className="bg-pink-100 min-h-screen flex flex-col">
-          <Header />
-          <main className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
-            <div className="p-[2vw] font-inter text-xl text-purple-600 ">
-              Postman API
-            </div>
-            <div className=" p-[2vw] w-11/12 max-w-4xl rounded-[10%] bg-pink-200 flex flex-col items-center">
-              <Outlet />
-            </div>
-          </main>
-          <Scripts />
-          <Footer />
-        </div>
-</AuthProvider>
+          <div className="bg-pink-100 min-h-screen flex flex-col">
+            <Header />
+            <main className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
+              <div className="p-[2vw] font-inter text-xl text-purple-600 ">
+                Postman API
+              </div>
+              <div className=" p-[2vw] w-11/12 max-w-4xl rounded-[10%] bg-pink-200 flex flex-col items-center">
+                <Outlet />
+              </div>
+            </main>
+            <Scripts />
+            <Footer />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

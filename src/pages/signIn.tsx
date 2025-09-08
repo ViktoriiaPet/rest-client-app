@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
 
 import { getLoginSchema } from '../utils/validateRegistration.ts';
 
@@ -9,7 +10,6 @@ import type { FormData, FormErrors } from '../types/validationType.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { useAuth } from '@/context/AuthContext.tsx';
 import { logInWithEmailAndPassword } from '@/service/firebase.ts';
-import { useNavigate } from "react-router";
 
 export default function SignIn() {
   const { t } = useTranslation();
@@ -21,13 +21,13 @@ export default function SignIn() {
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
-const { user, token, setUser, setToken } = useAuth();
+  const { user, token, setUser, setToken } = useAuth();
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      navigate('/mainClint');
+      void navigate('/mainClint');
     }
   }, [user, navigate]);
 
@@ -72,7 +72,7 @@ const { user, token, setUser, setToken } = useAuth();
           console.log('token:', res.token);
           setUser(res.user);
           setToken(res.token);
-          navigate('/mainClint');
+          void navigate('/mainClint');
         }
       } catch (err) {
         console.error('error with login', err);

@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router';
-import { Button } from '@/components/ui/button';
+
 import type { JSX } from 'react';
+
+import { Button } from '@/components/ui/button';
 
 export default function HomePage(): JSX.Element {
   return (
