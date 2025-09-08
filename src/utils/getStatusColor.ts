@@ -5,16 +5,16 @@ export const getStatusColor = (statusCode?: number): string => {
 
   switch (firstDigit) {
     case 1:
-      return 'bg-blue-200';
+      return 'bg-purple-300';
     case 2:
-      return 'bg-green-200';
+      return 'bg-purple-400';
     case 3:
-      return 'bg-indigo-200';
+      return 'bg-indigo-500';
     case 4:
-      return 'bg-red-200';
+      return 'bg-pink-300';
     case 5:
-      return 'bg-pink-200';
+      return 'bg-pink-400';
     default:
-      return 'bg-gray-300';
+      return 'bg-gray-200';
   }
 };

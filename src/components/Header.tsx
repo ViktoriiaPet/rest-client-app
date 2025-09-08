@@ -31,7 +31,7 @@ export default function Header(): JSX.Element {
         onClose={() => {
           setOpen(false);
         }}
-        statusCode={100}
+        statusCode={200}
         message="Ошибка сервера. Попробуйте позже."
       />
       <div>

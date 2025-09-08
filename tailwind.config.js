@@ -18,6 +18,7 @@ export default {
         gray: {
           50: '#fdf5f9',
           200: '#e7dfe8',
+          700: '#434343ff',
           900: '#2a2229',
         },
         lavender: {

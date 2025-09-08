@@ -32,10 +32,10 @@ export const ErrorModal = ({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className={bgColorClass}>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-purple-600">
+          <AlertDialogTitle className="text-white">
             Error {statusCode || 'unknown'}
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-gray-900">
+          <AlertDialogDescription className="text-white">
             {message || 'Произошла ошибка при выполнении запроса.'}
           </AlertDialogDescription>
         </AlertDialogHeader>
