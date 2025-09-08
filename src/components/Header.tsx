@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router';
-
+import { useNavigate } from 'react-router';
 import LangToggle from './LangToggle';
 import { Button } from './ui/button';
 
@@ -12,13 +12,14 @@ import { useAuth } from '@/context/AuthContext';
 export default function Header(): JSX.Element {
   const { t } = useTranslation();
   const { user, setUser, setToken } = useAuth();
-
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       const { logout } = await import('@/service/firebase');
       await logout();
       setUser(null);
       setToken(null);
+      void navigate('/')
       console.log('Log out');
     } catch (err) {
       console.error('Log error', err);
