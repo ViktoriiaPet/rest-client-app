@@ -1,16 +1,16 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router';
 
 import LangToggle from './LangToggle';
-import { ErrorModal } from '@/components/ErrorModal';
 
 import type { JSX } from 'react';
 
+import { ErrorModal } from '@/components/ErrorModal';
+
 export default function Header(): JSX.Element {
   const { t } = useTranslation();
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <nav className="flex flex-row justify-around sticky top-0">
@@ -19,14 +19,18 @@ export default function Header(): JSX.Element {
       </NavLink>
       <button
         className="px-4 py-2 bg-red-500 text-white rounded"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setOpen(true);
+        }}
       >
         Вызвать ошибку
       </button>
 
       <ErrorModal
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+        }}
         statusCode={100}
         message="Ошибка сервера. Попробуйте позже."
       />

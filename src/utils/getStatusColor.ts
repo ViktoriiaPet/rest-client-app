@@ -1,5 +1,5 @@
 export const getStatusColor = (statusCode?: number): string => {
-  if (!statusCode) return 'bg-gray-300'; // по 
+  if (!statusCode) return 'bg-gray-300'; // по
 
   const firstDigit = Math.floor(statusCode / 100);
 

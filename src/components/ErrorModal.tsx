@@ -1,5 +1,5 @@
 import React from 'react';
-import { getStatusColor } from '@/utils/getStatusColor';
+
 import type { JSX } from 'react';
 
 import {
@@ -12,6 +12,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { getStatusColor } from '@/utils/getStatusColor';
 
 type ErrorModalProps = {
   isOpen?: boolean;
@@ -26,7 +27,7 @@ export const ErrorModal = ({
   statusCode,
   message,
 }: ErrorModalProps): JSX.Element => {
-  const bgColorClass = getStatusColor(statusCode)
+  const bgColorClass = getStatusColor(statusCode);
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className={bgColorClass}>
