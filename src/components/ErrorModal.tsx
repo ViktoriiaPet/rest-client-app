@@ -1,5 +1,7 @@
 import React from 'react';
+import { getStatusColor } from '@/utils/getStatusColor';
 import type { JSX } from 'react';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,28 +11,30 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
 type ErrorModalProps = {
   isOpen?: boolean;
-  onClose: ()=> void;
+  onClose: () => void;
   statusCode?: number;
-  message?: string
-}
+  message?: string;
+};
 
-export const ErrorModal=(
-  {isOpen,
+export const ErrorModal = ({
+  isOpen,
   onClose,
   statusCode,
-  message}
-:ErrorModalProps): JSX.Element=>{
+  message,
+}: ErrorModalProps): JSX.Element => {
+  const bgColorClass = getStatusColor(statusCode)
   return (
-    <AlertDialog open={isOpen} onClose={onClose}>
-      <AlertDialogContent>
+    <AlertDialog open={isOpen} onOpenChange={onClose}>
+      <AlertDialogContent className={bgColorClass}>
         <AlertDialogHeader>
-          <AlertDialogTitle>Error {statusCode || 'unknown'}</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogTitle className="text-purple-600">
+            Error {statusCode || 'unknown'}
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-gray-900">
             {message || 'Произошла ошибка при выполнении запроса.'}
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -40,4 +44,4 @@ export const ErrorModal=(
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+};
