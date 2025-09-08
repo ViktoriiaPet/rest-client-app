@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 import { NavLink } from 'react-router';
-import { registerWithEmailAndPassword } from '@/service/firebase.ts';
+import { useAuth } from '@/context/AuthContext.tsx';
 import { Button } from '../components/ui/button.tsx';
 import { getRegistrationSchema } from '../utils/validateRegistration.ts';
 
 import type { FormData, FormErrors } from '../types/validationType.ts';
+
+import { registerWithEmailAndPassword } from '@/service/firebase.ts';
 
 export default function SignUp() {
   const { t } = useTranslation();
@@ -15,9 +17,9 @@ export default function SignUp() {
     email: '',
     password: '',
   });
-
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const { setUser, setToken } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -47,7 +49,7 @@ export default function SignUp() {
     const schema = getRegistrationSchema();
     const result = schema.safeParse(formData);
 
- if (result.success) {
+    if (result.success) {
       setErrors({});
       try {
         const res = await registerWithEmailAndPassword(
@@ -55,13 +57,14 @@ export default function SignUp() {
           formData.email,
           formData.password
         );
-        
-              if (res) {
-        console.log("✅ Зарегистрирован:", res.user);
-        console.log("🔑 JWT токен:", res.token);
-        localStorage.setItem("token", res.token);
-        //window.location.href = "/";
-      }
+
+        if (res) {
+          console.log('✅ Зарегистрирован:', res.user);
+          console.log('🔑 JWT токен:', res.token);
+          //window.location.href = "/";
+          setUser(res.user)
+          setToken(res.token)
+        }
         console.log('Reg is done');
       } catch (err) {
         console.error('Error rith reg', err);

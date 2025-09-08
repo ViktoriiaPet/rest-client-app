@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
-
-import { getRegistrationSchema } from '../utils/validateRegistration.ts';
-
+import { logInWithEmailAndPassword } from '@/service/firebase.ts';
+import { useAuth } from '@/context/AuthContext.tsx';
+import { getLoginSchema } from '../utils/validateRegistration.ts';
 import type { FormData, FormErrors } from '../types/validationType.ts';
-
 import { Button } from '@/components/ui/button.tsx';
-
+import { useEffect } from 'react';
 export default function SignIn() {
   const { t } = useTranslation();
   const [formData, setFormData] = useState<FormData>({
@@ -18,13 +17,14 @@ export default function SignIn() {
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
-
+const { setUser, setToken } = useAuth();
+const { user, token } = useAuth();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    const schema = getRegistrationSchema();
+    const schema = getLoginSchema();
     const result = schema.safeParse({ ...formData, [name]: value });
 
     if (result.success) {
@@ -40,27 +40,45 @@ export default function SignIn() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubmitted(true);
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setSubmitted(true);
 
-    const schema = getRegistrationSchema();
-    const result = schema.safeParse(formData);
+  const schema = getLoginSchema();
+  const result = schema.safeParse(formData);
 
-    if (result.success) {
-      setErrors({});
-    } else {
-      const fieldErrors: FormErrors = {};
-      result.error.issues.forEach((issue) => {
-        const typedIssue = issue;
-        if (typedIssue.path[0]) {
-          fieldErrors[typedIssue.path[0] as keyof FormData] =
-            typedIssue.message;
-        }
-      });
-      setErrors(fieldErrors);
+  if (result.success) {
+    setErrors({});
+    try {
+      const res = await logInWithEmailAndPassword(formData.email, formData.password);
+
+      if (res) {
+        console.log('is logined:', res.user);
+        console.log('token:', res.token);
+        setUser(res.user);
+        setToken(res.token);
+        // window.location.href = "/"; // или navigate('/')
+      }
+    } catch (err) {
+      console.error('Ошибка входа', err);
     }
-  };
+  } else {
+    const fieldErrors: FormErrors = {};
+    result.error.issues.forEach((issue) => {
+      if (issue.path[0]) {
+        fieldErrors[issue.path[0] as keyof FormData] = issue.message;
+      }
+    });
+    setErrors(fieldErrors);
+  }
+
+
+};
+
+  useEffect(() => {
+  console.log("📦 user из контекста:", user);
+  console.log("📦 token из контекста:", token);
+}, [user, token]);
 
   return (
     <form

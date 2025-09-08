@@ -17,3 +17,14 @@ export const getRegistrationSchema = () =>
         t('validation.passwordInvalid')
       ),
   });
+
+  export const getLoginSchema = () =>
+  z.object({
+    email: z.email(t('validation.emailInvalid')),
+    password: z
+      .string()
+      .regex(
+        /^(?=.*\p{L})(?=.*\d)(?=.*[^\p{L}\d]).{8,}$/u,
+        t('validation.passwordInvalid')
+      ),
+  });

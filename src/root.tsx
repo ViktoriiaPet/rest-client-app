@@ -1,5 +1,5 @@
 import { Outlet, Scripts } from 'react-router';
-
+import { AuthProvider } from './context/AuthContext.tsx';
 import './i18n/i18n.ts';
 import React from 'react';
 
@@ -17,6 +17,7 @@ export default function Root(): JSX.Element {
         <title>My App</title>
       </head>
       <body>
+        <AuthProvider>
         <div className="bg-pink-100 min-h-screen flex flex-col">
           <Header />
           <main className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
@@ -30,6 +31,7 @@ export default function Root(): JSX.Element {
           <Scripts />
           <Footer />
         </div>
+</AuthProvider>
       </body>
     </html>
   );

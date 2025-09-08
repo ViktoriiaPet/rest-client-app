@@ -6,9 +6,9 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  updateProfile,
 } from 'firebase/auth';
-import { getFirestore, collection, addDoc,  } from 'firebase/firestore';
-import { updateProfile } from "firebase/auth";
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -28,7 +28,10 @@ const db = getFirestore(app);
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const res = await signInWithEmailAndPassword(auth, email, password);
+    const user = res.user;
+    const token = await user.getIdToken();
+    return { user, token };
   } catch (err) {
     console.error(err);
   }
@@ -44,7 +47,7 @@ const registerWithEmailAndPassword = async (
     const user = res.user;
 
     await updateProfile(user, { displayName: name });
-    
+
     const token = await user.getIdToken();
     await addDoc(collection(db, 'users'), {
       uid: user.uid,
