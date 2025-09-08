@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type { JSX } from 'react';
+
 import {
   Dialog,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-
 import { getStatusColor } from '@/utils/getStatusColor';
 
 type ErrorModalProps = {
