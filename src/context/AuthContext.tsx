@@ -4,8 +4,10 @@ import React, {
   useEffect,
   useState,
   type ReactNode,
-} from "react";
-import type { User } from "firebase/auth";
+  type JSX,
+} from 'react';
+
+import type { User } from 'firebase/auth';
 
 type AuthContextType = {
   user: User | null;
@@ -15,27 +17,28 @@ type AuthContextType = {
   setToken: (token: string | null) => void;
 };
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  token: null,
-  loading: true,
-  setUser: () => {},
-  setToken: () => {},
-});
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export const AuthProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (typeof window === "undefined") return; // SSR guard
+    if (typeof window === 'undefined') return; // SSR guard
 
     let unsubscribe: (() => void) | undefined;
 
-    import("@/service/firebase").then(({ auth }) => {
-      import("firebase/auth").then(({ onAuthStateChanged }) => {
-        unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    void (async () => {
+      const { auth } = await import('@/service/firebase');
+      const { onAuthStateChanged } = await import('firebase/auth');
+
+      unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+        void (async () => {
           if (firebaseUser) {
             setUser(firebaseUser);
             const idToken = await firebaseUser.getIdToken();
@@ -45,9 +48,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setToken(null);
           }
           setLoading(false);
-        });
+        })();
       });
-    });
+    })();
 
     return () => {
       if (unsubscribe) unsubscribe();
@@ -61,4 +64,4 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = (): AuthContextType => useContext(AuthContext);

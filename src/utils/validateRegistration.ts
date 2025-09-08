@@ -18,7 +18,7 @@ export const getRegistrationSchema = () =>
       ),
   });
 
-  export const getLoginSchema = () =>
+export const getLoginSchema = () =>
   z.object({
     email: z.email(t('validation.emailInvalid')),
     password: z
