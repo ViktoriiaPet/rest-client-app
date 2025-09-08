@@ -8,6 +8,7 @@
   "Password": "Пароль",
   "Submit": "Отправить",
   "IsAccount": "Уже есть аккаунт?",
+  "LogOut": "Выйти",
   "validation": {
     "usernameRequired": "Введите имя пользователя",
     "usernameLetters": "Имя должно содержать только буквы",

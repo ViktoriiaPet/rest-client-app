@@ -1,13 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-  type JSX,
-} from 'react';
-
+import React, { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { User } from 'firebase/auth';
+import type { JSX } from 'react';
 
 type AuthContextType = {
   user: User | null;
@@ -17,13 +10,15 @@ type AuthContextType = {
   setToken: (token: string | null) => void;
 };
 
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  token: null,
+  loading: true,
+  setUser: () => {},
+  setToken: () => {},
+});
 
-export const AuthProvider = ({
-  children,
-}: {
-  children: ReactNode;
-}): JSX.Element => {
+export const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);

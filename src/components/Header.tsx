@@ -1,13 +1,25 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router';
-
 import LangToggle from './LangToggle';
-
+import { useAuth } from '@/context/AuthContext';
 import type { JSX } from 'react';
 
 export default function Header(): JSX.Element {
   const { t } = useTranslation();
+const { user, setUser, setToken } = useAuth();
+
+const handleLogout = async () => {
+    try {
+      const { logout } = await import('@/service/firebase');
+      await logout();
+      setUser(null);
+      setToken(null);
+      console.log("Log out");
+    } catch (err) {
+      console.error("Log error", err);
+    }
+  };
 
   return (
     <nav className="flex flex-row justify-around sticky top-0">
@@ -17,12 +29,18 @@ export default function Header(): JSX.Element {
       <div>
         <LangToggle />
       </div>
-      <NavLink to="/signIn" end>
-        <div>{t('SignIn')}</div>
-      </NavLink>
-      <NavLink to="/signUp" end>
+      {user ? (
+  <div onClick={handleLogout}>{t('LogOut')}</div>
+) : (
+  <>
+  <NavLink to="/signIn" end>
+    <div>{t('SignIn')}</div>
+  </NavLink>
+  <NavLink to="/signUp" end>
         <div>{t('SignUp')}</div>
       </NavLink>
+     </> 
+)}
       <NavLink to="/mainClint" end>
         <div>Authorized user&apos;s page</div>
       </NavLink>

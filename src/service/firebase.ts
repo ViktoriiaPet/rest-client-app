@@ -73,6 +73,7 @@ const sendPasswordReset = async (email: string) => {
 const logout = async (): Promise<void> => {
   try {
     await signOut(auth);
+    console.log('Logged out');
   } catch (err) {
     console.error('Logout failed:', err);
   }

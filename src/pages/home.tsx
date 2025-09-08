@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router';
-
+import { Button } from '@/components/ui/button';
 import type { JSX } from 'react';
 
 export default function HomePage(): JSX.Element {
@@ -8,11 +8,11 @@ export default function HomePage(): JSX.Element {
     <div className="p-[5vw]">
       <div>Start Page (Welcome)</div>
       <div className="flex flex-row gap-[5vw]">
-        <NavLink to="/singIn" end>
-          <button>Sing In</button>
+        <NavLink to="/signIn" end>
+          <Button variant="custom">Sign In</Button>
         </NavLink>
-        <NavLink to="/singUp" end>
-          <button>Sing Up</button>
+        <NavLink to="/signUp" end>
+          <Button variant="custom">Sign Up</Button>
         </NavLink>
       </div>
     </div>

@@ -9,6 +9,7 @@ import type { FormData, FormErrors } from '../types/validationType.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { useAuth } from '@/context/AuthContext.tsx';
 import { logInWithEmailAndPassword } from '@/service/firebase.ts';
+import { useNavigate } from "react-router";
 
 export default function SignIn() {
   const { t } = useTranslation();
@@ -20,8 +21,16 @@ export default function SignIn() {
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
-  const { setUser, setToken } = useAuth();
-  const { user, token } = useAuth();
+const { user, token, setUser, setToken } = useAuth();
+
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/mainClint');
+    }
+  }, [user, navigate]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -63,7 +72,7 @@ export default function SignIn() {
           console.log('token:', res.token);
           setUser(res.user);
           setToken(res.token);
-          // window.location.href = "/"; // или navigate('/')
+          navigate('/mainClint');
         }
       } catch (err) {
         console.error('error with login', err);
