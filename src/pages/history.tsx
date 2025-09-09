@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 
 export default function HistoryPage(): JSX.Element {
   const { user, loading } = useAuth();
- const { t } = useTranslation();
+  const { t } = useTranslation();
   if (loading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/" replace />;
 
