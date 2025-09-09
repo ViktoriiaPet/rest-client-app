@@ -96,7 +96,7 @@ export default function SignUp() {
       className="form-position  text-purple-600  flex flex-col items-center"
     >
       <h2 className="pb-[3vw] font-inter text-xl text-purple-600">
-        {t('SignUp')}
+        {t('auth.SignUp')}
       </h2>
       <div className="flex flex-col items-center p-[5vw] gap-[1vw] rounded-[15%] border-2 border-purple-300">
         <div className="relative w-full max-w-[40vw]">

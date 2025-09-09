@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
 
 import type { JSX } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { SignButton } from '@/components/SignButton';
 import { useAuth } from '@/context/AuthContext.tsx';
 
 export default function HomePage(): JSX.Element {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -20,10 +22,10 @@ export default function HomePage(): JSX.Element {
       <div>Start Page (Welcome)</div>
       <div className="flex flex-row gap-[5vw]">
         <NavLink to="/signIn" end>
-          <Button variant="custom">Sign In</Button>
+          <SignButton text={t('auth.signIn')} />
         </NavLink>
-        <NavLink to="/signUp" end>
-          <Button variant="custom">Sign Up</Button>
+        <NavLink to="/singUp" end className="w-1/2">
+          <SignButton text={t('auth.signUp')} />
         </NavLink>
       </div>
     </div>
