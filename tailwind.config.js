@@ -34,6 +34,15 @@ export default {
           100: '#fff8f1',
           300: '#fde2c8',
         },
+        green: {
+          600: '#009966',
+        },
+        blue: {
+          600: '#0084d1',
+        },
+        orange: {
+          500: '#fe9a00',
+        },
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
