@@ -106,7 +106,7 @@ export default function SignUp() {
             placeholder={t('Name')}
             value={formData.username}
             onChange={handleChange}
-            className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+            className="pl-10 pr-2 bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
           />
         </div>
         <p className="errors text-center w-full">{errors.username || ''}</p>
@@ -118,7 +118,7 @@ export default function SignUp() {
             placeholder={t('Email')}
             value={formData.email}
             onChange={handleChange}
-            className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+            className="pl-10 pr-2 w-full bg-transparent border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
           />
         </div>
         <p className="errors text-center w-full">{errors.email || ''}</p>
@@ -131,7 +131,7 @@ export default function SignUp() {
             placeholder={t('Password')}
             value={formData.password}
             onChange={handleChange}
-            className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+            className="pl-10 pr-2 bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
           />
         </div>
         <p className="errors text-center w-full">{errors.password || ''}</p>

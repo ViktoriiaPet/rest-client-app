@@ -110,7 +110,7 @@ export default function SignIn() {
             placeholder={t('Email')}
             value={formData.email}
             onChange={handleChange}
-            className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+            className="pl-10 pr-2 text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
           />
         </div>
         <p className="errors text-center w-full">{errors.email || ''}</p>
@@ -122,7 +122,7 @@ export default function SignIn() {
             placeholder={t('Password')}
             value={formData.password}
             onChange={handleChange}
-            className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+            className="pl-10 pr-2 text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
           />
         </div>
         <p className="errors text-center w-full">{errors.password || ''}</p>
