@@ -50,5 +50,9 @@
     "back": "Go back",
     "home": "Go home"
   },
-  "CopyJSON": "Copy JSON"
+  "CopyJSON": "Copy JSON",
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "tryAgain": "Try again"
+  }
 }

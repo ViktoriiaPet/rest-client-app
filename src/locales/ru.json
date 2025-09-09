@@ -50,5 +50,9 @@
     "back": "Назад",
     "home": "На главную"
   },
-  "CopyJSON": "Скопировать JSON"
+  "CopyJSON": "Скопировать JSON",
+  "errorBoundary": {
+    "title": "Что-то пошло не так",
+    "tryAgain": "Попробовать снова"
+  }
 }
