@@ -28,7 +28,7 @@ export default function ResponseSection({
     }
   }, [json]);
 
-  const copy = async () => {
+  const copy = async (): Promise<void> => {
     await navigator.clipboard.writeText(prettyJson);
   };
 
@@ -47,9 +47,9 @@ export default function ResponseSection({
           </span>
           <span
             className="text-sm text-slate-700 truncate"
-            title={statusText || ''}
+            title={statusText ?? ''}
           >
-            {statusText || ''}
+            {statusText ?? ''}
           </span>
         </div>
         <Button variant="custom" type="button" onClick={copy}>

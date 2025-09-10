@@ -54,5 +54,8 @@
   "errorBoundary": {
     "title": "Something went wrong",
     "tryAgain": "Try again"
+  },
+  "buttons": {
+    "send": "Send"
   }
 }
