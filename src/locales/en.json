@@ -44,7 +44,7 @@
     "usernameLetters": "Username can only contain letters",
     "emailInvalid": "Enter a valid email",
     "passwordInvalid": "Password must be at least 8 characters and include uppercase, lowercase and a number"
-    },
+  },
   "Github": "Github",
   "notFound": {
     "title": "404 — Page not found",

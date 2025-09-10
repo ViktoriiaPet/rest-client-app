@@ -27,7 +27,7 @@ export default function LangToggle(): JSX.Element {
     <div className="flex flex-row gap-3 items-center w-full justify-center">
       <div
         className={`w-1/3 flex justify-end ${
-          isEnglish ? 'text-rose-500 font-bold' : 'text-rose-400 font-semibold'
+          isEnglish ? 'text-pink-600 font-bold' : 'text-pink-300 font-semibold'
         }`}
       >
         {t('lang.english')}
@@ -36,8 +36,8 @@ export default function LangToggle(): JSX.Element {
       <div
         className={`w-1/3 flex ${
           isEnglish
-            ? 'text-rose-400 font-semibold w-1/3'
-            : 'text-rose-500 font-bold w-1/3'
+            ? 'text-pink-300 font-semibold w-1/3'
+            : 'text-pink-600 font-bold w-1/3'
         }`}
       >
         {t('lang.russian')}

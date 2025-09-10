@@ -44,8 +44,8 @@ export default function Header(): JSX.Element {
             {t('LogOut')}
           </Button>
           <NavLink to="/mainClint" end>
-          <Button variant="custom">{t('MainPage')}</Button>
-            </NavLink>
+            <Button variant="custom">{t('MainPage')}</Button>
+          </NavLink>
           <NavLink to="/mainClint" end>
             <div className="w-1/4">
               {/* <div>User&apos;s page</div> */}
