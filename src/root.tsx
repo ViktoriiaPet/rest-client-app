@@ -6,6 +6,7 @@ import './i18n/i18n.ts';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import RequestBar from './components/RequestBar.tsx';
 import { store } from './store';
 
 import type { JSX } from 'react';
@@ -25,6 +26,15 @@ export default function Root(): JSX.Element {
             <main className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
               <div className="p-[2vw] font-inter text-xl text-purple-600 ">
                 Postman API
+                <RequestBar
+                  onSend={({ method, url }) => {
+                    // hook this to your fetch logic
+                    console.log('Send!', method, url);
+                  }}
+                  onChange={(s) => {
+                    console.log('Changed:', s);
+                  }}
+                />
               </div>
               <ErrorBoundary>
                 <div className=" p-[2vw] w-11/12 max-w-4xl rounded-[10%] bg-pink-200 flex flex-col items-center">
