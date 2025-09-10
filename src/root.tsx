@@ -2,6 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Outlet, Scripts } from 'react-router';
 
+import { AuthProvider } from './context/AuthContext.tsx';
+
 import './i18n/i18n.ts';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
@@ -20,32 +22,23 @@ export default function Root(): JSX.Element {
         <title>My App</title>
       </head>
       <body>
-        <Provider store={store}>
-          <div className="bg-pink-100 min-h-screen flex flex-col">
-            <Header />
-            <main className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
-              <div className="p-[2vw] font-inter text-xl text-purple-600 ">
-                Postman API
-                <RequestBar
-                  onSend={({ method, url }) => {
-                    // hook this to your fetch logic
-                    console.log('Send!', method, url);
-                  }}
-                  onChange={(s) => {
-                    console.log('Changed:', s);
-                  }}
-                />
-              </div>
-              <ErrorBoundary>
-                <div className=" p-[2vw] w-11/12 max-w-4xl rounded-[10%] bg-pink-200 flex flex-col items-center">
+        <AuthProvider>
+          <Provider store={store}>
+            <div className="bg-pink-100 min-h-screen flex flex-col">
+              <Header />
+              <main className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
+                <div className="p-[2vw] font-inter text-xl text-purple-600 ">
+                  Postman API
+                </div>
+                <div className=" p-[2vw] max-w-4xl rounded-[10%] bg-pink-200 flex flex-col items-center">
                   <Outlet />
                 </div>
-              </ErrorBoundary>
-            </main>
-            <Scripts />
-            <Footer />
-          </div>
-        </Provider>
+              </main>
+              <Scripts />
+              <Footer />
+            </div>
+          </Provider>
+        </AuthProvider>
       </body>
     </html>
   );

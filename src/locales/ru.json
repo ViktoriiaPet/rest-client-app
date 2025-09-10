@@ -37,6 +37,8 @@
   "Password": "Пароль",
   "Submit": "Отправить",
   "IsAccount": "Уже есть аккаунт?",
+  "LogOut": "Выйти",
+  "MainPage": "Главная страница",
   "validation": {
     "usernameRequired": "Введите имя пользователя",
     "usernameLetters": "Имя должно содержать только буквы",

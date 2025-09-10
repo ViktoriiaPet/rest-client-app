@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 
 import { Button } from '../components/ui/button.tsx';
 import { getRegistrationSchema } from '../utils/validateRegistration.ts';
 
 import type { FormData, FormErrors } from '../types/validationType.ts';
+
+import { useAuth } from '@/context/AuthContext.tsx';
+import { registerWithEmailAndPassword } from '@/service/firebase.ts';
 
 export default function SignUp() {
   const { t } = useTranslation();
@@ -15,9 +18,16 @@ export default function SignUp() {
     email: '',
     password: '',
   });
-
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const { setUser, setToken, user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      void navigate('/mainClint');
+    }
+  }, [user, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,7 +50,7 @@ export default function SignUp() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitted(true);
 
@@ -49,6 +59,24 @@ export default function SignUp() {
 
     if (result.success) {
       setErrors({});
+      try {
+        const res = await registerWithEmailAndPassword(
+          formData.username,
+          formData.email,
+          formData.password
+        );
+
+        if (res) {
+          console.log('✅ Зарегистрирован:', res.user);
+          console.log('🔑 JWT токен:', res.token);
+          setUser(res.user);
+          setToken(res.token);
+          void navigate('/mainClint');
+        }
+        console.log('Reg is done');
+      } catch (err) {
+        console.error('Error rith reg', err);
+      }
     } else {
       const fieldErrors: FormErrors = {};
       result.error.issues.forEach((issue) => {
@@ -78,7 +106,7 @@ export default function SignUp() {
             placeholder={t('Name')}
             value={formData.username}
             onChange={handleChange}
-            className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+            className="pl-10 pr-2 bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
           />
         </div>
         <p className="errors text-center w-full">{errors.username || ''}</p>
@@ -90,7 +118,7 @@ export default function SignUp() {
             placeholder={t('Email')}
             value={formData.email}
             onChange={handleChange}
-            className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+            className="pl-10 pr-2 w-full bg-transparent border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
           />
         </div>
         <p className="errors text-center w-full">{errors.email || ''}</p>
@@ -103,7 +131,7 @@ export default function SignUp() {
             placeholder={t('Password')}
             value={formData.password}
             onChange={handleChange}
-            className="text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl"
+            className="pl-10 pr-2 bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
           />
         </div>
         <p className="errors text-center w-full">{errors.password || ''}</p>

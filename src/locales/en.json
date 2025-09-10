@@ -37,6 +37,8 @@
   "Password": "Password",
   "Submit": "Submit",
   "IsAccount": "Already have an account?",
+  "LogOut": "Log Out",
+  "MainPage": "Main page",
   "validation": {
     "usernameRequired": "Enter username",
     "usernameLetters": "Username can only contain letters",
