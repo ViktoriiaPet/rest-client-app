@@ -51,5 +51,13 @@
     "description": "The page you’re looking for doesn’t exist or has moved.",
     "back": "Go back",
     "home": "Go home"
+  },
+  "CopyJSON": "Copy JSON",
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "tryAgain": "Try again"
+  },
+  "buttons": {
+    "send": "Send"
   }
 }

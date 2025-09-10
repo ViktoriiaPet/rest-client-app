@@ -75,6 +75,7 @@ export default tseslint.config(
       ],
       '@typescript-eslint/no-deprecated': 'off',
       '@typescript-eslint/no-unnecessary-type-conversion': 'off',
+      '@typescript-eslint/unbound-method': 'off',
 
       'import/no-duplicates': 'error',
       'import/newline-after-import': 'warn',

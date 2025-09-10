@@ -5,8 +5,10 @@ import { Outlet, Scripts } from 'react-router';
 import { AuthProvider } from './context/AuthContext.tsx';
 
 import './i18n/i18n.ts';
+import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import RequestBar from './components/RequestBar.tsx';
 import { store } from './store';
 
 import type { JSX } from 'react';
