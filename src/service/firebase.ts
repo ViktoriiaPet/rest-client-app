@@ -1,4 +1,3 @@
-import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
@@ -22,9 +21,16 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+export const initAnalytics = () => {
+  if (typeof window !== 'undefined') {
+    void import('firebase/analytics').then(({ getAnalytics }) => {
+      getAnalytics(app);
+    });
+  }
+};
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {

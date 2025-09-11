@@ -12,8 +12,8 @@ import type { JSX } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/context/AuthContext';
 
-export default function Header(): JSX.Element {
-  const { t } = useTranslation();
+export default function Header(): JSX.Element | null {
+  const { t, ready } = useTranslation();
   const { user, setUser, setToken } = useAuth();
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -28,6 +28,8 @@ export default function Header(): JSX.Element {
       console.error('Log error', err);
     }
   };
+
+  if (!ready) return null;
 
   return (
     <nav className="flex flex-row justify-around items-center sticky top-3 ">

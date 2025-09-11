@@ -14,6 +14,7 @@ void i18next
       en: { translation: en },
       ru: { translation: ru },
     },
+    lng: 'en',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,

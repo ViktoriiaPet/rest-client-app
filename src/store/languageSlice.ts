@@ -1,21 +1,11 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-type Lang = 'en' | 'ru';
-
 type LanguageState = {
-  lang: 'en' | 'ru';
-};
-
-const getSavedLang = (): Lang => {
-  if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('lang') as Lang | null;
-    if (saved === 'en' || saved === 'ru') return saved;
-  }
-  return 'en';
+  lang: 'en' | 'ru' | null;
 };
 
 const initialState: LanguageState = {
-  lang: getSavedLang(),
+  lang: 'en',
 };
 
 const languageSlice = createSlice({
@@ -26,6 +16,12 @@ const languageSlice = createSlice({
       state.lang = action.payload;
       if (typeof window !== 'undefined') {
         localStorage.setItem('lang', action.payload);
+      }
+    },
+    loadLanguageFromStorage(state) {
+      if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('lang') as 'en' | 'ru' | null;
+        state.lang = saved ?? 'en';
       }
     },
   },
