@@ -13,6 +13,9 @@ export default function AuthorizedUserPage(): JSX.Element {
 
   return (
     <nav className="p-[5vw]">
+      <NavLink to="/auth/restfull" end>
+        <div>Restfull</div>
+      </NavLink>
       <NavLink to="/auth/clientVariales" end>
         <div>Variables</div>
       </NavLink>

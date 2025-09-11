@@ -15,5 +15,6 @@ export default [
     route('auth/clientVariales', './pages/variables.tsx'),
     route('auth/clientHistory', './pages/history.tsx'),
     route('*', './pages/notFound.tsx'),
+    route('auth/restfull', './pages/restfull.tsx')
   ]),
 ] satisfies RouteConfig;

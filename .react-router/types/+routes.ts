@@ -33,12 +33,15 @@ type Pages = {
       "*": string;
     };
   };
+  "/auth/restfull": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/mainClint" | "/signIn" | "/signUp" | "/auth/clientVariales" | "/auth/clientHistory" | "/*";
+    page: "/" | "/mainClint" | "/signIn" | "/signUp" | "/auth/clientVariales" | "/auth/clientHistory" | "/*" | "/auth/restfull";
   };
   "./pages/home.tsx": {
     id: "pages/home";
@@ -46,7 +49,7 @@ type RouteFiles = {
   };
   "./layouts/layout.tsx": {
     id: "layouts/layout";
-    page: "/mainClint" | "/signIn" | "/signUp" | "/auth/clientVariales" | "/auth/clientHistory" | "/*";
+    page: "/mainClint" | "/signIn" | "/signUp" | "/auth/clientVariales" | "/auth/clientHistory" | "/*" | "/auth/restfull";
   };
   "./pages/authClientPage.tsx": {
     id: "pages/authClientPage";
@@ -71,5 +74,9 @@ type RouteFiles = {
   "./pages/notFound.tsx": {
     id: "pages/notFound";
     page: "/*";
+  };
+  "./pages/restfull.tsx": {
+    id: "pages/restfull";
+    page: "/auth/restfull";
   };
 };
