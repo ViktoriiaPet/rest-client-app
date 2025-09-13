@@ -64,5 +64,12 @@
     "restull": "Restfull",
     "variables": "Variables",
     "history": "History"
+  },
+  "variables": {
+    "title": "Variables",
+    "addButton": "Add",
+    "variableName": "Variable name",
+    "variableValue": "Variable value",
+    "delete":"Delete"
   }
 }

@@ -64,5 +64,14 @@
     "restull": "Restfull",
     "variables": "Переменные",
     "history": "История"
+  },  
+  "variables":{
+    "title": "Переменные",
+    "addButton": "Добавить",
+    "variableName": "Название переменной",
+    "variableValue": "Значение переменной",
+    "variableValue": "Значение переменной",
+    "delete":"Удалить"
+    
   }
 }
