@@ -60,7 +60,7 @@
   "buttons": {
     "send": "Send"
   },
-    "clientPage":{
+  "clientPage": {
     "restull": "Restfull",
     "variables": "Variables",
     "history": "History"

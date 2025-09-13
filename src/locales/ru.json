@@ -60,7 +60,7 @@
   "buttons": {
     "send": "Отправить"
   },
-  "clientPage":{
+  "clientPage": {
     "restull": "Restfull",
     "variables": "Переменные",
     "history": "История"
