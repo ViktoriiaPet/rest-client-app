@@ -2,14 +2,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button';
-
 import type { JSX } from 'react';
 
+import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
+import { TableRow } from '@/components/TableRow';
 
 export default function VariablesPage(): JSX.Element {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const { user, loading } = useAuth();
 
   if (loading) return <div>Loading...</div>;
@@ -55,13 +55,11 @@ export default function VariablesPage(): JSX.Element {
           </div>
 
           {/* Данные */}
-          <div className="text-center">Данные 1</div>
-          <div className="text-center">Данные 2</div>
-          <div className=" flex justify-center items-center">
-            <Button variant="custom" type="submit">
-              {t('variables.delete')}
-            </Button>
-          </div>
+          <TableRow name=';dddd' value='jdjf'/>
+          <TableRow name=';dddd' value='jdjf'/>
+          <TableRow name=';dddd' value='jdjf'/>
+          <TableRow name=';dddd' value='jdjf'/>
+
         </div>
       </div>
     </div>
