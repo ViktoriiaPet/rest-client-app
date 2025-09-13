@@ -14,10 +14,13 @@ void i18next
       en: { translation: en },
       ru: { translation: ru },
     },
-    lng: 'en',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
+    },
+    detection: {
+      order: ['localStorage', 'navigator'],
+      caches: typeof window !== 'undefined' ? ['localStorage'] : [],
     },
   });
 export default i18next;

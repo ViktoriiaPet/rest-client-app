@@ -96,14 +96,14 @@ export default function SignUp() {
       className="form-position  text-purple-600  flex flex-col items-center"
     >
       <h2 className="pb-[3vw] font-inter text-xl text-purple-600">
-        {t('auth.SignUp')}
+        {t('auth.signUp')}
       </h2>
       <div className="flex flex-col items-center p-[5vw] gap-[1vw] rounded-[15%] border-2 border-purple-300">
         <div className="relative w-full max-w-[40vw]">
           <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" />
           <input
             name="username"
-            placeholder={t('Name')}
+            placeholder={t('form.name')}
             value={formData.username}
             onChange={handleChange}
             className="pl-10 pr-2 bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
@@ -115,7 +115,7 @@ export default function SignUp() {
           <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" />
           <input
             name="email"
-            placeholder={t('Email')}
+            placeholder={t('form.email')}
             value={formData.email}
             onChange={handleChange}
             className="pl-10 pr-2 w-full bg-transparent border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
@@ -128,7 +128,7 @@ export default function SignUp() {
           <input
             name="password"
             type="password"
-            placeholder={t('Password')}
+            placeholder={t('form.password')}
             value={formData.password}
             onChange={handleChange}
             className="pl-10 pr-2 bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
@@ -138,11 +138,11 @@ export default function SignUp() {
 
         <div className="buttons-block pt-[3vw]">
           <Button variant="custom" className="mr-[2vw]" type="submit">
-            {t('Submit')}
+            {t('form.submit')}
           </Button>
           <NavLink to="/signIn" end>
             <Button variant="custom" type="button">
-              {t('IsAccount')}
+              {t('auth.isAccount')}
             </Button>
           </NavLink>
         </div>

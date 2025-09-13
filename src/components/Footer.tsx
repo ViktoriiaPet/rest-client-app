@@ -13,7 +13,7 @@ export default function Footer(): JSX.Element {
           target="_blank"
           rel="noreferrer"
         >
-          {t('Github')}
+          {t('app.github')}
         </a>
 
         <span>2025</span>

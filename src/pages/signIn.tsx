@@ -99,7 +99,7 @@ export default function SignIn() {
       className="form-position  text-purple-600  flex flex-col items-center"
     >
       <h2 className="pb-[3vw] font-inter text-xl text-purple-600">
-        {t('auth.SignIn')}
+        {t('auth.signIn')}
       </h2>
       <div className="flex flex-col items-center p-[5vw] gap-[1vw] rounded-[15%] border-2 border-purple-300">
         <p className="errors text-center w-full">{errors.username || ''}</p>
@@ -107,7 +107,7 @@ export default function SignIn() {
           <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" />
           <input
             name="email"
-            placeholder={t('Email')}
+            placeholder={t('form.email')}
             value={formData.email}
             onChange={handleChange}
             className="pl-10 pr-2 text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
@@ -119,7 +119,7 @@ export default function SignIn() {
           <input
             name="password"
             type="password"
-            placeholder={t('Password')}
+            placeholder={t('form.password')}
             value={formData.password}
             onChange={handleChange}
             className="pl-10 pr-2 text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
@@ -128,7 +128,7 @@ export default function SignIn() {
         <p className="errors text-center w-full">{errors.password || ''}</p>
         <div className="buttons-block pt-[3vw]">
           <Button variant="custom" type="submit">
-            {t('Submit')}
+            {t('form.submit')}
           </Button>
         </div>
       </div>

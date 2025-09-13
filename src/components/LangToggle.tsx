@@ -21,10 +21,6 @@ export default function LangToggle({
   const ssrT = (key: 'lang.english' | 'lang.russian') =>
     typeof window === 'undefined' ? i18n.getFixedT(initialLang)(key) : t(key);
 
-  useEffect(() => {
-    void i18n.changeLanguage(lang ?? 'en');
-  }, [lang]);
-
   const changeLanguage = (): void => {
     const newLang = lang === 'en' ? 'ru' : 'en';
     dispatch(setLanguage(newLang));

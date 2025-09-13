@@ -43,7 +43,7 @@ export default function Header(): JSX.Element | null {
       {user ? (
         <>
           <Button variant="custom" onClick={handleLogout}>
-            {t('LogOut')}
+            {t('auth.logOut')}
           </Button>
           <NavLink to="/mainClint" end>
             <Button variant="custom">{t('MainPage')}</Button>
