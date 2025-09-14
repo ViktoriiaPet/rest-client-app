@@ -2,20 +2,19 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { JSX } from 'react';
-
 import RequestEditor from './RequestEditor';
 import ResponseSection from './ResponseSection';
 
 import type { HttpMethod } from '@/types/apiMethods';
 import type { RequestSnapshot } from '@/types/restFullClient';
+import type { JSX } from 'react';
 
 import GeneratedCodePostman from '@/components/GeneratedCodePanel';
 import { useAuth } from '@/context/AuthContext';
+import { getUserVariables } from '@/store/variableStorage';
 import { logRequest } from '@/utils/logRequest';
 import { buildClientUrl } from '@/utils/restUrl';
 import { applyVariables } from '@/utils/variables';
-import { getUserVariables } from '@/store/variableStorage';
 
 export type RestFullChangePayload = {
   method: HttpMethod;
@@ -83,23 +82,22 @@ export default function RestFullClient({
     const start = performance.now();
     const vars = snapshot.variables ?? {};
 
+    const storedVars = getUserVariables(user?.uid ?? '');
+    console.log('Stored variables:', storedVars);
 
-const storedVars = getUserVariables(user?.uid ?? '');
-console.log('Stored variables:', storedVars);
+    const resolvedUrl = applyVariables(snapshot.url, vars);
+    console.log('Resolved URL:', resolvedUrl);
 
+    const resolvedBody = applyVariables(
+      snapshot.body.mode === 'json'
+        ? (snapshot.body.jsonText ?? '')
+        : snapshot.body.mode === 'raw'
+          ? (snapshot.body.rawText ?? '')
+          : '',
+      storedVars
+    );
 
-const resolvedUrl = applyVariables(snapshot.url, vars);
-console.log('Resolved URL:', resolvedUrl);
-
-
-const resolvedBody =applyVariables(snapshot.body.mode === 'json'
-  ? snapshot.body.jsonText ?? ''
-  : snapshot.body.mode === 'raw'
-    ? snapshot.body.rawText ?? ''
-    : '', storedVars);
-
-
-console.log('Resolved body:', resolvedBody);
+    console.log('Resolved body:', resolvedBody);
 
     const resolvedUrlStr = applyVariables(snapshot.url, vars);
     const resolvedBodyStr =
