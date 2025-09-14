@@ -2,7 +2,8 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from './ui/button';
-import { badgeColor } from '../utils/getStatusCodeColor';
+
+import { badgeColor } from '@/utils/getStatusCodeColor';
 
 type ResponseSectionProps = {
   statusCode: number;
@@ -20,7 +21,6 @@ export default function ResponseSection({
   const { t } = useTranslation();
   const prettyJson = useMemo(() => {
     if (!json) return '';
-
     try {
       return JSON.stringify(JSON.parse(json), null, 2);
     } catch {
