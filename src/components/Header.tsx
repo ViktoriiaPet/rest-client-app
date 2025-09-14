@@ -55,6 +55,7 @@ export default function Header(): JSX.Element | null {
                 <AvatarImage src={userIcon} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
+              <span>{user.displayName}</span>
             </div>
           </NavLink>
         </>
