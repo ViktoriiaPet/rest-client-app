@@ -25,11 +25,11 @@ export default function Root(): JSX.Element {
           <Provider store={store}>
             <div className="bg-pink-100 min-h-screen flex flex-col">
               <Header />
-              <main className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
+              <main className="flex flex-col min-h-screen items-center justify-start bg-pink-100">
                 <div className="p-[2vw] font-inter text-xl text-purple-600 ">
                   Postman API
                 </div>
-                <div className=" p-[2vw] max-w-4xl rounded-[10%] bg-pink-200 flex flex-col items-center">
+                <div className="p-[2vw] w-full max-w-4xl rounded-[40px] bg-pink-200 flex flex-col items-center justify-start transition-all duration-300">
                   <Outlet />
                 </div>
               </main>

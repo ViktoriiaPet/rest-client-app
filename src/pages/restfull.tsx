@@ -71,7 +71,7 @@ export default function Restfull(): JSX.Element {
   if (!user) return <Navigate to="/" replace />;
 
   return (
-    <div className="p-[5vw] w-full">
+    <div className="p-[5vw] w-200px max-w-full">
       <Suspense fallback={null}>
         <RestFullClient method={currentMethod} onChange={handleChange} />
       </Suspense>
