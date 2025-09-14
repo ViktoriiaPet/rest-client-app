@@ -12,20 +12,10 @@ import {
   SelectValue,
 } from './ui/select';
 
+import type { RequestBarProps } from '@/types/restFullClient';
+
 import { DEFAULT_METHODS, type HttpMethod } from '@/types/apiMethods';
 import { getMethodTextColor } from '@/utils/getStatusCodeColor';
-
-type RequestBarProps = {
-  method?: HttpMethod;
-  url?: string;
-  methods?: HttpMethod[];
-  loading?: boolean;
-  validateUrl?: boolean;
-  className?: string;
-
-  onChange?(v: { method: HttpMethod; url: string }): void;
-  onSend?(v: { method: HttpMethod; url: string }): void;
-};
 
 export default function RequestBar({
   method = 'GET',
@@ -38,6 +28,7 @@ export default function RequestBar({
   onSend,
 }: RequestBarProps) {
   const { t } = useTranslation();
+
   const [selectedMethod, setSelectedMethod] = useState<HttpMethod>(method);
   const [requestUrl, setRequestUrl] = useState<string>(url);
   const [hasUserTyped, setHasUserTyped] = useState(false);
@@ -88,7 +79,7 @@ export default function RequestBar({
           disabled={loading}
           onValueChange={handleMethodChange}
         >
-          <SelectTrigger className="w-[128px]">
+          <SelectTrigger className="w-[130px]">
             <div
               className={`flex items-center gap-2 ${getMethodTextColor(selectedMethod)}`}
             >
@@ -115,14 +106,23 @@ export default function RequestBar({
           onChange={(e) => {
             handleUrlChange(e.target.value);
           }}
-          onKeyDown={(e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'enter')
-              handleSubmit();
-          }}
-          className={`flex-1 ${isUrlValid ? '' : 'border-rose-400 focus-visible:ring-rose-300'}`}
+          className={`
+            flex-1
+            bg-pink-50/20
+            border-pink-300
+            hover:border-pink-400
+            focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:border-pink-500
+            caret-pink-600
+            placeholder-pink-400/70
+            ${isUrlValid ? '' : 'border-pink-400 focus-visible:ring-pink-300'}
+          `}
         />
 
-        <Button type="submit" disabled={loading || !isUrlValid}>
+        <Button
+          className="hover:bg-yellow-100 bg-pink-300 text-purple-600 font-semibold py-2 px-4 rounded-lg shadow-md"
+          type="submit"
+          disabled={loading || !isUrlValid}
+        >
           {!!loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {t('buttons.send')}
         </Button>
