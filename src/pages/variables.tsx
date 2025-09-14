@@ -1,16 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 
 import type { JSX } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/context/AuthContext';
+import { TableHeader } from '@/components/TableHeader';
 import { TableRow } from '@/components/TableRow';
+import { VariablesAddBar } from '@/components/VariablesAddBar';
+import { useAuth } from '@/context/AuthContext';
+import { getUserVariables, saveUserVariables } from '@/store/variableStorage';
 
-export default function VariablesPage(): JSX.Element {
+type Props = {
+  userId: string;
+};
+
+export default function VariablesPage({ userId }: Props): JSX.Element {
   const { t } = useTranslation();
   const { user, loading } = useAuth();
+  const [variables, setVariables] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const saved = getUserVariables(userId);
+    //  console.log('Сохранённые переменные:', saved);
+    setVariables(saved);
+  }, [userId]);
+
+  const deleteVariable = (key: string) => {
+const newVariables = Object.fromEntries(
+  Object.entries(variables).filter(([k]) => k !== key)
+);
+    setVariables(newVariables);
+    saveUserVariables(userId, newVariables);
+  };
+  const addVariable = (key: string, value: string) => {
+    const newVariables = { ...variables, [key]: value };
+    setVariables(newVariables);
+    saveUserVariables(userId, newVariables);
+  };
 
   if (loading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/" replace />;
@@ -22,44 +48,21 @@ export default function VariablesPage(): JSX.Element {
       </div>
       <div>
         <div className="grid grid-cols-3 gap-4 items-center">
-          <input
-            name="variableName"
-            type="text"
-            placeholder={t('variables.variableName')}
-            // value={formData.email}
-            // onChange={handleChange}
-            className="pl-10 pr-2 w-full bg-pink-100 border border-purple-400 text-purple-500 placeholder-purple-300 rounded-lg focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
-          />
-          <input
-            name="variableValue"
-            type="text"
-            placeholder={t('variables.variableValue')}
-            // value={formData.email}
-            // onChange={handleChange}
-            className="pl-10 pr-2 w-full bg-pink-100 border border-purple-400 text-purple-500 placeholder-purple-300 rounded-lg focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
-          />
-          <div className=" flex justify-center items-center">
-            <Button variant="custom" type="submit">
-              {t('variables.addButton')}
-            </Button>
-          </div>
-
-          <div className="text-[20px]  text-purple-600 pb-[2vw] flex justify-center items-center">
-            {t('variables.variableName')}
-          </div>
-          <div className="text-[20px]  text-purple-600 pb-[2vw] flex justify-center items-center">
-            {t('variables.variableValue')}
-          </div>
-          <div className="text-[20px]  text-purple-600 pb-[2vw] flex justify-center items-center ">
-            {t('variables.delete')}
-          </div>
-
-          {/* Данные */}
-          <TableRow name=';dddd' value='jdjf'/>
-          <TableRow name=';dddd' value='jdjf'/>
-          <TableRow name=';dddd' value='jdjf'/>
-          <TableRow name=';dddd' value='jdjf'/>
-
+          <VariablesAddBar onAdd={addVariable} />
+          <TableHeader />
+        </div>
+        <div className="flex flex-col gap-5">
+          {Object.entries(variables).map(([name, value]) => (
+            <div key={name}>
+              <TableRow
+                name={name}
+                value={value}
+                onClick={() => {
+                  deleteVariable(name);
+                }}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>
