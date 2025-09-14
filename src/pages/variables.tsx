@@ -26,9 +26,9 @@ export default function VariablesPage({ userId }: Props): JSX.Element {
   }, [userId]);
 
   const deleteVariable = (key: string) => {
-const newVariables = Object.fromEntries(
-  Object.entries(variables).filter(([k]) => k !== key)
-);
+    const newVariables = Object.fromEntries(
+      Object.entries(variables).filter(([k]) => k !== key)
+    );
     setVariables(newVariables);
     saveUserVariables(userId, newVariables);
   };
