@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
-import React, { JSX, useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import type { JSX } from 'react';
 
 import RequestEditor from './RequestEditor';
 import ResponseSection from './ResponseSection';
@@ -13,6 +15,7 @@ import { useAuth } from '@/context/AuthContext';
 import { logRequest } from '@/utils/logRequest';
 import { buildClientUrl } from '@/utils/restUrl';
 import { applyVariables } from '@/utils/variables';
+import { getUserVariables } from '@/store/variableStorage';
 
 export type RestFullChangePayload = {
   method: HttpMethod;
@@ -79,12 +82,31 @@ export default function RestFullClient({
     setLoading(true);
     const start = performance.now();
     const vars = snapshot.variables ?? {};
+
+
+const storedVars = getUserVariables(user?.uid ?? '');
+console.log('Stored variables:', storedVars);
+
+
+const resolvedUrl = applyVariables(snapshot.url, vars);
+console.log('Resolved URL:', resolvedUrl);
+
+
+const resolvedBody =applyVariables(snapshot.body.mode === 'json'
+  ? snapshot.body.jsonText ?? ''
+  : snapshot.body.mode === 'raw'
+    ? snapshot.body.rawText ?? ''
+    : '', storedVars);
+
+
+console.log('Resolved body:', resolvedBody);
+
     const resolvedUrlStr = applyVariables(snapshot.url, vars);
     const resolvedBodyStr =
       snapshot.body.mode === 'json'
-        ? applyVariables(snapshot.body.jsonText ?? '', vars)
+        ? applyVariables(snapshot.body.jsonText ?? '', storedVars)
         : snapshot.body.mode === 'raw'
-          ? applyVariables(snapshot.body.rawText ?? '', vars)
+          ? applyVariables(snapshot.body.rawText ?? '', storedVars)
           : undefined;
 
     const enabledParams: StringRecord = toRecordSafe(
