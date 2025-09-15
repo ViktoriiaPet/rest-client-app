@@ -41,7 +41,7 @@ export default function Header(): JSX.Element | null {
     typeof window !== 'undefined' &&
     window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+
   const { t, ready } = useTranslation();
   const { user, setUser, setToken } = useAuth();
   const navigate = useNavigate();
@@ -59,8 +59,6 @@ export default function Header(): JSX.Element | null {
   };
 
   if (!ready) return null;
-
-  
 
   return (
     <nav
@@ -94,7 +92,7 @@ export default function Header(): JSX.Element | null {
                 <AvatarImage src={userIcon} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <span>{user.displayName}</span>
+              <span className="text-purple-600">{user.displayName}</span>
             </div>
           </NavLink>
         </>
