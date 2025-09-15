@@ -75,6 +75,13 @@
   "aboutDarya": {
     "photoAlt": "Darya's photo",
     "name": "Dasha",
-    "text": "Hi! My name is Dasha. I currently live in Ottawa, Canada, where I've been for the past three years after moving here with my family and our two cats. In my free time, I enjoy knitting and reading."
+    "text": "Hi! My name is Dasha. I currently live in Ottawa, Canada, where I've been for the past three years after moving here with my family and our two cats. In my free time, I enjoy knitting and reading.",
+    "linkGitHub": "GitHub link"
+  },
+  "aboutAlyona": {
+    "photoAlt": "Alyona's photo",
+    "name": "Alyona",
+    "text": "Hi :) My name is Alyona. I live in Saint Petersburg, Russia. I love traveling and discovering new things.",
+    "linkGitHub": "GitHub link"
   }
 }
