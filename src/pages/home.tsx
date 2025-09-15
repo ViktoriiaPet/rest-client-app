@@ -8,6 +8,7 @@ import { SignButton } from '@/components/SignButton';
 import { useAuth } from '@/context/AuthContext.tsx';
 
 import darya from '@/assets/img/Darya.jpg';
+import alyona from '@/assets/img/alyona.jpg';
 
 export default function HomePage(): JSX.Element {
   const { t } = useTranslation();
@@ -32,34 +33,58 @@ export default function HomePage(): JSX.Element {
           <img
             src=""
             alt=""
-            className="block w-[200px] h-[200px] object-cover mx-auto"
+            className="block w-[200px] h-[200px] object-cover mx-auto rounded-lg"
           />
           <div className="text-purple-600 font-bold text-center text-xl mb-2 mt-2">
             Vika
           </div>
           <div>Text about</div>
+          <a
+            href=""
+            target="_blank"
+            rel="noreferrer"
+            className="text-purple-600 font-bold text-center text-l mb-2 mt-2"
+          >
+            Github link
+          </a>
         </div>
         <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">
           <img
             src={darya}
             alt={t('aboutDarya.photoAlt')}
-            className="block w-[200px] h-[200px] object-cover mx-auto"
+            className="block w-[200px] h-[200px] object-cover mx-auto rounded-lg"
           />
           <div className="text-purple-600 font-bold text-center text-xl mb-2 mt-2">
             {t('aboutDarya.name')}
           </div>
           <div>{t('aboutDarya.text')}</div>
+          <a
+            href=""
+            target="_blank"
+            rel="noreferrer"
+            className="text-purple-600 font-bold text-center text-l mb-2 mt-2"
+          >
+            {t('aboutDarya.linkGitHub')}
+          </a>
         </div>
         <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">
           <img
-            src=""
-            alt=""
-            className="block w-[200px] h-[200px] object-cover mx-auto"
+            src={alyona}
+            alt={t('aboutAlyona.photoAlt')}
+            className="block w-[200px] h-[200px] object-cover mx-auto rounded-lg"
           />
           <div className="text-purple-600 font-bold text-center text-xl mb-2 mt-2">
-            Alyona
+            {t('aboutAlyona.name')}
           </div>
-          <div>Text about</div>
+          <div>{t('aboutAlyona.text')}</div>
+          <a
+            href="https://github.com/alyona317"
+            target="_blank"
+            rel="noreferrer"
+            className="text-purple-600 font-bold text-center text-l mb-2 mt-2"
+          >
+            {t('aboutAlyona.linkGitHub')}
+          </a>
         </div>
       </div>
       <div className="flex flex-row gap-[5vw] justify-around">
