@@ -23,7 +23,7 @@ type FireRequestDoc = {
   bodyPreview?: string | null;
   headers?: Record<string, unknown> | null;
   params?: Record<string, unknown> | null;
-  statusText?:string
+  statusText?: string;
 };
 
 type HistoryRow = {
@@ -35,7 +35,7 @@ type HistoryRow = {
   bodyPreview: object;
   timeMs: number | null;
   statusCode: number | null;
-  statusText:string
+  statusText: string;
 };
 
 type LoaderData = {
@@ -101,7 +101,7 @@ export async function loader({
         createdAt: data.createdAt ? data.createdAt.toDate() : null,
         timeMs: data.timeMs,
         statusCode: data.statusCode,
-        statusText: data.statusText
+        statusText: data.statusText,
       } as HistoryRow;
     });
   }
@@ -109,47 +109,72 @@ export async function loader({
   return { token, history, userId, userName };
 }
 
-export default function HistoryPage({ loaderData }: { loaderData: LoaderData }) {
+export default function HistoryPage({
+  loaderData,
+}: {
+  loaderData: LoaderData;
+}) {
   console.log(loaderData);
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full border border-gray-300 rounded-md border-separate" style={{ borderSpacing: 0 }}>
+      <table
+        className="min-w-full border border-gray-300 rounded-md border-separate"
+        style={{ borderSpacing: 0 }}
+      >
         <thead className="bg-pink-300">
           <tr>
             <th className="px-4 py-2 border-b text-purple-800">Status Code</th>
             <th className="px-4 py-2 border-b text-purple-800">Method</th>
             <th className="px-4 py-2 border-b text-purple-800">URL</th>
             <th className="px-4 py-2 border-b text-purple-800">Created At</th>
-            <th className="px-4 py-2 border-b text-purple-800">Request duration</th>
-            <th className="px-4 py-2 border-b text-purple-800">Error information</th>
+            <th className="px-4 py-2 border-b text-purple-800">
+              Request duration
+            </th>
+            <th className="px-4 py-2 border-b text-purple-800">
+              Error information
+            </th>
           </tr>
         </thead>
         <tbody>
           {loaderData.history.map((row) => {
-const urlB64 = btoa(row.url);
-let bodyB64 = '';
-if (row.bodyPreview) {
-  if (typeof row.bodyPreview === 'string') {
-    bodyB64 = btoa(row.bodyPreview);
-  } else {
-    bodyB64 = btoa(JSON.stringify(row.bodyPreview));
-  }
-}
-const link = `/auth/restfull/${row.method}/${urlB64}/${bodyB64}`;
+            const urlB64 = btoa(row.url);
+            let bodyB64 = '';
+            if (row.bodyPreview) {
+              if (typeof row.bodyPreview === 'string') {
+                bodyB64 = btoa(row.bodyPreview);
+              } else {
+                bodyB64 = btoa(JSON.stringify(row.bodyPreview));
+              }
+            }
+            const link = `/auth/restfull/${row.method}/${urlB64}/${bodyB64}`;
 
             return (
               <tr key={row.id} className="hover:bg-amber-50">
-                <td className="px-4 py-2 border-b text-purple-600">{row.statusCode}</td>
-                <td className="px-4 py-2 border-b font-medium text-purple-600">{row.method}</td>
                 <td className="px-4 py-2 border-b text-purple-600">
-                  <a href={link} className="underline text-blue-600 truncate" title={row.url}>
+                  {row.statusCode}
+                </td>
+                <td className="px-4 py-2 border-b font-medium text-purple-600">
+                  {row.method}
+                </td>
+                <td className="px-4 py-2 border-b text-purple-600">
+                  <a
+                    href={link}
+                    className="underline text-blue-600 truncate"
+                    title={row.url}
+                  >
                     {row.url}
                   </a>
                 </td>
-                <td className="px-4 py-2 border-b text-purple-600">{row.createdAt?.toISOString()}</td>
-                <td className="px-4 py-2 border-b text-purple-600">{row.timeMs}</td>
-                <td className="px-4 py-2 border-b text-purple-600">{row.statusText}</td>
+                <td className="px-4 py-2 border-b text-purple-600">
+                  {row.createdAt?.toISOString()}
+                </td>
+                <td className="px-4 py-2 border-b text-purple-600">
+                  {row.timeMs}
+                </td>
+                <td className="px-4 py-2 border-b text-purple-600">
+                  {row.statusText}
+                </td>
               </tr>
             );
           })}
