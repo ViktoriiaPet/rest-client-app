@@ -61,7 +61,6 @@ export default function Header(): JSX.Element | null {
   if (!ready) return null;
 
   return (
-
     <div
       className={
         `sticky top-0  py-2 z-50 w-full backdrop-blur-sm ` +
@@ -69,8 +68,9 @@ export default function Header(): JSX.Element | null {
         (scrolled
           ? 'bg-white/80 border-b border-pink-300 shadow-md'
           : 'bg-transparent border-b-0')
-      }>
- <nav className="flex flex-row justify-between items-center">
+      }
+    >
+      <nav className="flex flex-row justify-between items-center">
         <NavLink to="/" end>
           <img src="/app-logo.svg" width="60" height="60" />
         </NavLink>
@@ -108,6 +108,5 @@ export default function Header(): JSX.Element | null {
         )}
       </nav>
     </div>
-
   );
 }
