@@ -2,10 +2,16 @@
   "auth": {
     "signIn": "Войти",
     "signUp": "Регистрация",
-    "email": "Почта",
-    "password": "Пароль",
     "welcome": "Добро пожаловать",
-    "welcomeBack": "С возвращением"
+    "welcomeBack": "С возвращением",
+    "isAccount": "Уже есть аккаунт?",
+    "logOut": "Выйти"
+  },
+  "form": {
+    "name": "Имя",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "submit": "Отправить"
   },
   "lang": {
     "english": "Английский",
@@ -15,7 +21,9 @@
     "title": "RESTClient",
     "history": "История",
     "historyRequests": "Запросы истории",
-    "variables": "Переменные"
+    "variables": "Переменные",
+    "mainPage": "Главная страница",
+    "github": "Гитхаб"
   },
   "request": {
     "method": "Метод",
@@ -26,38 +34,48 @@
     "code": "Код",
     "body": "Тело",
     "response": "Ответ",
-    "status": "Статус"
+    "status": "Статус",
+    "copyJSON": "Скопировать JSON"
   },
   "emptyState": {
     "noRequests": "Вы ещё не выполняли запросы",
     "hint": "Здесь пусто. Попробуйте:"
   },
-  "Name": "Имя",
-  "Email": "Электронная почта",
-  "Password": "Пароль",
-  "Submit": "Отправить",
-  "IsAccount": "Уже есть аккаунт?",
-  "LogOut": "Выйти",
-  "MainPage": "Главная страница",
   "validation": {
     "usernameRequired": "Введите имя пользователя",
     "usernameLetters": "Имя должно содержать только буквы",
     "emailInvalid": "Введите корректный email",
     "passwordInvalid": "Пароль должен быть не менее 8 символов и содержать заглавную букву, строчную и цифру"
   },
-  "Github": "Гитхаб",
   "notFound": {
     "title": "404 — Страница не найдена",
     "description": "Страница, которую вы ищете, не существует или была перемещена.",
     "back": "Назад",
     "home": "На главную"
   },
-  "CopyJSON": "Скопировать JSON",
   "errorBoundary": {
     "title": "Что-то пошло не так",
     "tryAgain": "Попробовать снова"
   },
   "buttons": {
     "send": "Отправить"
+  },
+  "clientPage": {
+    "restull": "Restfull",
+    "variables": "Переменные",
+    "history": "История"
+  },
+  "variables": {
+    "title": "Переменные",
+    "addButton": "Добавить",
+    "variableName": "Название переменной",
+    "variableValue": "Значение переменной",
+    "variableValue": "Значение переменной",
+    "delete": "Удалить"
+  },
+  "aboutDarya": {
+    "photoAlt": "Фото Даши",
+    "name": "Даша",
+    "text": "Привет! Меня зовут Даша. Сейчас я живу в Оттаве. Мы переехали сюда три года назад всей семьёй с двумя котами. В свободное время я люблю вязать и читать."
   }
 }
