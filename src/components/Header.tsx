@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
 
@@ -13,6 +13,35 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Header(): JSX.Element | null {
+  const [scrolled, setScrolled] = useState(false);
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const THRESHOLD = 8;
+
+    const onScroll = () => {
+      if (rafRef.current !== null) return;
+      rafRef.current = requestAnimationFrame(() => {
+        const y = window.scrollY || window.pageYOffset;
+        setScrolled(y > THRESHOLD);
+        rafRef.current = null;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  const reduceMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
   const { t, ready } = useTranslation();
   const { user, setUser, setToken } = useAuth();
   const navigate = useNavigate();
@@ -31,8 +60,18 @@ export default function Header(): JSX.Element | null {
 
   if (!ready) return null;
 
+  
+
   return (
-    <nav className="flex flex-row justify-around items-center sticky top-3 ">
+    <nav
+      className={
+        `flex flex-row justify-around items-center sticky top-0  py-2 z-50 w-full backdrop-blur-sm ` +
+        `${reduceMotion ? '' : 'transition-all duration-300 ease-in-out'} ` +
+        (scrolled
+          ? 'bg-white/80 border-b border-pink-300 shadow-md'
+          : 'bg-transparent border-b-0')
+      }
+    >
       <NavLink to="/" end>
         <img src="/app-logo.svg" width="50" height="50" />
       </NavLink>
