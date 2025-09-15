@@ -7,6 +7,8 @@ import type { JSX } from 'react';
 import { SignButton } from '@/components/SignButton';
 import { useAuth } from '@/context/AuthContext.tsx';
 
+import darya from '@/assets/img/Darya.jpg';
+
 export default function HomePage(): JSX.Element {
   const { t } = useTranslation();
   const { user } = useAuth();
@@ -20,20 +22,43 @@ export default function HomePage(): JSX.Element {
   return (
     <div className="p-[5vw] flex flex-col align-middle justify-center items-center">
       <div className="text-[46px] tracking-[1vw] text-purple-600 pb-[2vw]">
-        WELCOME
+        {t('auth.welcome')}
       </div>
-      <div className="flex flex-row mb-[3vw] gap-[2vw]">
+      <div
+        className="flex flex-row mb-[3vw] gap-[2vw] items-stretch
+                [&>div]:flex-1 [&>div]:basis-0 [&>div]:min-w-0"
+      >
         <div className="flex flex-col border border-purple-600 p-[2vw] rounded-lg">
-          <div>Vika</div>
+          <img
+            src=""
+            alt=""
+            className="block w-[200px] h-[200px] object-cover mx-auto"
+          />
+          <div className="text-purple-600 font-bold text-center text-xl mb-2 mt-2">
+            Vika
+          </div>
           <div>Text about</div>
         </div>
         <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">
-          <div>Dasha</div>
-          <div>Text about</div>
+          <img
+            src={darya}
+            alt={t('aboutDarya.photoAlt')}
+            className="block w-[200px] h-[200px] object-cover mx-auto"
+          />
+          <div className="text-purple-600 font-bold text-center text-xl mb-2 mt-2">
+            {t('aboutDarya.name')}
+          </div>
+          <div>{t('aboutDarya.text')}</div>
         </div>
         <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">
-          <div>Alyona</div>
-          <img src="../assets/img/alyona.jpg" alt="Alyona" />
+          <img
+            src="../assets/img/alyona.jpg"
+            alt=""
+            className="block w-[200px] h-[200px] object-cover mx-auto"
+          />
+          <div className="text-purple-600 font-bold text-center text-xl mb-2 mt-2">
+            Alyona
+          </div>
           <div>Text about</div>
           <a href="https://rs.school/" target="_blank" rel="noreferrer">
             Github link
