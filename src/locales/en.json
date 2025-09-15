@@ -1,24 +1,79 @@
 {
-  "SignIn": "Sign in",
-  "SignUp": "Sign up",
-  "English": "English",
-  "Russian": "Russian",
-  "Name": "Name",
-  "Email": "Email",
-  "Password": "Password",
-  "Submit": "Submit",
-  "IsAccount": "Already have an account?",
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "welcome": "Welcome",
+    "welcomeBack": "Welcome Back",
+    "isAccount": "Already have an account?",
+    "logOut": "Log Out"
+  },
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit"
+  },
+  "lang": {
+    "english": "English",
+    "russian": "Russian"
+  },
+  "app": {
+    "title": "RESTClient",
+    "history": "History",
+    "historyRequests": "History Requests",
+    "variables": "Variables",
+    "mainPage": "Main page",
+    "github": "Github"
+  },
+  "request": {
+    "method": "Method",
+    "endpointUrl": "Endpoint URL",
+    "headers": "Headers",
+    "headerKey": "Header Key",
+    "headerValue": "Header Value",
+    "code": "Code",
+    "body": "Body",
+    "response": "Response",
+    "status": "Status",
+    "copyJSON": "Copy JSON"
+  },
+  "emptyState": {
+    "noRequests": "You haven't executed any requests",
+    "hint": "It's empty here. Try:"
+  },
   "validation": {
     "usernameRequired": "Enter username",
     "usernameLetters": "Username can only contain letters",
     "emailInvalid": "Enter a valid email",
     "passwordInvalid": "Password must be at least 8 characters and include uppercase, lowercase and a number"
   },
-  "Github": "Github",
   "notFound": {
     "title": "404 — Page not found",
     "description": "The page you’re looking for doesn’t exist or has moved.",
     "back": "Go back",
     "home": "Go home"
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "tryAgain": "Try again"
+  },
+  "buttons": {
+    "send": "Send"
+  },
+  "clientPage": {
+    "restull": "Restfull",
+    "variables": "Variables",
+    "history": "History"
+  },
+  "variables": {
+    "title": "Variables",
+    "addButton": "Add",
+    "variableName": "Variable name",
+    "variableValue": "Variable value",
+    "delete": "Delete"},
+  "aboutDarya": {
+    "photoAlt": "Darya's photo",
+    "name": "Dasha",
+    "text": "Hi! My name is Dasha. I currently live in Ottawa, Canada, where I've been for the past three years after moving here with my family and our two cats. In my free time, I enjoy knitting and reading."
   }
 }

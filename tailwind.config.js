@@ -1,5 +1,6 @@
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
+  safelist: ['hover:bg-lavender-300'],
   theme: {
     extend: {
       colors: {
@@ -34,6 +35,15 @@ export default {
         cream: {
           100: '#fff8f1',
           300: '#fde2c8',
+        },
+        green: {
+          600: '#009966',
+        },
+        blue: {
+          600: '#0084d1',
+        },
+        orange: {
+          500: '#fe9a00',
         },
       },
       fontFamily: {

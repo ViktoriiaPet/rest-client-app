@@ -28,6 +28,13 @@ type Pages = {
   "/auth/clientHistory": {
     params: {};
   };
+  "/auth/restfull/:method?/:urlB64?/:bodyB64?": {
+    params: {
+      "method"?: string;
+      "urlB64"?: string;
+      "bodyB64"?: string;
+    };
+  };
   "/*": {
     params: {
       "*": string;
@@ -38,7 +45,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/mainClint" | "/signIn" | "/signUp" | "/auth/clientVariales" | "/auth/clientHistory" | "/*";
+    page: "/" | "/mainClint" | "/signIn" | "/signUp" | "/auth/clientVariales" | "/auth/clientHistory" | "/auth/restfull/:method?/:urlB64?/:bodyB64?" | "/*";
   };
   "./pages/home.tsx": {
     id: "pages/home";
@@ -46,7 +53,7 @@ type RouteFiles = {
   };
   "./layouts/layout.tsx": {
     id: "layouts/layout";
-    page: "/mainClint" | "/signIn" | "/signUp" | "/auth/clientVariales" | "/auth/clientHistory" | "/*";
+    page: "/mainClint" | "/signIn" | "/signUp" | "/auth/clientVariales" | "/auth/clientHistory" | "/auth/restfull/:method?/:urlB64?/:bodyB64?" | "/*";
   };
   "./pages/authClientPage.tsx": {
     id: "pages/authClientPage";
@@ -67,6 +74,10 @@ type RouteFiles = {
   "./pages/history.tsx": {
     id: "pages/history";
     page: "/auth/clientHistory";
+  };
+  "./pages/restfull.tsx": {
+    id: "pages/restfull";
+    page: "/auth/restfull/:method?/:urlB64?/:bodyB64?";
   };
   "./pages/notFound.tsx": {
     id: "pages/notFound";

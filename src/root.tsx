@@ -1,10 +1,14 @@
+import React from 'react';
+import { Provider } from 'react-redux';
 import { Outlet, Scripts } from 'react-router';
 
-import './i18n/i18n.ts';
-import React from 'react';
+import { AuthProvider } from './context/AuthContext.tsx';
 
+import './i18n/i18n.ts';
+import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import { store } from './store';
 
 import type { JSX } from 'react';
 
@@ -17,19 +21,22 @@ export default function Root(): JSX.Element {
         <title>My App</title>
       </head>
       <body>
-        <div className="bg-pink-100 min-h-screen flex flex-col">
-          <Header />
-          <main className="flex flex-col min-h-screen items-center justify-center bg-pink-100">
-            <div className="p-[2vw] font-inter text-xl text-purple-600 ">
-              Postman API
+        <AuthProvider>
+          <Provider store={store}>
+            <div className="bg-pink-100 min-h-screen flex flex-col">
+              <Header />
+              <main className="flex-1 w-full flex flex-col items-center justify-center bg-pink-100 overflow-y-auto px-8 py-6 pt-0">
+                <div className="p-[2vw] w-full min-h-[83dvh] rounded-2xl bg-pink-200 flex flex-col items-stretch box-border">
+                  <ErrorBoundary>
+                    <Outlet />
+                  </ErrorBoundary>
+                </div>
+              </main>
+              <Scripts />
+              <Footer />
             </div>
-            <div className=" p-[2vw] w-11/12 max-w-4xl rounded-[10%] bg-pink-200 flex flex-col items-center">
-              <Outlet />
-            </div>
-          </main>
-          <Scripts />
-          <Footer />
-        </div>
+          </Provider>
+        </AuthProvider>
       </body>
     </html>
   );
