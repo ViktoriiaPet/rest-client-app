@@ -5,7 +5,10 @@ type LanguageState = {
 };
 
 const initialState: LanguageState = {
-  lang: 'en',
+  lang:
+    typeof window !== 'undefined' && localStorage.getItem('i18nextLng')
+      ? (localStorage.getItem('i18nextLng') as 'en' | 'ru')
+      : 'en',
 };
 
 const languageSlice = createSlice({
@@ -15,7 +18,7 @@ const languageSlice = createSlice({
     setLanguage(state, action: PayloadAction<'en' | 'ru'>) {
       state.lang = action.payload;
       if (typeof window !== 'undefined') {
-        localStorage.setItem('lang', action.payload);
+        localStorage.setItem('i18nextLng', action.payload);
       }
     },
     loadLanguageFromStorage(state) {

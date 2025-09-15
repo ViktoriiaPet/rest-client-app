@@ -22,7 +22,7 @@ export default function HomePage(): JSX.Element {
   return (
     <div className="p-[5vw] flex flex-col align-middle justify-center items-center">
       <div className="text-[46px] tracking-[1vw] text-purple-600 pb-[2vw]">
-        WELCOME
+        {t('auth.welcome')}
       </div>
       <div
         className="flex flex-row mb-[3vw] gap-[2vw] items-stretch
