@@ -58,10 +58,11 @@
     "tryAgain": "Try again"
   },
   "buttons": {
-    "send": "Send"
+    "send": "Send",
+    "copy": "Copy"
   },
   "clientPage": {
-    "restull": "Restfull",
+    "restfull": "Restfull",
     "variables": "Variables",
     "history": "History"
   },
@@ -71,5 +72,20 @@
     "variableName": "Variable name",
     "variableValue": "Variable value",
     "delete": "Delete"
+  },
+  "aboutDarya": {
+    "photoAlt": "Darya's photo",
+    "name": "Dasha",
+    "text": "Hi! My name is Dasha. I currently live in Ottawa, Canada, where I've been for the past three years after moving here with my family and our two cats. In my free time, I enjoy knitting and reading."
+  },
+  "restfull": {
+    "generatedCode": "Generated code",
+    "generating": "Generating snippets…",
+    "chooseLanguage": "Choose language…",
+    "notAvailable": "Not available for this request",
+    "urlInvalid": "URL is missing or invalid",
+    "genFailed": "Failed to generate code",
+    "codeText": "Send a request to generate code",
+    "codeBtn": "Show Code"
   }
 }

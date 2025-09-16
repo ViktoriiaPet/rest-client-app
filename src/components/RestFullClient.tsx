@@ -9,7 +9,7 @@ import type { HttpMethod } from '@/types/apiMethods';
 import type { RequestSnapshot } from '@/types/restFullClient';
 import type { JSX } from 'react';
 
-import GeneratedCodePostman from '@/components/GeneratedCodePanel';
+import CodePanelSheet from '@/components/CodePanelSheet';
 import { useAuth } from '@/context/AuthContext';
 import { getUserVariables } from '@/store/variableStorage';
 import { logRequest } from '@/utils/logRequest';
@@ -258,27 +258,44 @@ export default function RestFullClient({
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-4 space-y-4">
-      <RequestEditor
-        loading={loading}
-        onSend={handleSend}
-        onChange={emitChange}
-        method={method}
-      />
+    <div className="w-full max-w-6xl mx-auto p-4 space-y-4">
+      <div className="h-[40vh] overflow-auto">
+        <div className="flex items-center justify-end">
+          <CodePanelSheet snapshot={lastSentSnapshot} />
+        </div>
 
-      {!!lastSentSnapshot && (
-        <GeneratedCodePostman snapshot={lastSentSnapshot} className="w-full" />
-      )}
-
-      {!response && <div>Click send to get a response</div>}
-      {!!response && (
-        <ResponseSection
-          statusCode={response.statusCode}
-          statusText={response.statusText}
-          json={response.bodyText ?? ''}
-          className="w-full"
+        <RequestEditor
+          loading={loading}
+          onSend={handleSend}
+          onChange={emitChange}
+          method={method}
         />
-      )}
+      </div>
+
+      <div className="rounded-lg border border-pink-300/60 bg-pink-50/40">
+        <div className="flex items-center justify-between px-4 py-2 border-b border-pink-300/60">
+          <h2 className="font-semibold text-purple-700">Response</h2>
+          {response && (
+            <span className="text-xs text-purple-700/70">
+              {response.statusCode} {response.statusText ?? ''}
+            </span>
+          )}
+        </div>
+        <div className="h-[40vh] p-3 overflow-auto">
+          {response ? (
+            <ResponseSection
+              statusCode={response.statusCode}
+              statusText={response.statusText}
+              json={response.bodyText ?? ''}
+              className="w-full"
+            />
+          ) : (
+            <div className="h-full grid place-items-center text-sm opacity-70">
+              Click send to get a response
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
