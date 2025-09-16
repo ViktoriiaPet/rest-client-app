@@ -38,8 +38,8 @@ export function initAuthWatcher(navigate: NavigateFunction): Unsubscribe {
 
       if (!user) {
         called = true;
-        void  logout();
-        if (currentPath !== '/') navigate('/');
+        void logout();
+        if (currentPath !== '/') void navigate('/');
         return;
       }
 
@@ -48,14 +48,14 @@ export function initAuthWatcher(navigate: NavigateFunction): Unsubscribe {
         const expiration = new Date(tokenResult.expirationTime).getTime();
         if (expiration <= Date.now()) {
           called = true;
-          void  logout();
-          if (currentPath !== '/') navigate('/');
+          void logout();
+          if (currentPath !== '/') void navigate('/');
         }
       } catch (err) {
         console.error(err);
         called = true;
-        void  logout();
-        if (currentPath !== '/') navigate('/');
+        void logout();
+        if (currentPath !== '/') void navigate('/');
       }
     })();
   });
