@@ -8,7 +8,7 @@ type TableRowType = {
   onClick: () => void;
 };
 
-export const TableRow = ({ name, value, onClick }: TableRowType) => {
+const TableRow = ({ name, value, onClick }: TableRowType) => {
   const { t } = useTranslation();
 
   return (
@@ -23,3 +23,4 @@ export const TableRow = ({ name, value, onClick }: TableRowType) => {
     </div>
   );
 };
+export default TableRow;

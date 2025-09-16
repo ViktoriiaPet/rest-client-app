@@ -17,23 +17,22 @@ type VariablesContextType = {
 const VariablesContext = createContext<VariablesContextType | null>(null);
 
 export function VariablesProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth(); // ✅ берём uid прямо из AuthContext
+  const { user } = useAuth();
   const [variables, setVariablesState] = useState<Variables>({});
 
-  // Подтягиваем переменные при логине
   useEffect(() => {
     if (user?.uid) {
       const vars = getUserVariables(user.uid);
       setVariablesState(vars);
     } else {
-      setVariablesState({}); // если нет пользователя, очищаем
+      setVariablesState({});
     }
   }, [user]);
 
   const setVariables = (vars: Variables) => {
     setVariablesState(vars);
     if (user?.uid) {
-      saveUserVariables(user.uid, vars); // сохраняем под uid конкретного пользователя
+      saveUserVariables(user.uid, vars);
     }
   };
 
@@ -44,7 +43,7 @@ export function VariablesProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Хук для доступа к переменным
+
 export function useVariables() {
   const ctx = useContext(VariablesContext);
   if (!ctx)
