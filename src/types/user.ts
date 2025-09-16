@@ -12,16 +12,15 @@ type RequestData = {
   userId: string;
 
   method: HttpMethod;
-  url: string; // полный endpoint (с подставленными переменными!)
+  url: string;
   headers: Record<string, string>;
-  body?: Record<string, string>; // тело запроса, если было (any потому заменим как что-то будет более ясно)
+  body?: Record<string, string>;
 
-  // аналитика
-  statusCode: number; // HTTP статус
-  duration: number; // длительность (мс)
-  requestSize: number; // размер запроса (байты)
-  responseSize: number; // размер ответа (байты)
-  errorDetails?: string; // если упал (timeout, network error и т.п.)
+  statusCode: number;
+  duration: number;
+  requestSize: number;
+  responseSize: number;
+  errorDetails?: string;
   timestamp: number;
 };
 

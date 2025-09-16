@@ -14,14 +14,26 @@ export default function AuthorizedUserPage(): JSX.Element {
   if (!user) return <Navigate to="/" replace />;
 
   return (
-    <nav className="p-[5vw]">
-      <NavLink to="/auth/restfull" end>
+    <nav className="p-[5vw] text-center flex flex-col items-center gap-3">
+      <NavLink
+        className="hover:text-pink-600 inline-block"
+        to="/auth/restfull"
+        end
+      >
         <div>{t('clientPage.restfull')}</div>
       </NavLink>
-      <NavLink to="/auth/clientVariales" end>
+      <NavLink
+        className="hover:text-pink-600 inline-block"
+        to="/auth/clientVariales"
+        end
+      >
         <div>{t('clientPage.variables')}</div>
       </NavLink>
-      <NavLink to="/auth/clientHistory" end>
+      <NavLink
+        className="hover:text-pink-600 inline-block"
+        to="/auth/clientHistory"
+        end
+      >
         <div>{t('clientPage.history')}</div>
       </NavLink>
       <Outlet />
