@@ -39,7 +39,7 @@ export const AuthProvider = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return; // SSR guard
+    if (typeof window === 'undefined') return;
 
     let unsubscribe: (() => void) | undefined;
 

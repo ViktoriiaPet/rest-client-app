@@ -1,51 +1,23 @@
 import * as React from 'react';
-
-import type { RequestSnapshot } from '@/types/restFullClient';
-
+import { useTranslation } from 'react-i18next';
+import {
+  LANGS,
+  TARGETS,
+  type HTTPSnippetCtor,
+  type HTTPSnippetLiteModule,
+  type RequestSnapshot,
+  type SnippetState,
+  type TabKey,
+} from '@/types/restFullClient';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
 import { buildHarFromSnapshot } from '@/utils/generatedCode';
-
-export type TabKey =
-  | 'cURL'
-  | 'JavaScript (fetch)'
-  | 'JavaScript (XHR)'
-  | 'NodeJS'
-  | 'Python'
-  | 'Java'
-  | 'C#'
-  | 'Go';
-
-export const TABS: TabKey[] = [
-  'cURL',
-  'JavaScript (fetch)',
-  'JavaScript (XHR)',
-  'NodeJS',
-  'Python',
-  'Java',
-  'C#',
-  'Go',
-];
-
-type HTTPSnippetInstance = {
-  convert: (
-    target: string,
-    client: string,
-    options?: unknown
-  ) => string | null | undefined;
-};
-type HTTPSnippetCtor = new (har: unknown) => HTTPSnippetInstance;
-type HTTPSnippetModule = { default: HTTPSnippetCtor };
-
-export type SnippetState =
-  | { status: 'idle' }
-  | { status: 'loading' }
-  | { status: 'error'; message: string }
-  | {
-      status: 'ready';
-      code: Partial<Record<TabKey, string>>;
-      context: { method: string; url: string };
-    };
 
 export default function GeneratedCodePostman({
   snapshot,
@@ -53,86 +25,72 @@ export default function GeneratedCodePostman({
 }: {
   snapshot: RequestSnapshot;
   className?: string;
-}) {
+}): React.JSX.Element {
+  const { t } = useTranslation();
   const [state, setState] = React.useState<SnippetState>({ status: 'idle' });
+  const [selected, setSelected] = React.useState<TabKey | null>(null);
 
   React.useEffect(() => {
-    let urlObj: URL | null = null;
-
+    let urlObj: URL;
     try {
       urlObj = new URL(snapshot.url);
     } catch {
-      setState({
-        status: 'error',
-        message: 'Not enough details: URL is missing or invalid.',
-      });
+      setState({ status: 'error', message: t('restfull.urlInvalid') });
       return;
     }
 
-    for (const p of snapshot.params) {
+    for (const p of snapshot.params ?? []) {
       if (p.enabled && p.key) urlObj.searchParams.set(p.key, p.value);
     }
 
     setState({ status: 'loading' });
 
-    void (async () => {
+    (async () => {
       try {
         const mod = (await import(
-          'httpsnippet'
-        )) as unknown as HTTPSnippetModule;
-        const HTTPSnippet = mod.default;
+          'httpsnippet-lite'
+        )) as unknown as HTTPSnippetLiteModule;
+        const HTTPSnippet: HTTPSnippetCtor =
+          'HTTPSnippet' in mod ? mod.HTTPSnippet : mod.default;
         const har = buildHarFromSnapshot(snapshot, urlObj.toString());
         const snip = new HTTPSnippet(har);
 
-        const codePairs: [TabKey, string | null | undefined][] = [
-          [
-            'cURL',
-            snip.convert('shell', 'curl', { indent: '  ', short: false }),
-          ],
-          ['JavaScript (fetch)', snip.convert('javascript', 'fetch')],
-          ['JavaScript (XHR)', snip.convert('javascript', 'xhr')],
-          ['NodeJS', snip.convert('node', 'native')],
-          ['Python', snip.convert('python', 'requests')],
-          ['Java', snip.convert('java', 'okhttp')],
-          ['C#', snip.convert('csharp', 'httpclient')],
-          ['Go', snip.convert('go', 'native')],
-        ];
+        const results = await Promise.all(
+          LANGS.map(async (lang) => {
+            const [target, client, opts] = TARGETS[lang];
+            const out = await snip.convert(target, client, opts);
+            return [lang, typeof out === 'string' ? out : undefined] as const;
+          })
+        );
 
         const code: Partial<Record<TabKey, string>> = {};
-        for (const [k, v] of codePairs) if (v) code[k] = v;
+        for (const [key, value] of results) if (value) code[key] = value;
 
         setState({
           status: 'ready',
           code,
           context: { method: snapshot.method, url: urlObj.toString() },
         });
-      } catch (e: unknown) {
-        const msg = e instanceof Error ? e.message : String(e);
-        setState({
-          status: 'error',
-          message: msg || 'Failed to generate code.',
-        });
+
+        const first = LANGS.find((lang) => !!code[lang]) ?? null;
+        setSelected(first);
+      } catch {
+        setState({ status: 'error', message: t('restfull.genFailed') });
       }
     })();
-  }, [snapshot]);
+  }, [snapshot, t]);
 
   const copy = async (text: string): Promise<void> => {
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      ta.remove();
-    }
+    await navigator.clipboard.writeText(text);
   };
+
+  const currentSnippet =
+    state.status === 'ready' && selected ? state.code[selected] : undefined;
 
   return (
     <section className={`rounded-xl border bg-white ${className}`}>
       <div className="flex items-center justify-between gap-2 border-b px-4 py-2">
-        <h3 className="text-sm font-semibold">Generated code</h3>
+        <h3 className="text-sm font-semibold">{t('restfull.generatedCode')}</h3>
         {state.status === 'ready' && (
           <span className="text-xs text-slate-500">
             {state.context.method} • {state.context.url}
@@ -141,7 +99,9 @@ export default function GeneratedCodePostman({
       </div>
 
       {state.status === 'loading' && (
-        <div className="p-4 text-sm text-slate-600">Generating snippets…</div>
+        <div className="p-4 text-sm text-slate-600">
+          {t('restfull.generating')}
+        </div>
       )}
 
       {state.status === 'error' && (
@@ -149,47 +109,48 @@ export default function GeneratedCodePostman({
       )}
 
       {state.status === 'ready' && (
-        <Tabs defaultValue={TABS[0]} className="w-full">
-          <TabsList className="m-3 flex flex-wrap">
-            {TABS.map((t) => (
-              <TabsTrigger key={t} value={t} disabled={!state.code[t]}>
-                {t}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        <div className="p-3 space-y-3">
+          <Select
+            value={selected ?? undefined}
+            onValueChange={(v: string) => setSelected(v as TabKey)}
+          >
+            <SelectTrigger className="w-full sm:w-72">
+              <SelectValue placeholder={t('restfull.chooseLanguage')} />
+            </SelectTrigger>
+            <SelectContent>
+              {LANGS.map((lang) => {
+                const disabled = !state.code[lang];
+                return (
+                  <SelectItem key={lang} value={lang} disabled={disabled}>
+                    {lang}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
 
-          {TABS.map((t) => (
-            <TabsContent key={t} value={t} className="px-3 pb-3">
-              {!state.code[t] ? (
-                <div className="px-2 py-4 text-sm text-slate-500">
-                  Not available for this request.
-                </div>
-              ) : (
-                <>
-                  <div className="mb-2 flex items-center justify-end">
-                    {(() => {
-                      const snippet = state.code[t];
-                      return (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            if (snippet) void copy(snippet);
-                          }}
-                        >
-                          Copy
-                        </Button>
-                      );
-                    })()}
-                  </div>
-                  <pre className="overflow-auto rounded-lg border bg-slate-50 p-3 text-xs">
-                    {state.code[t]}
-                  </pre>
-                </>
-              )}
-            </TabsContent>
-          ))}
-        </Tabs>
+          {!currentSnippet ? (
+            <div className="px-2 py-6 text-sm text-slate-500 border rounded-lg">
+              {t('restfull.notAvailable')}
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center justify-between">
+                <div className="text-xs text-slate-500">{selected}</div>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => void copy(currentSnippet)}
+                >
+                  {t('buttons.copy')}
+                </Button>
+              </div>
+              <pre className="overflow-auto rounded-lg border bg-slate-50 p-3 text-xs">
+                {currentSnippet}
+              </pre>
+            </>
+          )}
+        </div>
       )}
     </section>
   );
