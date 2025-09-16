@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useCallback, useEffect } from 'react';
+import { Suspense, lazy, useCallback, useEffect } from 'react';
 import {
   Navigate,
   useLocation,
@@ -37,7 +37,7 @@ export default function Restfull(): JSX.Element {
 
   useEffect(() => {
     if (!loading && user && !isHttpMethod(parsed.method)) {
-      void navigate(
+      navigate(
         buildClientUrl({
           method: 'GET',
           url: parsed.url,
@@ -61,7 +61,7 @@ export default function Restfull(): JSX.Element {
     ({ method }: { method: HttpMethod }): void => {
       const next = method.toUpperCase() as HttpMethod;
       if (next !== currentMethod) {
-        void navigate(`/auth/restfull/${next}`, { replace: true });
+        navigate(`/auth/restfull/${next}`, { replace: true });
       }
     },
     [navigate, currentMethod]
@@ -71,7 +71,7 @@ export default function Restfull(): JSX.Element {
   if (!user) return <Navigate to="/" replace />;
 
   return (
-    <div className="p-[5vw] w-200px max-w-full">
+    <div className="w-full">
       <Suspense fallback={null}>
         <RestFullClient method={currentMethod} onChange={handleChange} />
       </Suspense>

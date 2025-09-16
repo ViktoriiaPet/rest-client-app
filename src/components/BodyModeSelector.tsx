@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type { BodyMode } from '@/types/restFullClient';
 
 import { Button } from '@/components/ui/button';
@@ -10,7 +8,7 @@ export function BodyModeSelector({
   onChange,
 }: {
   value: BodyMode;
-  onChange: (v: BodyMode) => void;
+  onChange: (mode: BodyMode) => void;
 }) {
   return (
     <div className="flex items-center gap-2">
