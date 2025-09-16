@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 
@@ -8,33 +8,24 @@ import { TableHeader } from '@/components/TableHeader';
 import { TableRow } from '@/components/TableRow';
 import { VariablesAddBar } from '@/components/VariablesAddBar';
 import { useAuth } from '@/context/AuthContext';
-import { getUserVariables, saveUserVariables } from '@/store/variableStorage';
+import { useVariables } from '@/context/VariablesContext';
 
-type Props = {
-  userId: string;
-};
 
-export default function VariablesPage({ userId }: Props): JSX.Element {
+export default function VariablesPage(): JSX.Element {
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-  const [variables, setVariables] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    const saved = getUserVariables(userId);
-    setVariables(saved);
-  }, [userId]);
+  const { variables, setVariables } = useVariables();
 
   const deleteVariable = (key: string) => {
     const newVariables = Object.fromEntries(
       Object.entries(variables).filter(([k]) => k !== key)
     );
     setVariables(newVariables);
-    saveUserVariables(userId, newVariables);
   };
+
   const addVariable = (key: string, value: string) => {
     const newVariables = { ...variables, [key]: value };
     setVariables(newVariables);
-    saveUserVariables(userId, newVariables);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -56,9 +47,7 @@ export default function VariablesPage({ userId }: Props): JSX.Element {
               <TableRow
                 name={name}
                 value={value}
-                onClick={() => {
-                  deleteVariable(name);
-                }}
+                onClick={() => deleteVariable(name)}
               />
             </div>
           ))}
