@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { Outlet, Scripts } from 'react-router';
 
 import { AuthProvider } from './context/AuthContext.tsx';
+import { VariablesProvider } from '@/context/VariablesContext';
 
 import './i18n/i18n.ts';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -22,20 +23,22 @@ export default function Root(): JSX.Element {
       </head>
       <body>
         <AuthProvider>
-          <Provider store={store}>
-            <div className="bg-pink-100 min-h-screen flex flex-col">
-              <Header />
-              <main className="flex-1 w-full flex flex-col items-center justify-center bg-pink-100 overflow-y-auto px-8 py-6 pt-0">
-                <div className="p-[2vw] w-full min-h-[83dvh] rounded-2xl bg-pink-200 flex flex-col items-stretch box-border">
-                  <ErrorBoundary>
-                    <Outlet />
-                  </ErrorBoundary>
-                </div>
-              </main>
-              <Scripts />
-              <Footer />
-            </div>
-          </Provider>
+          <VariablesProvider>
+            <Provider store={store}>
+              <div className="bg-pink-100 min-h-screen flex flex-col">
+                <Header />
+                <main className="flex-1 w-full flex flex-col items-center justify-center bg-pink-100 overflow-y-auto px-8 py-6 pt-0">
+                  <div className="p-[2vw] w-full min-h-[83dvh] rounded-2xl bg-pink-200 flex flex-col items-stretch box-border">
+                    <ErrorBoundary>
+                      <Outlet />
+                    </ErrorBoundary>
+                  </div>
+                </main>
+                <Scripts />
+                <Footer />
+              </div>
+            </Provider>
+          </VariablesProvider>
         </AuthProvider>
       </body>
     </html>

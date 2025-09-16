@@ -7,7 +7,7 @@ type AddVariableType = {
   onAdd: (name: string, value: string) => void;
 };
 
-export const VariablesAddBar = ({ onAdd }: AddVariableType) => {
+ const VariablesAddBar = ({ onAdd }: AddVariableType) => {
   const { t } = useTranslation();
 
   const [name, setName] = useState('');
@@ -50,3 +50,4 @@ export const VariablesAddBar = ({ onAdd }: AddVariableType) => {
     </>
   );
 };
+export default VariablesAddBar;

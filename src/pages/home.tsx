@@ -52,7 +52,7 @@ export default function HomePage(): JSX.Element {
         </div>
         <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">
           <img
-            src=""
+            src="../assets/img/alyona.jpg"
             alt=""
             className="block w-[200px] h-[200px] object-cover mx-auto"
           />
@@ -60,6 +60,9 @@ export default function HomePage(): JSX.Element {
             Alyona
           </div>
           <div>Text about</div>
+          <a href="https://rs.school/" target="_blank" rel="noreferrer">
+            Github link
+          </a>
         </div>
       </div>
       <div className="flex flex-row gap-[5vw] justify-around">
