@@ -107,13 +107,12 @@ export default function RequestBar({
             handleUrlChange(e.target.value);
           }}
           className={`
-            flex-1
-            bg-pink-50/20
-            border-pink-300
-            hover:border-pink-400
-            focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:border-pink-500
-            caret-pink-600
-            placeholder-pink-400/70
+            flex h-9 w-[260px] rounded-md border px-3 py-1 text-base shadow-sm transition-colors 
+             file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground 
+             placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed 
+             disabled:opacity-50 md:text-sm bg-pink-50/20 border-pink-300 hover:border-pink-400 
+             focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:border-pink-500 
+             caret-pink-600 placeholder-pink-400/70
             ${isUrlValid ? '' : 'border-pink-400 focus-visible:ring-pink-300'}
           `}
         />
