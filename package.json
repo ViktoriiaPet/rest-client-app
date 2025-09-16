@@ -32,6 +32,7 @@
     "clsx": "^2.1.1",
     "firebase": "^12.2.1",
     "httpsnippet": "^2.0.0",
+    "httpsnippet-lite": "^3.0.5",
     "i18next": "^25.4.2",
     "i18next-browser-languagedetector": "^8.2.0",
     "isbot": "^5",

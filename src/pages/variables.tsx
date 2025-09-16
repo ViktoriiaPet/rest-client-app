@@ -21,7 +21,6 @@ export default function VariablesPage({ userId }: Props): JSX.Element {
 
   useEffect(() => {
     const saved = getUserVariables(userId);
-    //  console.log('Сохранённые переменные:', saved);
     setVariables(saved);
   }, [userId]);
 
