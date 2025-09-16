@@ -28,6 +28,11 @@ export default function LangToggle({
   const changeLanguage = (): void => {
     const newLang = lang === 'en' ? 'ru' : 'en';
     dispatch(setLanguage(newLang));
+
+    if (typeof document !== 'undefined') {
+      document.cookie = `lang=${newLang}; path=/; max-age=31536000`;
+    }
+
     void i18n.changeLanguage(newLang);
   };
   const isEnglishSSR =

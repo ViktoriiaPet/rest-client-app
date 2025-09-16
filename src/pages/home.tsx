@@ -40,7 +40,7 @@ export default function HomePage(): JSX.Element {
         <NavLink to="/signIn" end>
           <SignButton text={t('auth.signIn')} />
         </NavLink>
-        <NavLink to="/singUp" end>
+        <NavLink to="/signUp" end>
           <SignButton text={t('auth.signUp')} />
         </NavLink>
       </div>

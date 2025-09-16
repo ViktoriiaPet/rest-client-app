@@ -6,8 +6,12 @@ import {
   sendPasswordResetEmail,
   signOut,
   updateProfile,
+  onIdTokenChanged,
 } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
+import type { Unsubscribe } from 'firebase/auth';
+import type { NavigateFunction } from 'react-router';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -23,6 +27,41 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+export function initAuthWatcher(navigate: NavigateFunction): Unsubscribe {
+  let called = false;
+
+  const unsubscribe = onIdTokenChanged(auth, (user) => {
+    void (async () => {
+      if (called) return;
+      const currentPath = window.location.pathname;
+
+      if (!user) {
+        called = true;
+        void  logout();
+        if (currentPath !== '/') navigate('/');
+        return;
+      }
+
+      try {
+        const tokenResult = await user.getIdTokenResult();
+        const expiration = new Date(tokenResult.expirationTime).getTime();
+        if (expiration <= Date.now()) {
+          called = true;
+          void  logout();
+          if (currentPath !== '/') navigate('/');
+        }
+      } catch (err) {
+        console.error(err);
+        called = true;
+        void  logout();
+        if (currentPath !== '/') navigate('/');
+      }
+    })();
+  });
+
+  return unsubscribe;
+}
 
 export const initAnalytics = () => {
   if (typeof window !== 'undefined') {

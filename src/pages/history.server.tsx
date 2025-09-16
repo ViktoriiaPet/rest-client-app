@@ -36,6 +36,7 @@ type HistoryRow = {
   timeMs: number | null;
   statusCode: number | null;
   statusText: string;
+  lang: string;
 };
 
 type LoaderData = {
@@ -43,6 +44,7 @@ type LoaderData = {
   history: HistoryRow[];
   userId: string | null;
   userName: string | null;
+  lang: string;
 };
 
 type FirebaseTokenPayload = {
@@ -69,6 +71,8 @@ export async function loader({
   const cookieHeader = request?.headers.get('cookie') ?? '';
   const cookies = cookie.parse(cookieHeader);
   const token = cookies.userToken ?? null;
+
+  const lang = cookies.lang ?? 'en';
 
   let userId: string | null = null;
   let userName: string | null = null;
@@ -102,11 +106,12 @@ export async function loader({
         timeMs: data.timeMs,
         statusCode: data.statusCode,
         statusText: data.statusText,
+        lang: lang,
       } as HistoryRow;
     });
   }
 
-  return { token, history, userId, userName };
+  return { token, history, userId, userName, lang };
 }
 
 export default function HistoryPage({
@@ -116,6 +121,28 @@ export default function HistoryPage({
 }) {
   console.log(loaderData);
 
+  const t = (key: string) => {
+    const dict: Record<string, Record<string, string>> = {
+      en: {
+        statusCode: 'Status Code',
+        method: 'Method',
+        url: 'URL',
+        createdAt: 'Created At',
+        duration: 'Request duration',
+        error: 'Error information',
+      },
+      ru: {
+        statusCode: 'Код ответа',
+        method: 'Метод',
+        url: 'Ссылка',
+        createdAt: 'Создано',
+        duration: 'Длительность запроса',
+        error: 'Информация об ошибке',
+      },
+    };
+    return dict[loaderData.lang]?.[key] ?? key;
+  };
+
   return (
     <div className="overflow-x-auto">
       <table
@@ -124,16 +151,20 @@ export default function HistoryPage({
       >
         <thead className="bg-pink-300">
           <tr>
-            <th className="px-4 py-2 border-b text-purple-800">Status Code</th>
-            <th className="px-4 py-2 border-b text-purple-800">Method</th>
-            <th className="px-4 py-2 border-b text-purple-800">URL</th>
-            <th className="px-4 py-2 border-b text-purple-800">Created At</th>
             <th className="px-4 py-2 border-b text-purple-800">
-              Request duration
+              {t('statusCode')}
             </th>
             <th className="px-4 py-2 border-b text-purple-800">
-              Error information
+              {t('method')}
             </th>
+            <th className="px-4 py-2 border-b text-purple-800">{t('url')}</th>
+            <th className="px-4 py-2 border-b text-purple-800">
+              {t('createdAt')}
+            </th>
+            <th className="px-4 py-2 border-b text-purple-800">
+              {t('duration')}
+            </th>
+            <th className="px-4 py-2 border-b text-purple-800">{t('error')}</th>
           </tr>
         </thead>
         <tbody>

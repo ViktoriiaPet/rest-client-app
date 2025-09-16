@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { Outlet, Scripts } from 'react-router';
+import { Outlet, Scripts, useNavigate } from 'react-router';
 
 import { AuthProvider } from './context/AuthContext.tsx';
-
+import { initAuthWatcher } from './service/firebase.ts';
 import './i18n/i18n.ts';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
@@ -15,6 +15,15 @@ import type { JSX } from 'react';
 import './App.css';
 
 export default function Root(): JSX.Element {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const unsubscribe = initAuthWatcher(navigate);
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <html lang="en">
       <head>
