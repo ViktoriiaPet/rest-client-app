@@ -25,7 +25,7 @@ export default function HomePage(): JSX.Element {
       <div className="flex flex-row mb-[3vw] gap-[2vw]">
         <div className="flex flex-col border border-purple-600 p-[2vw] rounded-lg">
           <div>Vika</div>
-          <div>Text about</div>
+          <div>abouVika</div>
         </div>
         <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">
           <div>Dasha</div>

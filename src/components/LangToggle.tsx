@@ -34,6 +34,10 @@ export default function LangToggle({
     }
 
     void i18n.changeLanguage(newLang);
+
+    if (window.location.pathname === '/auth/clientHistory') {
+    window.location.reload();
+  }
   };
   const isEnglishSSR =
     typeof window === 'undefined' ? initialLang === 'en' : lang === 'en';
