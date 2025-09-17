@@ -16,9 +16,9 @@ export function cryptoId(): string {
   return Math.random().toString(36).slice(2, 10);
 }
 
-export function isValidUrl(s: string): boolean {
+export function isValidUrl(url: string): boolean {
   try {
-    new URL(s);
+    new URL(url);
     return true;
   } catch {
     return false;
@@ -36,16 +36,18 @@ export function validateJson(text: string): string | undefined {
   }
 }
 
-export function safeParseUrl(s: string): URL | undefined {
+export function safeParseUrl(url: string): URL | undefined {
   try {
-    return new URL(s);
+    return new URL(url);
   } catch {
     return undefined;
   }
 }
 
-export function labelForBody(m: 'none' | 'json' | 'form-data' | 'raw'): string {
-  switch (m) {
+export function labelForBody(
+  method: 'none' | 'json' | 'form-data' | 'raw'
+): string {
+  switch (method) {
     case 'none':
       return 'None';
     case 'json':
@@ -55,7 +57,7 @@ export function labelForBody(m: 'none' | 'json' | 'form-data' | 'raw'): string {
     case 'raw':
       return 'Raw';
     default:
-      return m;
+      return method;
   }
 }
 

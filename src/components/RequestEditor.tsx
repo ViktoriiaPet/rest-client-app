@@ -153,6 +153,7 @@ export default function RequestEditor({
                     type="button"
                     variant="outline"
                     size="sm"
+                    className="hover:bg-yellow-100 bg-pink-300 text-purple-600 font-semibold py-2 px-4 rounded-lg shadow-md"
                     onClick={() => {
                       setJsonBody(prettifyJson(jsonBody));
                     }}
@@ -169,7 +170,7 @@ export default function RequestEditor({
                   setJsonBody(e.target.value);
                 }}
                 placeholder='{"hello":"world"}'
-                className="min-h-[180px] font-mono text-sm"
+                className="min-h-[180px] font-mono text-sm rounded-lg border border-pink-300/60 bg-pink-50/40"
               />
             </div>
           )}

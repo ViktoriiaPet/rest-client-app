@@ -16,23 +16,17 @@ type HarRequest = {
   postData?: HarPostData;
 };
 
-function toEnabledHeaders(rows: KeyValueRow[]): HarNameValue[] {
+function toEnabledRows(rows: KeyValueRow[]): HarNameValue[] {
   return rows
-    .filter((h) => !!h.key && h.enabled)
-    .map((h) => ({ name: h.key, value: h.value }));
+    .filter((row) => !!row.key && row.enabled)
+    .map((row) => ({ name: row.key, value: row.value }));
 }
 
-function toEnabledParams(rows: KeyValueRow[]): HarNameValue[] {
-  return rows
-    .filter((p) => !!p.key && p.enabled)
-    .map((p) => ({ name: p.key, value: p.value }));
-}
-
-function guessRawMime(snapshot: RequestSnapshot): string {
-  const ct = snapshot.headers.find(
-    (h) => h.enabled && h.key.toLowerCase() === 'content-type'
+function rawMime(snapshot: RequestSnapshot): string {
+  const contentType = snapshot.headers.find(
+    (header) => header.enabled && header.key.toLowerCase() === 'content-type'
   )?.value;
-  return ct ?? 'text/plain; charset=utf-8';
+  return contentType ?? 'text/plain; charset=utf-8';
 }
 
 export function buildHarFromSnapshot(
@@ -41,10 +35,9 @@ export function buildHarFromSnapshot(
 ): HarRequest {
   const method = snapshot.method.toUpperCase();
   const canSendBody = method !== 'GET' && method !== 'HEAD';
-
+  const bodyMode = snapshot.body.mode;
   let postData: HarPostData | undefined;
 
-  const bodyMode = snapshot.body.mode;
   if (canSendBody && bodyMode !== 'none') {
     switch (bodyMode) {
       case 'json':
@@ -58,28 +51,26 @@ export function buildHarFromSnapshot(
         postData = {
           mimeType: 'multipart/form-data',
           params: (snapshot.body.formData ?? [])
-            .filter((r) => r.enabled && !!r.key)
-            .map((r) => ({ name: r.key, value: r.value })),
+            .filter((row) => row.enabled && !!row.key)
+            .map((row) => ({ name: row.key, value: row.value })),
         };
         break;
 
       case 'raw':
         postData = {
-          mimeType: guessRawMime(snapshot),
+          mimeType: rawMime(snapshot),
           text: snapshot.body.rawText ?? '',
         };
         break;
     }
   }
 
-  const har: HarRequest = {
+  return {
     method,
     url,
     httpVersion: 'HTTP/1.1',
-    headers: toEnabledHeaders(snapshot.headers),
-    queryString: toEnabledParams(snapshot.params),
+    headers: toEnabledRows(snapshot.headers),
+    queryString: toEnabledRows(snapshot.params),
     postData,
   };
-
-  return har;
 }

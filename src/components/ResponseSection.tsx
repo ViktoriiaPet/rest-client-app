@@ -53,7 +53,7 @@ export default function ResponseSection({
           </span>
         </div>
         <Button variant="custom" type="button" onClick={copy}>
-          {t('CopyJSON')}
+          {t('request.copyJSON')}
         </Button>
       </div>
 
