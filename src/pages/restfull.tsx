@@ -1,11 +1,10 @@
-import { Suspense, lazy, useCallback, useEffect } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useMemo } from 'react';
 import {
   Navigate,
   useLocation,
   useNavigate,
   useParams,
 } from 'react-router-dom';
-
 import type { JSX } from 'react';
 
 import { useAuth } from '@/context/AuthContext';
@@ -14,22 +13,20 @@ import { parseClientUrl, buildClientUrl } from '@/utils/restUrl';
 
 const RestFullClient = lazy(() => import('@/components/RestFullClient'));
 
-const isHttpMethod = (method: unknown): method is HttpMethod =>
-  typeof method === 'string' &&
-  DEFAULT_METHODS.includes(method.toUpperCase() as HttpMethod);
+const isHttpMethod = (value: unknown): value is HttpMethod =>
+  typeof value === 'string' &&
+  DEFAULT_METHODS.includes(value.toUpperCase() as HttpMethod);
 
 export default function Restfull(): JSX.Element {
   const { user, loading } = useAuth();
-  const { method: methodParam, urlB64, bodyB64 } = useParams();
+  const { method: methodParam, urlB64 } = useParams();
   const { search } = useLocation();
   const navigate = useNavigate();
 
-  const parsed = parseClientUrl({
-    method: methodParam,
-    urlB64,
-    bodyB64,
-    search,
-  });
+  const parsed = useMemo(
+    () => parseClientUrl({ method: methodParam, urlB64, search }),
+    [methodParam, urlB64, search]
+  );
 
   const currentMethod: HttpMethod = isHttpMethod(parsed.method)
     ? parsed.method
@@ -41,30 +38,22 @@ export default function Restfull(): JSX.Element {
         buildClientUrl({
           method: 'GET',
           url: parsed.url,
-          body: parsed.body,
           headers: parsed.headers,
         }),
         { replace: true }
       );
     }
-  }, [
-    loading,
-    user,
-    parsed.method,
-    parsed.url,
-    parsed.body,
-    parsed.headers,
-    navigate,
-  ]);
+  }, [loading, user, parsed.method, parsed.url, parsed.headers, navigate]);
 
   const handleChange = useCallback(
     ({ method }: { method: HttpMethod }): void => {
       const next = method.toUpperCase() as HttpMethod;
       if (next !== currentMethod) {
-        navigate(`/auth/restfull/${next}`, { replace: true });
+        const path = `/auth/restfull/${next}${urlB64 ? `/${urlB64}` : ''}${search}`;
+        navigate(path, { replace: true });
       }
     },
-    [navigate, currentMethod]
+    [navigate, currentMethod, urlB64, search]
   );
 
   if (loading) return <div>Loading...</div>;
@@ -72,7 +61,9 @@ export default function Restfull(): JSX.Element {
 
   return (
     <div className="w-full">
-      <Suspense fallback={null}>
+      <Suspense
+        fallback={<div className="p-2 text-sm opacity-70">Loading…</div>}
+      >
         <RestFullClient method={currentMethod} onChange={handleChange} />
       </Suspense>
     </div>

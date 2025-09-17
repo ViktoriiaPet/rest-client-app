@@ -1,8 +1,7 @@
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-
 import { db } from '@/service/firebase';
 
-export type LogPayload = {
+export interface LogPayload {
   method: string;
   url: string;
   params?: Record<string, string>;
@@ -18,16 +17,14 @@ export type LogPayload = {
   errorType?: string | null;
   errorMessage?: string | null;
   userId?: string | null;
-};
+}
 
 export async function logRequest(payload: LogPayload) {
-  const safePreview = payload.bodyPreview?.slice(0, 8_192) ?? undefined;
-
+  const safePreview = payload.bodyPreview?.slice(0, 8192);
   const doc = {
     ...payload,
     bodyPreview: safePreview,
     createdAt: serverTimestamp(),
   };
-
   await addDoc(collection(db, 'requests'), doc);
 }

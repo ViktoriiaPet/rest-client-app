@@ -10,36 +10,47 @@ import type { JSX } from 'react';
 
 import CodePanelSheet from '@/components/CodePanelSheet';
 import { useAuth } from '@/context/AuthContext';
-import { getUserVariables } from '@/store/variableStorage';
 import { logRequest } from '@/utils/logRequest';
 import { buildClientUrl } from '@/utils/restUrl';
 import { applyVariables } from '@/utils/variables';
 
-export type RestFullChangePayload = {
-  method: HttpMethod;
-  url: string;
-};
+export type RestFullChangePayload = { method: HttpMethod; url: string };
 
 export type RestFullClientProps = {
   method?: HttpMethod;
   onChange?(v: RestFullChangePayload): void;
 };
 
-function toRecordSafe(pairs: [string, string][]): Record<string, string> {
-  return pairs.reduce<Record<string, string>>((acc, [k, v]) => {
-    acc[k] = v;
-    return acc;
-  }, {});
-}
-
 type StringRecord = Record<string, string>;
 
-function msgFromError(e: unknown): string {
-  if (e instanceof Error) return e.message;
+function toRecord(
+  rows: { enabled: boolean; key: string; value: string }[]
+): StringRecord {
+  return Object.fromEntries(
+    rows.filter((r) => r.enabled && r.key).map((r) => [r.key, r.value])
+  );
+}
+
+function hasHeader(headers: Record<string, string>, key: string): boolean {
+  const needle = key.toLowerCase();
+  return Object.keys(headers).some((k) => k.toLowerCase() === needle);
+}
+
+function getLsVars(uid: string | null | undefined): Record<string, string> {
   try {
-    return typeof e === 'string' ? e : JSON.stringify(e);
+    const raw = localStorage.getItem(`userVariables_${uid ?? ''}`);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw) as unknown;
+    if (parsed && typeof parsed === 'object') {
+      return Object.fromEntries(
+        Object.entries(parsed as Record<string, unknown>)
+          .filter(([, v]) => typeof v === 'string')
+          .map(([k, v]) => [k, v as string])
+      );
+    }
+    return {};
   } catch {
-    return String(e);
+    return {};
   }
 }
 
@@ -50,7 +61,7 @@ export default function RestFullClient({
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [response, setResponse] = useState<{
     statusCode: number;
     statusText?: string;
@@ -63,10 +74,7 @@ export default function RestFullClient({
   const lastSentRef = useRef<RestFullChangePayload | null>(null);
   const emitChange = useCallback(
     (raw: RestFullChangePayload): void => {
-      const next: RestFullChangePayload = {
-        method: raw.method,
-        url: raw.url,
-      };
+      const next: RestFullChangePayload = { method: raw.method, url: raw.url };
       const prev = lastSentRef.current;
       if (!prev || prev.method !== next.method || prev.url !== next.url) {
         lastSentRef.current = next;
@@ -78,118 +86,103 @@ export default function RestFullClient({
 
   async function handleSend(snapshot: RequestSnapshot): Promise<void> {
     setLoading(true);
-    const start = performance.now();
-    const vars = snapshot.variables ?? {};
+    const t0 = performance.now();
 
-    const storedVars = getUserVariables(user?.uid ?? '');
-    console.log('Stored variables:', storedVars);
-
+    const vars = getLsVars(user?.uid);
     const resolvedUrl = applyVariables(snapshot.url, vars);
-    console.log('Resolved URL:', resolvedUrl);
-
-    const resolvedBody = applyVariables(
-      snapshot.body.mode === 'json'
-        ? (snapshot.body.jsonText ?? '')
-        : snapshot.body.mode === 'raw'
-          ? (snapshot.body.rawText ?? '')
-          : '',
-      storedVars
-    );
-
-    console.log('Resolved body:', resolvedBody);
-
-    const resolvedUrlStr = applyVariables(snapshot.url, vars);
     const resolvedBodyStr =
       snapshot.body.mode === 'json'
-        ? applyVariables(snapshot.body.jsonText ?? '', storedVars)
+        ? applyVariables(snapshot.body.jsonText ?? '', vars)
         : snapshot.body.mode === 'raw'
-          ? applyVariables(snapshot.body.rawText ?? '', storedVars)
+          ? applyVariables(snapshot.body.rawText ?? '', vars)
           : undefined;
 
-    const enabledParams: StringRecord = toRecordSafe(
-      snapshot.params
-        .filter((p) => p.enabled && p.key)
-        .map((p) => [p.key, p.value])
-    );
-    const enabledHeaders: StringRecord = toRecordSafe(
-      snapshot.headers
-        .filter((h) => h.enabled && h.key)
-        .map((h) => [h.key, h.value])
-    );
+    const enabledParams: StringRecord = toRecord(snapshot.params);
+    const enabledHeaders: StringRecord = toRecord(snapshot.headers);
 
-    const builtHref = buildClientUrl({
+    let requestUrl = resolvedUrl;
+    try {
+      const u = new URL(resolvedUrl);
+      for (const [k, v] of Object.entries(enabledParams))
+        u.searchParams.set(k, v);
+      requestUrl = u.toString();
+    } catch {
+      setResponse({
+        statusCode: 0,
+        statusText: 'Invalid URL',
+        bodyText: '',
+        timeMs: Math.round(performance.now() - t0),
+      });
+      setLastSentSnapshot(snapshot);
+      setLoading(false);
+      return;
+    }
+
+    const permalink = buildClientUrl({
       method: snapshot.method,
-      url: (() => {
-        const u = new URL(resolvedUrlStr);
-        for (const [k, v] of Object.entries(enabledParams))
-          u.searchParams.set(k, v);
-        return u.toString();
-      })(),
-      body: resolvedBodyStr,
+      url: requestUrl,
       headers: enabledHeaders,
     });
-    void navigate(builtHref, { replace: true });
+    navigate(permalink, { replace: true });
 
-    try {
-      const urlObj = new URL(resolvedUrlStr);
-      for (const [k, v] of Object.entries(enabledParams))
-        urlObj.searchParams.set(k, v);
+    const requestHeaders: StringRecord = { ...enabledHeaders };
+    const canSendBody = !['GET', 'HEAD'].includes(snapshot.method);
+    let requestBody: BodyInit | undefined;
 
-      const headers: StringRecord = { ...enabledHeaders };
-      const methodLocal = snapshot.method;
-      let body: BodyInit | undefined;
-      const canSendBody = !['GET', 'HEAD'].includes(methodLocal);
-
-      if (canSendBody) {
-        switch (snapshot.body.mode) {
-          case 'json': {
-            const jsonText = resolvedBodyStr ?? '';
-            if (!hasHeader(headers, 'content-type'))
-              headers['Content-Type'] = 'application/json';
-            body = jsonText;
-            break;
-          }
-          case 'form-data': {
-            const form = new FormData();
-            (snapshot.body.formData ?? [])
-              .filter((r) => r.enabled && r.key)
-              .forEach((r) => {
-                form.append(
-                  applyVariables(r.key, vars),
-                  applyVariables(r.value, vars)
-                );
-              });
-            body = form;
-            break;
-          }
-          case 'raw': {
-            body = resolvedBodyStr ?? '';
-            break;
-          }
-          case 'none':
-          default: {
-            body = undefined;
-          }
+    if (canSendBody) {
+      switch (snapshot.body.mode) {
+        case 'json': {
+          if (!hasHeader(requestHeaders, 'content-type'))
+            requestHeaders['Content-Type'] = 'application/json';
+          requestBody = resolvedBodyStr ?? '';
+          break;
+        }
+        case 'form-data': {
+          const form = new FormData();
+          (snapshot.body.formData ?? [])
+            .filter((r) => r.enabled && r.key)
+            .forEach((r) => {
+              form.append(
+                applyVariables(r.key, vars),
+                applyVariables(r.value, vars)
+              );
+            });
+          requestBody = form;
+          break;
+        }
+        case 'raw': {
+          requestBody = resolvedBodyStr ?? '';
+          break;
         }
       }
+    }
 
-      const res = await fetch(urlObj.toString(), {
-        method: methodLocal,
-        headers,
-        body,
+    let statusCode = 0;
+    let statusText = '';
+    let bodyText = '';
+    let errorType: string | null = null;
+    let errorMessage: string | null = null;
+
+    try {
+      const res = await fetch(requestUrl, {
+        method: snapshot.method,
+        headers: requestHeaders,
+        body: requestBody,
       });
-      const text = await res.text();
-      const timeMs = Math.round(performance.now() - start);
+      statusCode = res.status;
+      statusText = res.statusText;
+      bodyText = await res.text();
 
       setResponse({
-        statusCode: res.status,
-        statusText: res.statusText,
-        bodyText: text,
-        timeMs,
+        statusCode,
+        statusText,
+        bodyText,
+        timeMs: Math.round(performance.now() - t0),
       });
+
       setLastSentSnapshot({
         ...snapshot,
-        url: urlObj.toString(),
+        url: requestUrl,
         body: {
           ...snapshot.body,
           ...(snapshot.body.mode === 'json'
@@ -199,59 +192,35 @@ export default function RestFullClient({
             ? { rawText: resolvedBodyStr ?? '' }
             : {}),
         },
-        params: snapshot.params,
-        headers: snapshot.headers,
       });
-
-      const logParamsSuccess: Partial<Record<string, string>> = {
-        ...enabledParams,
-      };
-      const logHeadersSuccess: Partial<Record<string, string>> = { ...headers };
-
-      void logRequest({
-        method: methodLocal,
-        url: urlObj.toString(),
-        params: logParamsSuccess,
-        headers: logHeadersSuccess,
-        bodyMode: snapshot.body.mode,
-        bodyPreview: resolvedBodyStr ?? '',
-        statusCode: res.status,
-        statusText: res.statusText,
-        timeMs,
-        userId: user?.uid ?? null,
-      });
-    } catch (err: unknown) {
-      const timeMs = Math.round(performance.now() - start);
-      const msg = msgFromError(err);
+    } catch (e) {
+      errorType = e instanceof Error ? e.name : 'UnknownError';
+      errorMessage = e instanceof Error ? e.message : String(e);
 
       setResponse({
         statusCode: 0,
-        statusText: msg || 'Request failed',
+        statusText: errorMessage || 'Request failed',
         bodyText: '',
-        timeMs,
+        timeMs: Math.round(performance.now() - t0),
       });
+
       setLastSentSnapshot(snapshot);
-
-      const logParamsFail: Partial<Record<string, string>> = {
-        ...enabledParams,
-      };
-      const logHeadersFail: Partial<Record<string, string>> = {
-        ...enabledHeaders,
-      };
-
+    } finally {
+      const latencyMs = Math.round(performance.now() - t0);
       void logRequest({
         method: snapshot.method,
-        url: resolvedUrlStr,
-        params: logParamsFail,
-        headers: logHeadersFail,
+        url: requestUrl,
+        params: { ...enabledParams },
+        headers: { ...requestHeaders },
         bodyMode: snapshot.body.mode,
         bodyPreview: resolvedBodyStr ?? '',
-        statusCode: 0,
-        statusText: msg || 'Request failed',
-        timeMs,
+        latencyMs,
+        statusCode,
+        statusText,
+        errorType,
+        errorMessage,
         userId: user?.uid ?? null,
       });
-    } finally {
       setLoading(false);
     }
   }
@@ -259,18 +228,16 @@ export default function RestFullClient({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-4">
       <div className="h-[40vh] overflow-auto">
-        <div className="flex items-center justify-end">
-          <CodePanelSheet snapshot={lastSentSnapshot} />
-        </div>
-
         <RequestEditor
           loading={loading}
           onSend={handleSend}
           onChange={emitChange}
           method={method}
         />
+        <div className="flex items-center justify-end">
+          <CodePanelSheet snapshot={lastSentSnapshot} />
+        </div>
       </div>
-
       <div className="rounded-lg border border-pink-300/60 bg-pink-50/40">
         <div className="flex items-center justify-between px-4 py-2 border-b border-pink-300/60">
           <h2 className="font-semibold text-purple-700">Response</h2>
@@ -297,9 +264,4 @@ export default function RestFullClient({
       </div>
     </div>
   );
-}
-
-function hasHeader(h: Record<string, string>, key: string): boolean {
-  const lower = key.toLowerCase();
-  return Object.keys(h).some((k) => k.toLowerCase() === lower);
 }
