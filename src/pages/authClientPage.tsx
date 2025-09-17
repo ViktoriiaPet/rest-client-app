@@ -14,9 +14,7 @@ export default function AuthorizedUserPage(): JSX.Element {
   if (loading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/" replace />;
   return (
-
     <nav className="p-[5vw] text-center flex flex-col items-center gap-3">
-
       <div className="text-[46px] tracking-[1vw] text-purple-600 pb-[2vw]">
         WELCOME, {user.displayName}
       </div>
