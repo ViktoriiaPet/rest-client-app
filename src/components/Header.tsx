@@ -17,11 +17,9 @@ export default function Header(): JSX.Element | null {
   const [scrolled, setScrolled] = useState(false);
   const rafRef = useRef<number | null>(null);
 
-    useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
-
- 
 
   useEffect(() => {
     const THRESHOLD = 8;
@@ -34,7 +32,7 @@ export default function Header(): JSX.Element | null {
         rafRef.current = null;
       });
     };
-    
+
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
@@ -43,8 +41,6 @@ export default function Header(): JSX.Element | null {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
-
- 
 
   const reduceMotion =
     typeof window !== 'undefined' &&
@@ -66,7 +62,7 @@ export default function Header(): JSX.Element | null {
       console.error('Log error', err);
     }
   };
-    if (!mounted) return null;
+  if (!mounted) return null;
   if (!ready) return null;
 
   return (

@@ -18,7 +18,7 @@ export default function LangToggle({
   const dispatch = useDispatch();
   const lang = useSelector((state: RootState) => state.language.lang);
   const { t, i18n } = useTranslation();
-    const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const cookieLang = getLangFromCookie();

@@ -6,11 +6,11 @@ import { useEffect } from 'react';
 import type { JSX } from 'react';
 
 export default function Footer(): JSX.Element | null {
-    const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { t } = useTranslation();
-      useEffect(() => {
-      setMounted(true);
-    }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   if (!mounted) return null;
   return (
     <footer className="bottom-0 w-full bg-pink-200 px-4 py-2">

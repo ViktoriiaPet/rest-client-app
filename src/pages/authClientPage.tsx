@@ -12,9 +12,9 @@ export default function AuthorizedUserPage(): JSX.Element | null {
   const [mounted, setMounted] = useState(false);
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-      useEffect(() => {
-      setMounted(true);
-    }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   if (!mounted) return null;
   if (loading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/" replace />;
