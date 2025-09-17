@@ -43,7 +43,6 @@ export function VariablesProvider({ children }: { children: ReactNode }) {
   );
 }
 
-
 export function useVariables() {
   const ctx = useContext(VariablesContext);
   if (!ctx)

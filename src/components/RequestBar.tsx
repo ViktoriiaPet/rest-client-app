@@ -106,14 +106,11 @@ export default function RequestBar({
           onChange={(e) => {
             handleUrlChange(e.target.value);
           }}
-          className={`
-            flex h-9 w-[260px] rounded-md border px-3 py-1 text-base shadow-sm transition-colors 
-             file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground 
-             placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed 
-             disabled:opacity-50 md:text-sm bg-pink-50/20 border-pink-300 hover:border-pink-400 
-             focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:border-pink-500 
-             caret-pink-600 placeholder-pink-400/70
-            ${isUrlValid ? '' : 'border-pink-400 focus-visible:ring-pink-300'}
+          className={`h-9 w-full rounded-md border px-3 text-base shadow-sm
+            placeholder:text-pink-400/70
+            focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
+            disabled:cursor-not-allowed disabled:opacity-50
+            ${isUrlValid ? 'border-pink-300' : 'border-pink-500'}
           `}
         />
 
