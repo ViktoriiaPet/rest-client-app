@@ -1,10 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 import type { JSX } from 'react';
 
-export default function Footer(): JSX.Element {
+export default function Footer(): JSX.Element | null {
+    const [mounted, setMounted] = useState(false);
   const { t } = useTranslation();
+      useEffect(() => {
+      setMounted(true);
+    }, []);
+  if (!mounted) return null;
   return (
     <footer className="bottom-0 w-full bg-pink-200 px-4 py-2">
       <div className="mx-auto max-w-5xl flex items-center justify-between">

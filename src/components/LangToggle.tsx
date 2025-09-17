@@ -1,23 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { getLangFromCookie } from '@/utils/getLangFromCookie';
 import type { RootState } from '@/store';
 import type { JSX } from 'react';
 
 import { Switch } from '@/components/ui/switch';
 import { setLanguage } from '@/store/languageSlice';
 
-const DEFAULT_LANG: 'en' | 'ru' = 'en';
+const DEFAULT_LANG: 'en' | 'ru' = getLangFromCookie();
 
 export default function LangToggle({
   initialLang = DEFAULT_LANG,
 }: {
   initialLang?: 'en' | 'ru';
-}): JSX.Element {
+}): JSX.Element | null {
   const dispatch = useDispatch();
   const lang = useSelector((state: RootState) => state.language.lang);
   const { t, i18n } = useTranslation();
+    const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const cookieLang = getLangFromCookie();
+    if (cookieLang && cookieLang !== lang) {
+      dispatch(setLanguage(cookieLang));
+      void i18n.changeLanguage(cookieLang);
+    }
+    setMounted(true);
+  }, []);
   const ssrT = (key: 'lang.english' | 'lang.russian') =>
     typeof window === 'undefined' ? i18n.getFixedT(initialLang)(key) : t(key);
 
@@ -39,8 +49,9 @@ export default function LangToggle({
       window.location.reload();
     }
   };
-  const isEnglishSSR =
-    typeof window === 'undefined' ? initialLang === 'en' : lang === 'en';
+  if (!mounted) return null;
+
+  const isEnglishSSR = lang === 'en';
   return (
     <div className="flex flex-row gap-3 items-center w-full justify-center">
       <div

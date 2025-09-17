@@ -1,16 +1,21 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, Outlet, Navigate } from 'react-router';
-
+import { useEffect } from 'react';
+import { useState } from 'react';
 import type { JSX } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
 
-export default function AuthorizedUserPage(): JSX.Element {
+export default function AuthorizedUserPage(): JSX.Element | null {
+  const [mounted, setMounted] = useState(false);
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-
+      useEffect(() => {
+      setMounted(true);
+    }, []);
+  if (!mounted) return null;
   if (loading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/" replace />;
   return (

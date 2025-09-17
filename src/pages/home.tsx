@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
-
+import { useState } from 'react';
 import type { JSX } from 'react';
 
 import { SignButton } from '@/components/SignButton';
@@ -10,16 +10,22 @@ import { useAuth } from '@/context/AuthContext.tsx';
 import darya from '@/assets/img/Darya.jpg';
 import alyona from '@/assets/img/alyona.jpg';
 
-export default function HomePage(): JSX.Element {
+export default function HomePage(): JSX.Element | null {
+    const [mounted, setMounted] = useState(false);
   const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
+
+      useEffect(() => {
+      setMounted(true);
+    }, []);
 
   useEffect(() => {
     if (user) {
       void navigate('/mainClint');
     }
   }, [user, navigate]);
+      if (!mounted) return null;
   return (
     <div className="p-[5vw] flex flex-col align-middle justify-center items-center">
       <div className="text-[46px] tracking-[1vw] text-purple-600 pb-[2vw]">

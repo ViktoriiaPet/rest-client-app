@@ -28,6 +28,7 @@ export default function Root(): JSX.Element {
   return (
     <html lang="en">
       <head>
+        <meta charSet="UTF-8" />
         <title>My App</title>
       </head>
       <body>

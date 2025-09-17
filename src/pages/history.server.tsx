@@ -63,6 +63,12 @@ function parseJwt(token: string): FirebaseTokenPayload | null {
   }
 }
 
+function b64EncodeUnicode(str: string): string {
+  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p1) =>
+    String.fromCharCode(parseInt(p1, 16))
+  ));
+}
+
 export async function loader({
   request,
 }: {
@@ -169,13 +175,13 @@ export default function HistoryPage({
         </thead>
         <tbody>
           {loaderData.history.map((row) => {
-            const urlB64 = btoa(row.url);
+            const urlB64 = b64EncodeUnicode(row.url);
             let bodyB64 = '';
             if (row.bodyPreview) {
               if (typeof row.bodyPreview === 'string') {
-                bodyB64 = btoa(row.bodyPreview);
+                bodyB64 = b64EncodeUnicode(row.bodyPreview);
               } else {
-                bodyB64 = btoa(JSON.stringify(row.bodyPreview));
+                bodyB64 = b64EncodeUnicode(JSON.stringify(row.bodyPreview));
               }
             }
             const link = `/auth/restfull/${row.method}/${urlB64}/${bodyB64}`;
