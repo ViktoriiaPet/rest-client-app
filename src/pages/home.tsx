@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
 
@@ -6,7 +6,7 @@ import type { JSX } from 'react';
 
 import { SignButton } from '@/components/SignButton';
 import { useAuth } from '@/context/AuthContext.tsx';
-
+import { ErrorModal } from '@/components/ErrorModal.tsx';
 import darya from '@/assets/img/Darya.jpg';
 import alyona from '@/assets/img/alyona.jpg';
 
@@ -14,6 +14,7 @@ export default function HomePage(): JSX.Element {
   const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
+  // const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -22,6 +23,22 @@ export default function HomePage(): JSX.Element {
   }, [user, navigate]);
   return (
     <div className="p-[5vw] flex flex-col align-middle justify-center items-center">
+      {/* <div className="p-4">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="px-4 py-2 bg-red-500 text-white rounded"
+        >
+          Вызвать ошибку
+        </button>
+
+        <ErrorModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          statusCode={400}
+          message="Ошибка сервера. Попробуйте позже."
+        />
+      </div> */}
+
       <div className="text-[46px] tracking-[1vw] text-purple-600 pb-[2vw]">
         {t('auth.welcome')}
       </div>
