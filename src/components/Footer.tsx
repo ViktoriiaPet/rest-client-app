@@ -12,14 +12,19 @@ export default function Footer(): JSX.Element {
           href="https://github.com/ViktoriiaPet/rest-client-app"
           target="_blank"
           rel="noreferrer"
+          className="text-purple-600 "
         >
           {t('app.github')}
         </a>
 
-        <span>2025</span>
+        <span className="text-purple-600">2025</span>
 
         <a href="https://rs.school/" target="_blank" rel="noreferrer">
-          Logo
+          <img
+            className="w-[40px]"
+            src="https://rs.school/_next/static/media/rss-logo.c19ce1b4.svg"
+            alt="rss logo"
+          />
         </a>
       </div>
     </footer>

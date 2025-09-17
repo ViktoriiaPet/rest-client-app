@@ -1,40 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
-
+import { Suspense } from 'react';
 import type { JSX } from 'react';
 
-import { TableHeader } from '@/components/TableHeader';
-import { TableRow } from '@/components/TableRow';
-import { VariablesAddBar } from '@/components/VariablesAddBar';
 import { useAuth } from '@/context/AuthContext';
-import { getUserVariables, saveUserVariables } from '@/store/variableStorage';
+import { useVariables } from '@/context/VariablesContext';
 
-type Props = {
-  userId: string;
-};
+const TableRow = React.lazy(() => import('@/components/TableRow'));
+const TableHeader = React.lazy(() => import('@/components/TableHeader'));
+const VariablesAddBar = React.lazy(
+  () => import('@/components/VariablesAddBar')
+);
 
-export default function VariablesPage({ userId }: Props): JSX.Element {
+export default function VariablesPage(): JSX.Element {
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-  const [variables, setVariables] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    const saved = getUserVariables(userId);
-    setVariables(saved);
-  }, [userId]);
+  const { variables, setVariables } = useVariables();
 
   const deleteVariable = (key: string) => {
     const newVariables = Object.fromEntries(
       Object.entries(variables).filter(([k]) => k !== key)
     );
     setVariables(newVariables);
-    saveUserVariables(userId, newVariables);
   };
+
   const addVariable = (key: string, value: string) => {
     const newVariables = { ...variables, [key]: value };
     setVariables(newVariables);
-    saveUserVariables(userId, newVariables);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -46,23 +39,23 @@ export default function VariablesPage({ userId }: Props): JSX.Element {
         {t('variables.title')}
       </div>
       <div>
-        <div className="grid grid-cols-3 gap-4 items-center">
-          <VariablesAddBar onAdd={addVariable} />
-          <TableHeader />
-        </div>
-        <div className="flex flex-col gap-5">
-          {Object.entries(variables).map(([name, value]) => (
-            <div key={name}>
-              <TableRow
-                name={name}
-                value={value}
-                onClick={() => {
-                  deleteVariable(name);
-                }}
-              />
-            </div>
-          ))}
-        </div>
+        <Suspense fallback={'loading...'}>
+          <div className="grid grid-cols-3 gap-4 items-center">
+            <VariablesAddBar onAdd={addVariable} />
+            <TableHeader />
+          </div>
+          <div className="flex flex-col gap-5">
+            {Object.entries(variables).map(([name, value]) => (
+              <div key={name}>
+                <TableRow
+                  name={name}
+                  value={value}
+                  onClick={() => deleteVariable(name)}
+                />
+              </div>
+            ))}
+          </div>
+        </Suspense>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-export const TableHeader = () => {
+const TableHeader = () => {
   const { t } = useTranslation();
 
   return (
@@ -17,3 +17,4 @@ export const TableHeader = () => {
     </>
   );
 };
+export default TableHeader;
