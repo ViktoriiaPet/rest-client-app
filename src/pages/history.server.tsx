@@ -101,10 +101,7 @@ export async function loader({
       toFirestore: (data: FireRequestDoc): DocumentData => ({ ...data }),
     });
 
-    const q = query(
-      colRef,
-      where('userId', '==', userId),
-    );
+    const q = query(colRef, where('userId', '==', userId));
 
     const snap = await getDocs(q);
 
@@ -120,12 +117,11 @@ export async function loader({
         statusText: data.statusText,
         lang: lang,
       } as HistoryRow;
+    }).filter((row) => row.url && row.createdAt);;
+    history.sort((a, b) => {
+      if (!a.createdAt || !b.createdAt) return 0;
+      return b.createdAt.getTime() - a.createdAt.getTime();
     });
-      history.sort((a, b) => {
-    if (!a.createdAt || !b.createdAt) return 0;
-    return b.createdAt.getTime() - a.createdAt.getTime();
-  });
-
   }
 
   return { token, history, userId, userName, lang };
