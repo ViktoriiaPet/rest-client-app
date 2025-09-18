@@ -72,14 +72,10 @@ export const initAnalytics = () => {
 };
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
-  try {
-    const res = await signInWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    const token = await user.getIdToken();
-    return { user, token };
-  } catch (err) {
-    throw err;
-  }
+  const res = await signInWithEmailAndPassword(auth, email, password);
+  const user = res.user;
+  const token = await user.getIdToken();
+  return { user, token };
 };
 
 const registerWithEmailAndPassword = async (
@@ -87,25 +83,22 @@ const registerWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
+  const res = await createUserWithEmailAndPassword(auth, email, password);
+  const user = res.user;
 
-    await updateProfile(user, { displayName: name });
+  await updateProfile(user, { displayName: name });
 
-    const token = await user.getIdToken();
-    await addDoc(collection(db, 'users'), {
-      uid: user.uid,
-      name,
-      authProvider: 'local',
-      email,
-    });
-    return { user, token };
-  } catch (err) {
-    console.error(err);
-  }
+  const token = await user.getIdToken();
+
+  await addDoc(collection(db, 'users'), {
+    uid: user.uid,
+    name,
+    authProvider: 'local',
+    email,
+  });
+
+  return { user, token };
 };
-
 const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);

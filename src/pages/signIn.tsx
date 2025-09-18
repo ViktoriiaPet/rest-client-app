@@ -83,20 +83,20 @@ export default function SignIn() {
           document.cookie = `userId=${res.user.uid}; path=/; max-age=3600; samesite=lax;`;
           void navigate('/mainClint');
         }
-      }  catch (err) {
-  if (err instanceof FirebaseError) {
-    // Показываем модалку с текстом ошибки всегда
-    showError(err.message);
-    console.error('Firebase error:', err);
-  } else if (err instanceof Error) {
-    // Любые стандартные ошибки JS
-    showError(err.message);
-    console.error('JS error:', err);
-  } else {
-    showError('Произошла неизвестная ошибка');
-    console.error('Unknown error:', err);
-  }
-}
+      } catch (err) {
+        if (err instanceof FirebaseError) {
+          // Показываем модалку с текстом ошибки всегда
+          showError(err.message);
+          console.error('Firebase error:', err);
+        } else if (err instanceof Error) {
+          // Любые стандартные ошибки JS
+          showError(err.message);
+          console.error('JS error:', err);
+        } else {
+          showError('Произошла неизвестная ошибка');
+          console.error('Unknown error:', err);
+        }
+      }
     } else {
       const fieldErrors: FormErrors = {};
       result.error.issues.forEach((issue) => {
@@ -119,10 +119,10 @@ export default function SignIn() {
       className="form-position  text-purple-600  flex flex-col items-center"
     >
       <ErrorModal
-  isOpen={isModalOpen}
-  onClose={() => setIsModalOpen(false)}
-  message={modalMessage}
-/>
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        message={modalMessage}
+      />
       <h2 className="pb-[3vw] font-inter text-xl text-purple-600">
         {t('auth.signIn')}
       </h2>
