@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
-
+import { useState } from 'react';
 import type { JSX } from 'react';
 
 import { SignButton } from '@/components/SignButton';
@@ -9,17 +9,24 @@ import { useAuth } from '@/context/AuthContext.tsx';
 
 import darya from '@/assets/img/Darya.jpg';
 import alyona from '@/assets/img/alyona.jpg';
+import vika from '@/assets/img/vika.jpg';
 
-export default function HomePage(): JSX.Element {
+export default function HomePage(): JSX.Element | null {
+  const [mounted, setMounted] = useState(false);
   const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (user) {
       void navigate('/mainClint');
     }
   }, [user, navigate]);
+  if (!mounted) return null;
   return (
     <div className="p-[5vw] flex flex-col align-middle justify-center items-center">
       <div className="text-[46px] tracking-[1vw] text-purple-600 pb-[2vw]">
@@ -31,21 +38,21 @@ export default function HomePage(): JSX.Element {
       >
         <div className="flex flex-col border border-purple-600 p-[2vw] rounded-lg">
           <img
-            src=""
-            alt=""
+            src={vika}
+            alt={t('aboutVika.photoAlt')}
             className="block w-[200px] h-[200px] object-cover mx-auto rounded-lg"
           />
           <div className="text-purple-600 font-bold text-center text-xl mb-2 mt-2">
-            Vika
+            {t('aboutVika.name')}
           </div>
-          <div>Text about</div>
+          <div>{t('aboutVika.text')}</div>
           <a
-            href=""
+            href="https://github.com/ViktoriiaPet"
             target="_blank"
             rel="noreferrer"
             className="text-purple-600 font-bold text-center text-l mb-2 mt-2"
           >
-            Github link
+            {t('aboutVika.linkGitHub')}
           </a>
         </div>
         <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">
@@ -91,7 +98,7 @@ export default function HomePage(): JSX.Element {
         <NavLink to="/signIn" end>
           <SignButton text={t('auth.signIn')} />
         </NavLink>
-        <NavLink to="/singUp" end>
+        <NavLink to="/signUp" end>
           <SignButton text={t('auth.signUp')} />
         </NavLink>
       </div>

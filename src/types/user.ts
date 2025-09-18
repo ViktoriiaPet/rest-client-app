@@ -7,7 +7,7 @@ type User = {
   password: string;
 };
 
-type RequestData = {
+export type RequestData = {
   id: string;
   userId: string;
 
