@@ -9,7 +9,7 @@ import { useAuth } from '@/context/AuthContext.tsx';
 
 import darya from '@/assets/img/Darya.jpg';
 import alyona from '@/assets/img/alyona.jpg';
-import vika from '@/assets/img/vika.jpg'
+import vika from '@/assets/img/vika.jpg';
 
 export default function HomePage(): JSX.Element | null {
   const [mounted, setMounted] = useState(false);

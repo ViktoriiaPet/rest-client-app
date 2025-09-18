@@ -4,6 +4,7 @@ import {
   getDocs,
   query,
   where,
+  orderBy,
   type Timestamp,
   type DocumentData,
 } from 'firebase/firestore';
@@ -19,7 +20,7 @@ type FireRequestDoc = {
   url?: string | null;
   createdAt?: Timestamp | null;
   statusCode?: number | null;
-  timeMs?: number | null;
+  latencyMs?: number | null;
   bodyPreview?: string | null;
   headers?: Record<string, unknown> | null;
   params?: Record<string, unknown> | null;
@@ -33,7 +34,7 @@ type HistoryRow = {
   createdAt: Date | null;
   bodyMode: string;
   bodyPreview: object;
-  timeMs: number | null;
+  latencyMs: number | null;
   statusCode: number | null;
   statusText: string;
   lang: string;
@@ -101,7 +102,12 @@ export async function loader({
       toFirestore: (data: FireRequestDoc): DocumentData => ({ ...data }),
     });
 
-    const q = query(colRef, where('userId', '==', userId));
+      const q = query(
+    colRef,
+    where('userId', '==', userId),
+    orderBy('createdAt', 'desc')
+  );
+
     const snap = await getDocs(q);
 
     history = snap.docs.map((doc) => {
@@ -111,7 +117,7 @@ export async function loader({
         method: data.method ?? 'GET',
         url: data.url ?? '',
         createdAt: data.createdAt ? data.createdAt.toDate() : null,
-        timeMs: data.timeMs,
+        latencyMs: data.latencyMs,
         statusCode: data.statusCode,
         statusText: data.statusText,
         lang: lang,
@@ -209,7 +215,7 @@ export default function HistoryPage({
                   {row.createdAt?.toISOString()}
                 </td>
                 <td className="px-4 py-2 border-b text-purple-600">
-                  {row.timeMs}
+                  {row.latencyMs}
                 </td>
                 <td className="px-4 py-2 border-b text-purple-600">
                   {row.statusText}
