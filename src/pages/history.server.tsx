@@ -4,7 +4,6 @@ import {
   getDocs,
   query,
   where,
-  orderBy,
   type Timestamp,
   type DocumentData,
 } from 'firebase/firestore';
@@ -102,11 +101,10 @@ export async function loader({
       toFirestore: (data: FireRequestDoc): DocumentData => ({ ...data }),
     });
 
-      const q = query(
-    colRef,
-    where('userId', '==', userId),
-    orderBy('createdAt', 'desc')
-  );
+    const q = query(
+      colRef,
+      where('userId', '==', userId),
+    );
 
     const snap = await getDocs(q);
 
@@ -123,6 +121,11 @@ export async function loader({
         lang: lang,
       } as HistoryRow;
     });
+      history.sort((a, b) => {
+    if (!a.createdAt || !b.createdAt) return 0;
+    return b.createdAt.getTime() - a.createdAt.getTime();
+  });
+
   }
 
   return { token, history, userId, userName, lang };
