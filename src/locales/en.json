@@ -59,7 +59,9 @@
   },
   "buttons": {
     "send": "Send",
-    "copy": "Copy"
+    "copy": "Copy",
+    "close": "Close",
+    "error": "Error"
   },
   "clientPage": {
     "restfull": "Restfull",

@@ -78,7 +78,7 @@ const logInWithEmailAndPassword = async (email: string, password: string) => {
     const token = await user.getIdToken();
     return { user, token };
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 };
 

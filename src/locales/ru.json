@@ -69,7 +69,9 @@
   },
   "buttons": {
     "send": "Отправить",
-    "copy": "Копировать"
+    "copy": "Копировать",
+    "close": "Закрыть",
+    "error": "Ошибка"
   },
   "clientPage": {
     "restfull": "Restfull",

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
-
+import { FirebaseError } from 'firebase/app';
 import { getLoginSchema } from '../utils/validateRegistration.ts';
-
+import ErrorModal from '@/components/modal.tsx';
 import type { FormData, FormErrors } from '../types/validationType.ts';
 
 import { Button } from '@/components/ui/button.tsx';
@@ -24,6 +24,13 @@ export default function SignIn() {
   const { user, token, setUser, setToken } = useAuth();
 
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const showError = (message: string) => {
+    setModalMessage(message);
+    setIsModalOpen(true);
+  };
 
   useEffect(() => {
     if (user) {
@@ -76,9 +83,20 @@ export default function SignIn() {
           document.cookie = `userId=${res.user.uid}; path=/; max-age=3600; samesite=lax;`;
           void navigate('/mainClint');
         }
-      } catch (err) {
-        console.error('error with login', err);
-      }
+      }  catch (err) {
+  if (err instanceof FirebaseError) {
+    // Показываем модалку с текстом ошибки всегда
+    showError(err.message);
+    console.error('Firebase error:', err);
+  } else if (err instanceof Error) {
+    // Любые стандартные ошибки JS
+    showError(err.message);
+    console.error('JS error:', err);
+  } else {
+    showError('Произошла неизвестная ошибка');
+    console.error('Unknown error:', err);
+  }
+}
     } else {
       const fieldErrors: FormErrors = {};
       result.error.issues.forEach((issue) => {
@@ -100,6 +118,11 @@ export default function SignIn() {
       onSubmit={handleSubmit}
       className="form-position  text-purple-600  flex flex-col items-center"
     >
+      <ErrorModal
+  isOpen={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  message={modalMessage}
+/>
       <h2 className="pb-[3vw] font-inter text-xl text-purple-600">
         {t('auth.signIn')}
       </h2>
