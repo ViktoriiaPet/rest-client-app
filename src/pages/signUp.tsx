@@ -79,22 +79,24 @@ export default function SignUp() {
           setToken(res.token);
           void navigate('/mainClint');
         }
-      } catch (err){
-  if (err instanceof FirebaseError) {
-    showError(err.message);
-    console.error('Firebase error:', err);
-  } else if (err instanceof Error) {
-    if (err.message.includes('setUser must be used within AuthProvider')) {
-      console.warn('Internal React hook error, ignoring for modal:', err);
-    } else {
-      showError(err.message);
-    }
-    console.error('JS error:', err);
-  } else {
-    showError('Unknown error');
-    console.error('Unknown error:', err);
-  }
-}
+      } catch (err) {
+        if (err instanceof FirebaseError) {
+          showError(err.message);
+          console.error('Firebase error:', err);
+        } else if (err instanceof Error) {
+          if (
+            err.message.includes('setUser must be used within AuthProvider')
+          ) {
+            console.warn('Internal React hook error, ignoring for modal:', err);
+          } else {
+            showError(err.message);
+          }
+          console.error('JS error:', err);
+        } else {
+          showError('Unknown error');
+          console.error('Unknown error:', err);
+        }
+      }
     } else {
       const fieldErrors: FormErrors = {};
       result.error.issues.forEach((issue) => {
