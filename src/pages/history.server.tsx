@@ -105,19 +105,21 @@ export async function loader({
 
     const snap = await getDocs(q);
 
-    history = snap.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        method: data.method ?? 'GET',
-        url: data.url ?? '',
-        createdAt: data.createdAt ? data.createdAt.toDate() : null,
-        latencyMs: data.latencyMs,
-        statusCode: data.statusCode,
-        statusText: data.statusText,
-        lang: lang,
-      } as HistoryRow;
-    }).filter((row) => row.url && row.createdAt);;
+    history = snap.docs
+      .map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          method: data.method ?? 'GET',
+          url: data.url ?? '',
+          createdAt: data.createdAt ? data.createdAt.toDate() : null,
+          latencyMs: data.latencyMs,
+          statusCode: data.statusCode,
+          statusText: data.statusText,
+          lang: lang,
+        } as HistoryRow;
+      })
+      .filter((row) => row.url && row.createdAt);
     history.sort((a, b) => {
       if (!a.createdAt || !b.createdAt) return 0;
       return b.createdAt.getTime() - a.createdAt.getTime();
@@ -181,47 +183,61 @@ export default function HistoryPage({
           </tr>
         </thead>
         <tbody>
-          {loaderData.history.map((row) => {
-            const urlB64 = b64EncodeUnicode(row.url);
-            let bodyB64 = '';
-            if (row.bodyPreview) {
-              if (typeof row.bodyPreview === 'string') {
-                bodyB64 = b64EncodeUnicode(row.bodyPreview);
-              } else {
-                bodyB64 = b64EncodeUnicode(JSON.stringify(row.bodyPreview));
-              }
-            }
-            const link = `/auth/restfull/${row.method}/${urlB64}/${bodyB64}`;
+            {loaderData.history.length === 0 ? (
+    <tr>
+      <td
+        colSpan={6} // количество колонок в таблице
+        className="px-4 py-2 text-center text-gray-500"
+      >
+        {loaderData.lang === 'ru'
+          ? 'История пока пуста.'
+          : 'No requests recorded yet.'}
+      </td>
+    </tr>
+  ) : (
+    loaderData.history.map((row) => {
+      const urlB64 = b64EncodeUnicode(row.url);
+      let bodyB64 = '';
+      if (row.bodyPreview) {
+        if (typeof row.bodyPreview === 'string') {
+          bodyB64 = b64EncodeUnicode(row.bodyPreview);
+        } else {
+          bodyB64 = b64EncodeUnicode(JSON.stringify(row.bodyPreview));
+        }
+      }
+      const link = `/auth/restfull/${row.method}/${urlB64}/${bodyB64}`;
 
-            return (
-              <tr key={row.id} className="hover:bg-amber-50">
-                <td className="px-4 py-2 border-b text-purple-600">
-                  {row.statusCode}
-                </td>
-                <td className="px-4 py-2 border-b font-medium text-purple-600">
-                  {row.method}
-                </td>
-                <td className="px-4 py-2 border-b text-purple-600">
-                  <a
-                    href={link}
-                    className="underline text-blue-600 truncate"
-                    title={row.url}
-                  >
-                    {row.url}
-                  </a>
-                </td>
-                <td className="px-4 py-2 border-b text-purple-600">
-                  {row.createdAt?.toISOString()}
-                </td>
-                <td className="px-4 py-2 border-b text-purple-600">
-                  {row.latencyMs}
-                </td>
-                <td className="px-4 py-2 border-b text-purple-600">
-                  {row.statusText}
-                </td>
-              </tr>
-            );
-          })}
+      return (
+        <tr key={row.id} className="hover:bg-amber-50">
+          <td className="px-4 py-2 border-b text-purple-600">
+            {row.statusCode}
+          </td>
+          <td className="px-4 py-2 border-b font-medium text-purple-600">
+            {row.method}
+          </td>
+          <td className="px-4 py-2 border-b text-purple-600">
+            <a
+              href={link}
+              className="underline text-blue-600 truncate"
+              title={row.url}
+            >
+              {row.url}
+            </a>
+          </td>
+          <td className="px-4 py-2 border-b text-purple-600">
+            {row.createdAt?.toISOString()}
+          </td>
+          <td className="px-4 py-2 border-b text-purple-600">
+            {row.latencyMs}
+          </td>
+          <td className="px-4 py-2 border-b text-purple-600">
+            {row.statusText}
+          </td>
+        </tr>
+      );
+    })
+  )}
+
         </tbody>
       </table>
     </div>
