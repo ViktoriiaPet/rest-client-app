@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext.tsx';
 
 import darya from '@/assets/img/Darya.jpg';
 import alyona from '@/assets/img/alyona.jpg';
+import vika from '@/assets/img/vika.jpg'
 
 export default function HomePage(): JSX.Element | null {
   const [mounted, setMounted] = useState(false);
@@ -37,21 +38,21 @@ export default function HomePage(): JSX.Element | null {
       >
         <div className="flex flex-col border border-purple-600 p-[2vw] rounded-lg">
           <img
-            src=""
-            alt=""
+            src={vika}
+            alt={t('aboutVika.photoAlt')}
             className="block w-[200px] h-[200px] object-cover mx-auto rounded-lg"
           />
           <div className="text-purple-600 font-bold text-center text-xl mb-2 mt-2">
-            Vika
+            {t('aboutVika.name')}
           </div>
-          <div>Text about</div>
+          <div>{t('aboutVika.text')}</div>
           <a
-            href=""
+            href="https://github.com/ViktoriiaPet"
             target="_blank"
             rel="noreferrer"
             className="text-purple-600 font-bold text-center text-l mb-2 mt-2"
           >
-            Github link
+            {t('aboutVika.linkGitHub')}
           </a>
         </div>
         <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">

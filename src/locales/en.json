@@ -85,6 +85,12 @@
     "text": "Hi :) My name is Alyona. I live in Saint Petersburg, Russia. I love traveling and discovering new things.",
     "linkGitHub": "GitHub link"
   },
+    "aboutVika": {
+    "photoAlt": "Vika's photo",
+    "name": "Vika",
+    "text": "Hi, I’m Vika. I live in Barcelona and I’m diligently learning Spanish. My hobbies are everything related to handicrafts: sewing, knitting, sculpting. 😊",
+    "linkGitHub": "GitHub link"
+  },
   "restfull": {
     "generatedCode": "Generated code",
     "generating": "Generating snippets…",
