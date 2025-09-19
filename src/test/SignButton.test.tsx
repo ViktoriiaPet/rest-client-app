@@ -1,4 +1,4 @@
-import { render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { vi, it, describe, expect } from 'vitest';
 import { SignButton } from '@/components/SignButton';
 
@@ -13,10 +13,8 @@ vi.mock('react-i18next', () => ({
 }));
 
 describe('SignButton', () => {
- it('renders name, value and delete button', () => {
-   render(
-     <SignButton text="Test Name"  />
-   );
-   expect(screen.getByText('Test Name')).toBeInTheDocument();
- });
+  it('renders name, value and delete button', () => {
+    render(<SignButton text="Test Name" />);
+    expect(screen.getByText('Test Name')).toBeInTheDocument();
+  });
 });
