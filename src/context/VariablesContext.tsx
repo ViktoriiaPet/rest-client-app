@@ -14,7 +14,9 @@ type VariablesContextType = {
   setVariables: (vars: Variables) => void;
 };
 
-export const VariablesContext = createContext<VariablesContextType | null>(null);
+export const VariablesContext = createContext<VariablesContextType | null>(
+  null
+);
 
 export function VariablesProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
