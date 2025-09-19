@@ -6,8 +6,12 @@ import {
   sendPasswordResetEmail,
   signOut,
   updateProfile,
+  onIdTokenChanged,
 } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
+import type { Unsubscribe } from 'firebase/auth';
+import type { NavigateFunction } from 'react-router';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -24,6 +28,41 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+export function initAuthWatcher(navigate: NavigateFunction): Unsubscribe {
+  let called = false;
+
+  const unsubscribe = onIdTokenChanged(auth, (user) => {
+    void (async () => {
+      if (called) return;
+      const currentPath = window.location.pathname;
+
+      if (!user) {
+        called = true;
+        void logout();
+        if (currentPath !== '/') void navigate('/');
+        return;
+      }
+
+      try {
+        const tokenResult = await user.getIdTokenResult();
+        const expiration = new Date(tokenResult.expirationTime).getTime();
+        if (expiration <= Date.now()) {
+          called = true;
+          void logout();
+          if (currentPath !== '/') void navigate('/');
+        }
+      } catch (err) {
+        console.error(err);
+        called = true;
+        void logout();
+        if (currentPath !== '/') void navigate('/');
+      }
+    })();
+  });
+
+  return unsubscribe;
+}
+
 export const initAnalytics = () => {
   if (typeof window !== 'undefined') {
     void import('firebase/analytics').then(({ getAnalytics }) => {
@@ -33,14 +72,10 @@ export const initAnalytics = () => {
 };
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
-  try {
-    const res = await signInWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    const token = await user.getIdToken();
-    return { user, token };
-  } catch (err) {
-    console.error(err);
-  }
+  const res = await signInWithEmailAndPassword(auth, email, password);
+  const user = res.user;
+  const token = await user.getIdToken();
+  return { user, token };
 };
 
 const registerWithEmailAndPassword = async (
@@ -48,25 +83,22 @@ const registerWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
+  const res = await createUserWithEmailAndPassword(auth, email, password);
+  const user = res.user;
 
-    await updateProfile(user, { displayName: name });
+  await updateProfile(user, { displayName: name });
 
-    const token = await user.getIdToken();
-    await addDoc(collection(db, 'users'), {
-      uid: user.uid,
-      name,
-      authProvider: 'local',
-      email,
-    });
-    return { user, token };
-  } catch (err) {
-    console.error(err);
-  }
+  const token = await user.getIdToken();
+
+  await addDoc(collection(db, 'users'), {
+    uid: user.uid,
+    name,
+    authProvider: 'local',
+    email,
+  });
+
+  return { user, token };
 };
-
 const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);

@@ -6,7 +6,6 @@ import {
   isValidUrl,
   validateJson,
   safeParseUrl,
-  labelForBody,
   prettifyJson,
 } from '@/utils/requestEditor';
 
@@ -91,15 +90,6 @@ describe('safeParseUrl', () => {
     expect(good?.href).toBe('http://x/');
     const bad = safeParseUrl('x y z');
     expect(bad).toBeUndefined();
-  });
-});
-
-describe('labelForBody', () => {
-  it('maps known values and falls back', () => {
-    expect(labelForBody('none')).toBe('None');
-    expect(labelForBody('json')).toBe('JSON');
-    expect(labelForBody('form-data')).toBe('form-data');
-    expect(labelForBody('raw')).toBe('Raw');
   });
 });
 

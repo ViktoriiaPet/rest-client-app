@@ -5,6 +5,12 @@ import { initReactI18next } from 'react-i18next';
 import en from '../locales/en.json';
 import ru from '../locales/ru.json';
 
+function getLangFromCookies(): string {
+  if (typeof document === 'undefined') return 'en';
+  const match = document.cookie.match(/(?:^|; )lang=([^;]+)/);
+  return match ? decodeURIComponent(match[1]) : 'en';
+}
+
 void i18next
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -14,7 +20,7 @@ void i18next
       en: { translation: en },
       ru: { translation: ru },
     },
-    lng: 'en',
+    lng: getLangFromCookies(),
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,

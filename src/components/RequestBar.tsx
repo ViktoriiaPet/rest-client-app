@@ -107,7 +107,6 @@ export default function RequestBar({
             handleUrlChange(e.target.value);
           }}
           className={`h-9 w-full rounded-md border px-3 text-base shadow-sm
-            placeholder:text-pink-400/70
             focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
             disabled:cursor-not-allowed disabled:opacity-50
             ${isUrlValid ? 'border-pink-300' : 'border-pink-500'}

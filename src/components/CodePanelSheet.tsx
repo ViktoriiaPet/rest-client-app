@@ -6,7 +6,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import GeneratedCodePostman from '@/components/GeneratedCodePanel';
+import GeneratedCodePanel from '@/components/GeneratedCodePanel';
 import type { RequestSnapshot } from '@/types/restFullClient';
 import { useTranslation } from 'react-i18next';
 
@@ -30,7 +30,7 @@ export default function CodePanelSheet({
 
       <SheetContent
         side="right"
-        className="z-50 bg-pink-50 text-purple-600 sm:max-w-md lg:max-w-xl w-[92vw]"
+        className="z-50 bg-pink-200 text-purple-600 sm:max-w-md lg:max-w-xl w-[92vw]"
       >
         <SheetHeader>
           <SheetTitle className="text-purple-600">
@@ -40,9 +40,9 @@ export default function CodePanelSheet({
 
         <div className="mt-4">
           {snapshot ? (
-            <GeneratedCodePostman snapshot={snapshot} className="w-full" />
+            <GeneratedCodePanel snapshot={snapshot} className="w-full" />
           ) : (
-            <div className="rounded border border-pink-200 p-3 text-sm text-purple-600">
+            <div className="rounded border border-pink-300 p-3 text-sm text-purple-600">
               {t('restfull.codeText')}
             </div>
           )}

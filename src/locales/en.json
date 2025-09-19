@@ -23,7 +23,8 @@
     "historyRequests": "History Requests",
     "variables": "Variables",
     "mainPage": "Main page",
-    "github": "Github"
+    "github": "Github",
+    "loading": "Loading"
   },
   "request": {
     "method": "Method",
@@ -35,7 +36,10 @@
     "body": "Body",
     "response": "Response",
     "status": "Status",
-    "copyJSON": "Copy JSON"
+    "copyJSON": "Copy JSON",
+    "params": "Params",
+    "addParam": "Add param",
+    "addHeader": "Add header"
   },
   "emptyState": {
     "noRequests": "You haven't executed any requests",
@@ -59,7 +63,10 @@
   },
   "buttons": {
     "send": "Send",
-    "copy": "Copy"
+    "copy": "Copy",
+    "close": "Close",
+    "error": "Error",
+    "prettify": "Prettify"
   },
   "clientPage": {
     "restfull": "Restfull",
@@ -85,6 +92,12 @@
     "text": "Hi :) My name is Alyona. I live in Saint Petersburg, Russia. I love traveling and discovering new things.",
     "linkGitHub": "GitHub link"
   },
+  "aboutVika": {
+    "photoAlt": "Vika's photo",
+    "name": "Vika",
+    "text": "Hi, I’m Vika. I live in Barcelona and I’m diligently learning Spanish. My hobbies are everything related to handicrafts: sewing, knitting, sculpting. 😊",
+    "linkGitHub": "GitHub link"
+  },
   "restfull": {
     "generatedCode": "Generated code",
     "generating": "Generating snippets…",
@@ -93,6 +106,7 @@
     "urlInvalid": "URL is missing or invalid",
     "genFailed": "Failed to generate code",
     "codeText": "Send a request to generate code",
-    "codeBtn": "Show Code"
+    "codeBtn": "Show Code",
+    "noResponse": "Click send to get a response"
   }
 }

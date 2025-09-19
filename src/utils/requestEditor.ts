@@ -44,23 +44,6 @@ export function safeParseUrl(url: string): URL | undefined {
   }
 }
 
-export function labelForBody(
-  method: 'none' | 'json' | 'form-data' | 'raw'
-): string {
-  switch (method) {
-    case 'none':
-      return 'None';
-    case 'json':
-      return 'JSON';
-    case 'form-data':
-      return 'form-data';
-    case 'raw':
-      return 'Raw';
-    default:
-      return method;
-  }
-}
-
 export function prettifyJson(text: string): string {
   try {
     return JSON.stringify(JSON.parse(text), null, 2);

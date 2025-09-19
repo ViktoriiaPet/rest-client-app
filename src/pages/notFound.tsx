@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,7 +10,11 @@ export default function NotFound(): JSX.Element {
   return (
     <main className="grid min-h-[100svh] place-items-center px-4">
       <section className="mx-auto max-w-xl p-8 text-center space-y-4">
-        <img src="/ice-cream.svg" className="mx-auto w-80 h-80" />
+        <img
+          src="/ice-cream.svg"
+          alt="not-found"
+          className="mx-auto w-80 h-80"
+        />
         <h2 className="text-3xl font-bold">{t('notFound.title')}</h2>
         <p className="opacity-80">{t('notFound.description')}</p>
 
