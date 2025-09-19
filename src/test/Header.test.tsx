@@ -134,7 +134,6 @@ describe('Header', () => {
       expect(screen.queryByTestId('mainpage-button')).not.toBeInTheDocument();
     });
   });
-  
 
   // it('renders user info and logout button for authorized users', async () => {
   //   const mockUser = {
@@ -198,7 +197,6 @@ describe('Header', () => {
 
   //   render(<Stub initialEntries={['/']} />);
 
-
   //   const signUpButton = screen.getByTestId('sign-up-button');
 
   //   fireEvent.click(signUpButton);
@@ -260,7 +258,6 @@ describe('Header', () => {
 
     const logoLink = screen.getByRole('link', { name: '' });
     expect(logoLink).toHaveAttribute('href', '/');
-
   });
 
   it('renders LangToggle component', async () => {
