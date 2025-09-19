@@ -7,7 +7,7 @@ type SignButtonProps = {
   className?: string;
 };
 
-export const SignButton = ({ text, className }: SignButtonProps) => {
+export const SignButton = ({ text }: SignButtonProps) => {
   const { t } = useTranslation();
   return (
     <Button
