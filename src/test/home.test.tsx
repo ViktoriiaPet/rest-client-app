@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import { createRoutesStub } from 'react-router';
 import { Outlet } from 'react-router';
-import { expect, it, describe} from 'vitest';
+import { expect, it, describe } from 'vitest';
 import HomePage from '@/pages/home';
 import { AuthContext } from '@/context/AuthContext';
 import type { User } from 'firebase/auth';
@@ -88,22 +88,14 @@ describe('HomePage', () => {
     expect(signInButton).toBeInTheDocument();
     expect(signInButton).toHaveTextContent('auth.signIn');
 
-    // --- ИСПРАВЛЕННЫЙ БЛОК ПРОВЕРКИ ССЫЛОК ---
-    // Проверяем только две ссылки, у которых есть конкретный href.
-    // Если вам нужно убедиться, что "что-то есть", но не важно, что именно для третьей,
-    // то можно просто найти её, но не проверять href.
-
     const vikaLink = screen.getByRole('link', { name: 'aboutVika.linkGitHub' });
     expect(vikaLink).toHaveAttribute('href', 'https://github.com/ViktoriiaPet');
 
-    const alyonaLink = screen.getByRole('link', { name: 'aboutAlyona.linkGitHub' });
+    const alyonaLink = screen.getByRole('link', {
+      name: 'aboutAlyona.linkGitHub',
+    });
     expect(alyonaLink).toHaveAttribute('href', 'https://github.com/alyona317');
 
-    // Проверяем, что ссылка для Дарьи просто существует с правильным текстом,
-    // но не проверяем её href, если это не критично.
-
-    // Если вам нужно убедиться, что всего есть 3 ссылки с таким текстом,
-    // но не важен href для всех:
     const allGithubLinks = screen.getAllByRole('link', { name: /linkGitHub/i });
     expect(allGithubLinks.length).toBe(2);
     // ------------------------------------------
@@ -130,7 +122,4 @@ describe('HomePage', () => {
 
     expect(screen.queryByText('auth.welcome')).not.toBeInTheDocument();
   });
-
-  // УДАЛЕННЫЙ ТЕСТ: it('renders null initially before mounting (due to useEffect)', ...)
-  // Как обсуждалось, этот тест неэффективен и приводит к ложным срабатываниям.
 });
