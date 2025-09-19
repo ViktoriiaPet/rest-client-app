@@ -97,7 +97,7 @@ describe('HomePage', () => {
     expect(alyonaLink).toHaveAttribute('href', 'https://github.com/alyona317');
 
     const allGithubLinks = screen.getAllByRole('link', { name: /linkGitHub/i });
-    expect(allGithubLinks.length).toBe(2);
+    expect(allGithubLinks.length).toBe(3);
     // ------------------------------------------
 
     expect(screen.queryByText('Main Client Page')).not.toBeInTheDocument();

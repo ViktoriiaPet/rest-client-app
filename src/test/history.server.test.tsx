@@ -21,7 +21,6 @@ vi.mock('@/service/firebase', () => ({
 
 describe('HistoryPage', () => {
   beforeEach(() => {
-
     vi.clearAllMocks();
   });
 
@@ -39,7 +38,7 @@ describe('HistoryPage', () => {
     await screen.findByText('No requests recorded yet.');
 
     expect(screen.getByText('No requests recorded yet.')).toBeInTheDocument();
-    expect(screen.queryByRole('table')).toBeInTheDocument(); 
+    expect(screen.queryByRole('table')).toBeInTheDocument();
   });
 
   it('renders "История пока пуста." when history is empty (Russian)', async () => {
@@ -105,15 +104,18 @@ describe('HistoryPage', () => {
 
     expect(screen.getByText('200')).toBeInTheDocument();
     expect(screen.getByText('GET')).toBeInTheDocument();
-    expect(screen.getByText('https://example.com/api/test')).toBeInTheDocument();
+    expect(
+      screen.getByText('https://example.com/api/test')
+    ).toBeInTheDocument();
     expect(screen.getByText('120')).toBeInTheDocument();
     expect(screen.getByText('OK')).toBeInTheDocument();
 
     expect(screen.getByText('201')).toBeInTheDocument();
     expect(screen.getByText('POST')).toBeInTheDocument();
-    expect(screen.getByText('https://example.com/api/data')).toBeInTheDocument();
+    expect(
+      screen.getByText('https://example.com/api/data')
+    ).toBeInTheDocument();
     expect(screen.getByText('300')).toBeInTheDocument();
     expect(screen.getByText('Created')).toBeInTheDocument();
   });
-
 });

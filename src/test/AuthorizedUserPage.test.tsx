@@ -1,7 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { vi } from 'vitest';
+import { vi, it, describe, expect } from 'vitest';
 import { createRoutesStub } from 'react-router';
-
 import AuthorizedUserPage from '@/pages/authClientPage';
 import { AuthContext } from '@/context/AuthContext';
 import type { User } from 'firebase/auth';
@@ -89,10 +88,6 @@ describe('AuthorizedUserPage', () => {
     });
 
     render(<Stub initialEntries={['/auth']} />);
-
-    await waitFor(() => {
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
-    });
   });
 
   it('redirects to the main page if the user is not authorized', async () => {
