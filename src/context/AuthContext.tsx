@@ -17,7 +17,7 @@ type AuthContextType = {
   setToken: (token: string | null) => void;
 };
 
-const AuthContext = createContext<AuthContextType>({
+export const AuthContext = createContext<AuthContextType>({
   user: null,
   token: null,
   loading: true,

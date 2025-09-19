@@ -7,8 +7,7 @@ import {
   type Timestamp,
   type DocumentData,
 } from 'firebase/firestore';
-import React from 'react';
-
+import React, { lazy, Suspense } from 'react';
 import type { JSX } from 'react';
 
 import { db } from '@/service/firebase';
@@ -129,11 +128,7 @@ export async function loader({
   return { token, history, userId, userName, lang };
 }
 
-export default function HistoryPage({
-  loaderData,
-}: {
-  loaderData: LoaderData;
-}) {
+export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
   console.log(loaderData);
 
   const t = (key: string) => {
@@ -185,10 +180,7 @@ export default function HistoryPage({
         <tbody>
           {loaderData.history.length === 0 ? (
             <tr>
-              <td
-                colSpan={6} // количество колонок в таблице
-                className="px-4 py-2 text-center text-gray-500"
-              >
+              <td colSpan={6} className="px-4 py-2 text-center text-gray-500">
                 {loaderData.lang === 'ru'
                   ? 'История пока пуста.'
                   : 'No requests recorded yet.'}
@@ -240,5 +232,21 @@ export default function HistoryPage({
         </tbody>
       </table>
     </div>
+  );
+}
+
+const LazyHistoryPage = lazy(async () => ({
+  default: HistoryPageInner,
+}));
+
+export default function HistoryPage({
+  loaderData,
+}: {
+  loaderData: LoaderData;
+}) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LazyHistoryPage loaderData={loaderData} />
+    </Suspense>
   );
 }
