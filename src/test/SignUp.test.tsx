@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, it, describe, expect, beforeEach } from 'vitest';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import SignUp from '@/pages/signUp'; // Adjusted import path for SignUp
+import SignUp from '@/pages/signUp';
 import { AuthContext } from '@/context/AuthContext';
 import * as firebaseService from '@/service/firebase';
 import { FirebaseError } from 'firebase/app';
@@ -17,7 +17,6 @@ export type SignUpFormData = {
 
 export type FormErrors = Partial<Record<keyof SignUpFormData, string>>;
 
-// Mock i18next
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
@@ -28,12 +27,10 @@ vi.mock('react-i18next', () => ({
   }),
 }));
 
-// Mock firebase service
 vi.mock('@/service/firebase', () => ({
-  registerWithEmailAndPassword: vi.fn(), // Use registerWithEmailAndPassword
+  registerWithEmailAndPassword: vi.fn(),
 }));
 
-// Mock getRegistrationSchema - adapted for SignUp
 vi.mock('../utils/validateRegistration.ts', () => ({
   getRegistrationSchema: vi.fn(() => ({
     safeParse: vi.fn((data: unknown) => {
@@ -57,7 +54,6 @@ vi.mock('../utils/validateRegistration.ts', () => ({
   })),
 }));
 
-// Mock ErrorModal
 vi.mock('@/components/modal.tsx', () => ({
   default: ({
     isOpen,
@@ -77,12 +73,10 @@ vi.mock('@/components/modal.tsx', () => ({
     ) : null,
 }));
 
-// Mock AuthContext values
 const mockSetUser = vi.fn();
 const mockSetToken = vi.fn();
 const mockNavigate = vi.fn();
 
-// Helper to create a test router for memory routing
 const createTestRouter = (
   authValue: Parameters<typeof AuthContext.Provider>[0]['value'],
   initialEntries: string[]
@@ -97,7 +91,7 @@ const createTestRouter = (
       ),
       children: [
         {
-          path: 'signup', // Path for SignUp component
+          path: 'signup',
           element: <SignUp />,
         },
         {
@@ -105,7 +99,7 @@ const createTestRouter = (
           element: <div>Main Client Page</div>,
         },
         {
-          path: 'signIn', // Path for NavLink to SignIn
+          path: 'signIn',
           element: <div>Sign In Page</div>,
         },
       ],
@@ -127,7 +121,7 @@ describe('SignUp', () => {
       return {
         ...actual,
         useNavigate: () => mockNavigate,
-        NavLink: vi.fn().mockImplementation((props) => <a {...props} />), // Mock NavLink as a simple anchor
+        NavLink: vi.fn().mockImplementation((props) => <a {...props} />),
       };
     });
 
@@ -175,7 +169,6 @@ describe('SignUp', () => {
       submitButton = screen.getByRole('button', { name: 'form.submit' });
     });
 
-    // Invalid username
     fireEvent.change(usernameInput!, {
       target: { name: 'username', value: 'ab' },
     });
@@ -184,7 +177,6 @@ describe('SignUp', () => {
       expect(screen.getByText('Username too short')).toBeInTheDocument();
     });
 
-    // Invalid email
     fireEvent.change(emailInput!, {
       target: { name: 'email', value: 'invalid-email' },
     });
@@ -193,7 +185,6 @@ describe('SignUp', () => {
       expect(screen.getByText('Invalid email')).toBeInTheDocument();
     });
 
-    // Password too short
     fireEvent.change(passwordInput!, {
       target: { name: 'password', value: 'short' },
     });
@@ -202,7 +193,6 @@ describe('SignUp', () => {
       expect(screen.getByText('Password too short')).toBeInTheDocument();
     });
 
-    // Try submitting with errors
     fireEvent.click(submitButton!);
     await waitFor(() => {
       expect(
@@ -270,7 +260,6 @@ describe('SignUp', () => {
     await waitFor(() => {
       expect(mockSetUser).toHaveBeenCalledWith(mockUser);
       expect(mockSetToken).toHaveBeenCalledWith(mockToken);
-      // document.cookie is not set in SignUp, so no cookie assertions here
       expect(mockNavigate).toHaveBeenCalledWith('/mainClint');
     });
   });
