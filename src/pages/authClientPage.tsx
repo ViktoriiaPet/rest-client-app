@@ -1,11 +1,9 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, Outlet, Navigate } from 'react-router';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import type { JSX } from 'react';
 
-import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
 
 export default function AuthorizedUserPage(): JSX.Element | null {
@@ -16,7 +14,7 @@ export default function AuthorizedUserPage(): JSX.Element | null {
     setMounted(true);
   }, []);
   if (!mounted) return null;
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>{t('app.loading')}</div>;
   if (!user) return <Navigate to="/" replace />;
   return (
     <nav className="p-[5vw] text-center flex flex-col items-center gap-3">

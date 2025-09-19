@@ -10,6 +10,7 @@ import type { JSX } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { DEFAULT_METHODS, type HttpMethod } from '@/types/apiMethods';
 import { parseClientUrl, buildClientUrl } from '@/utils/restUrl';
+import { useTranslation } from 'react-i18next';
 
 const RestFullClient = lazy(() => import('@/components/RestFullClient'));
 
@@ -18,6 +19,8 @@ const isHttpMethod = (value: unknown): value is HttpMethod =>
   DEFAULT_METHODS.includes(value.toUpperCase() as HttpMethod);
 
 export default function Restfull(): JSX.Element {
+  const { t } = useTranslation();
+
   const { user, loading } = useAuth();
   const { method: methodParam, urlB64 } = useParams();
   const { search } = useLocation();
@@ -56,13 +59,15 @@ export default function Restfull(): JSX.Element {
     [navigate, currentMethod, urlB64, search]
   );
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>{t('app.loading')}</div>;
   if (!user) return <Navigate to="/" replace />;
 
   return (
     <div className="w-full">
       <Suspense
-        fallback={<div className="p-2 text-sm opacity-70">Loading…</div>}
+        fallback={
+          <div className="p-2 text-sm opacity-70">{t('app.loading')}</div>
+        }
       >
         <RestFullClient method={currentMethod} onChange={handleChange} />
       </Suspense>

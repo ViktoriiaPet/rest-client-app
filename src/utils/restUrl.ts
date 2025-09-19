@@ -1,3 +1,5 @@
+import type { HttpMethod } from '@/types/apiMethods';
+
 export type BuildArgs = {
   method: string;
   url: string;
@@ -9,6 +11,31 @@ export type ParsedClientUrl = {
   url: string;
   headers: Record<string, string>;
 };
+
+export type RestFullChangePayload = { method: HttpMethod; url: string };
+
+export type RestFullClientProps = {
+  method?: HttpMethod;
+  onChange?(v: RestFullChangePayload): void;
+};
+
+export type StringRecord = Record<string, string>;
+
+export function toRecord(
+  rows: { enabled: boolean; key: string; value: string }[]
+): StringRecord {
+  return Object.fromEntries(
+    rows.filter((r) => r.enabled && r.key).map((r) => [r.key, r.value])
+  );
+}
+
+export function hasHeader(
+  headers: Record<string, string>,
+  key: string
+): boolean {
+  const needle = key.toLowerCase();
+  return Object.keys(headers).some((k) => k.toLowerCase() === needle);
+}
 
 function base64UrlEncode(value: string): string {
   const bytes = new TextEncoder().encode(value);

@@ -50,7 +50,7 @@ export default function HomePage(): JSX.Element | null {
             href="https://github.com/ViktoriiaPet"
             target="_blank"
             rel="noreferrer"
-            className="text-purple-600 font-bold text-center text-l mb-2 mt-2"
+            className="text-purple-600 font-bold text-center text-l mb-2 mt-auto"
           >
             {t('aboutVika.linkGitHub')}
           </a>
@@ -66,7 +66,7 @@ export default function HomePage(): JSX.Element | null {
           </div>
           <div>{t('aboutDarya.text')}</div>
           <a
-            href=""
+            href="https://github.com/darinadaniuk/rs_react"
             target="_blank"
             rel="noreferrer"
             className="text-purple-600 font-bold text-center text-l mb-2 mt-2"

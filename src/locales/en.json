@@ -23,7 +23,8 @@
     "historyRequests": "History Requests",
     "variables": "Variables",
     "mainPage": "Main page",
-    "github": "Github"
+    "github": "Github",
+    "loading": "Loading"
   },
   "request": {
     "method": "Method",
@@ -35,7 +36,10 @@
     "body": "Body",
     "response": "Response",
     "status": "Status",
-    "copyJSON": "Copy JSON"
+    "copyJSON": "Copy JSON",
+    "params": "Params",
+    "addParam": "Add param",
+    "addHeader": "Add header"
   },
   "emptyState": {
     "noRequests": "You haven't executed any requests",
@@ -61,7 +65,8 @@
     "send": "Send",
     "copy": "Copy",
     "close": "Close",
-    "error": "Error"
+    "error": "Error",
+    "prettify": "Prettify"
   },
   "clientPage": {
     "restfull": "Restfull",
@@ -101,6 +106,7 @@
     "urlInvalid": "URL is missing or invalid",
     "genFailed": "Failed to generate code",
     "codeText": "Send a request to generate code",
-    "codeBtn": "Show Code"
+    "codeBtn": "Show Code",
+    "noResponse": "Click send to get a response"
   }
 }

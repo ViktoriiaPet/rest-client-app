@@ -11,3 +11,7 @@ export function applyVariables(
     return value ?? '';
   });
 }
+
+export function getLSVars(uid?: string): Record<string, string> {
+  return JSON.parse(localStorage.getItem(`userVariables_${uid}`) ?? '{}');
+}

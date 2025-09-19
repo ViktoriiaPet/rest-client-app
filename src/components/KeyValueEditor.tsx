@@ -30,11 +30,18 @@ export function KeyValueEditor({
         {rows.map((row) => (
           <div key={row.id} className="flex items-center gap-4">
             <Checkbox
-              className="data-[state=checked]:bg-pink-500 data-[state=checked]:border-pink-500 focus-visible:ring-pink-500"
+              className="
+                  h-5 w-5
+                  bg-pink-300 border-pink-300
+                  data-[state=checked]:bg-pink-300 data-[state=checked]:border-pink-300
+                  focus-visible:outline-none outline-none
+                  focus-visible:ring-0 ring-0 ring-offset-0
+                  shadow-none
+                "
               checked={row.enabled}
-              onCheckedChange={(checked) => {
-                update(row.id, { enabled: checked === true });
-              }}
+              onCheckedChange={(checked) =>
+                update(row.id, { enabled: checked === true })
+              }
             />
             <Input
               value={row.key}
