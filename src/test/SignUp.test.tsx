@@ -36,30 +36,38 @@ vi.mock('@/service/firebase', () => ({
 // Mock getRegistrationSchema - adapted for SignUp
 vi.mock('../utils/validateRegistration.ts', () => ({
   getRegistrationSchema: vi.fn(() => ({
-safeParse: vi.fn((data: unknown) => {
-  const parsed = data as Partial<RegistrationSchema>;
-  const errors: { path: string[]; message: string }[] = [];
+    safeParse: vi.fn((data: unknown) => {
+      const parsed = data as Partial<RegistrationSchema>;
+      const errors: { path: string[]; message: string }[] = [];
 
-  if (!parsed.username || parsed.username.length < 3) {
-    errors.push({ path: ['username'], message: 'Username too short' });
-  }
-  if (!parsed.email || !parsed.email.includes('@')) {
-    errors.push({ path: ['email'], message: 'Invalid email' });
-  }
-  if (!parsed.password || parsed.password.length < 6) {
-    errors.push({ path: ['password'], message: 'Password too short' });
-  }
+      if (!parsed.username || parsed.username.length < 3) {
+        errors.push({ path: ['username'], message: 'Username too short' });
+      }
+      if (!parsed.email || !parsed.email.includes('@')) {
+        errors.push({ path: ['email'], message: 'Invalid email' });
+      }
+      if (!parsed.password || parsed.password.length < 6) {
+        errors.push({ path: ['password'], message: 'Password too short' });
+      }
 
-  return errors.length > 0
-    ? { success: false, error: { issues: errors } }
-    : { success: true, data: parsed as RegistrationSchema };
-}),
+      return errors.length > 0
+        ? { success: false, error: { issues: errors } }
+        : { success: true, data: parsed as RegistrationSchema };
+    }),
   })),
 }));
 
 // Mock ErrorModal
 vi.mock('@/components/modal.tsx', () => ({
-  default: ({ isOpen, message, onClose }: { isOpen: boolean; message: string; onClose: () => void }) =>
+  default: ({
+    isOpen,
+    message,
+    onClose,
+  }: {
+    isOpen: boolean;
+    message: string;
+    onClose: () => void;
+  }) =>
     isOpen ? (
       <div role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <h2 id="modal-title">Error</h2>
@@ -128,7 +136,9 @@ describe('SignUp', () => {
       get: vi.fn(() => cookiesStore.join('; ')),
       set: vi.fn((cookie: string) => {
         const [name] = cookie.split('=')[0].split(';');
-        const existingIndex = cookiesStore.findIndex(c => c.startsWith(`${name}=`));
+        const existingIndex = cookiesStore.findIndex((c) =>
+          c.startsWith(`${name}=`)
+        );
         if (existingIndex > -1) {
           cookiesStore[existingIndex] = cookie;
         } else {
@@ -138,7 +148,6 @@ describe('SignUp', () => {
       configurable: true,
     });
   });
-
 
   it('displays validation errors for invalid input on blur/change', async () => {
     const router = createTestRouter(
@@ -167,21 +176,27 @@ describe('SignUp', () => {
     });
 
     // Invalid username
-    fireEvent.change(usernameInput!, { target: { name: 'username', value: 'ab' } });
+    fireEvent.change(usernameInput!, {
+      target: { name: 'username', value: 'ab' },
+    });
     fireEvent.blur(usernameInput!);
     await waitFor(() => {
       expect(screen.getByText('Username too short')).toBeInTheDocument();
     });
 
     // Invalid email
-    fireEvent.change(emailInput!, { target: { name: 'email', value: 'invalid-email' } });
+    fireEvent.change(emailInput!, {
+      target: { name: 'email', value: 'invalid-email' },
+    });
     fireEvent.blur(emailInput!);
     await waitFor(() => {
       expect(screen.getByText('Invalid email')).toBeInTheDocument();
     });
 
     // Password too short
-    fireEvent.change(passwordInput!, { target: { name: 'password', value: 'short' } });
+    fireEvent.change(passwordInput!, {
+      target: { name: 'password', value: 'short' },
+    });
     fireEvent.blur(passwordInput!);
     await waitFor(() => {
       expect(screen.getByText('Password too short')).toBeInTheDocument();
@@ -190,13 +205,18 @@ describe('SignUp', () => {
     // Try submitting with errors
     fireEvent.click(submitButton!);
     await waitFor(() => {
-      expect(firebaseService.registerWithEmailAndPassword).not.toHaveBeenCalled();
+      expect(
+        firebaseService.registerWithEmailAndPassword
+      ).not.toHaveBeenCalled();
     });
   });
 
-
   it('calls registerWithEmailAndPassword and navigates on successful registration', async () => {
-    const mockUser = { uid: 'user123', email: 'test@example.com', displayName: 'TestUser' };
+    const mockUser = {
+      uid: 'user123',
+      email: 'test@example.com',
+      displayName: 'TestUser',
+    };
     const mockToken = 'mock-jwt-token-register';
     vi.mocked(firebaseService.registerWithEmailAndPassword).mockResolvedValue({
       user: mockUser as User,
@@ -228,9 +248,15 @@ describe('SignUp', () => {
       submitButton = screen.getByRole('button', { name: 'form.submit' });
     });
 
-    fireEvent.change(usernameInput!, { target: { name: 'username', value: 'TestUser' } });
-    fireEvent.change(emailInput!, { target: { name: 'email', value: 'test@example.com' } });
-    fireEvent.change(passwordInput!, { target: { name: 'password', value: 'password123' } });
+    fireEvent.change(usernameInput!, {
+      target: { name: 'username', value: 'TestUser' },
+    });
+    fireEvent.change(emailInput!, {
+      target: { name: 'email', value: 'test@example.com' },
+    });
+    fireEvent.change(passwordInput!, {
+      target: { name: 'password', value: 'password123' },
+    });
     fireEvent.click(submitButton!);
 
     await waitFor(() => {
