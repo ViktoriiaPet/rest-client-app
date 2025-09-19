@@ -1,8 +1,4 @@
-import {
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import { createRoutesStub } from 'react-router';
 
@@ -45,9 +41,8 @@ describe('AuthorizedUserPage', () => {
   const mockSetToken = vi.fn();
 
   const createTestAppStub = (
-    authValue: Parameters<typeof AuthContext.Provider>[0]['value'],
+    authValue: Parameters<typeof AuthContext.Provider>[0]['value']
   ) => {
-
     return createRoutesStub([
       {
         path: '/',
@@ -65,9 +60,15 @@ describe('AuthorizedUserPage', () => {
             Component: AuthorizedUserPage,
             children: [
               { path: 'restfull', Component: () => <div>RESTful Page</div> },
-              { path: 'clientVariales', Component: () => <div>Variables Page</div> },
-              { path: 'clientHistory', Component: () => <div>History Page</div> },
-            ]
+              {
+                path: 'clientVariales',
+                Component: () => <div>Variables Page</div>,
+              },
+              {
+                path: 'clientHistory',
+                Component: () => <div>History Page</div>,
+              },
+            ],
           },
           {
             path: '/',
@@ -111,7 +112,6 @@ describe('AuthorizedUserPage', () => {
     });
   });
 
-
   it('renders the logged in user page with the username', async () => {
     const mockUser = { displayName: 'TestUser' } as unknown as User;
     const Stub = createTestAppStub({
@@ -125,7 +125,9 @@ describe('AuthorizedUserPage', () => {
     render(<Stub initialEntries={['/auth']} />);
 
     await waitFor(() => {
-      expect(screen.getByText(`WELCOME, ${mockUser.displayName}`)).toBeInTheDocument();
+      expect(
+        screen.getByText(`WELCOME, ${mockUser.displayName}`)
+      ).toBeInTheDocument();
       expect(screen.getByText('clientPage.restfull')).toBeInTheDocument();
       expect(screen.getByText('clientPage.variables')).toBeInTheDocument();
       expect(screen.getByText('clientPage.history')).toBeInTheDocument();
@@ -148,7 +150,9 @@ describe('AuthorizedUserPage', () => {
       const restfullLink = screen.getByText('clientPage.restfull').closest('a');
       expect(restfullLink).toHaveAttribute('href', '/auth/restfull');
 
-      const variablesLink = screen.getByText('clientPage.variables').closest('a');
+      const variablesLink = screen
+        .getByText('clientPage.variables')
+        .closest('a');
       expect(variablesLink).toHaveAttribute('href', '/auth/clientVariales');
 
       const historyLink = screen.getByText('clientPage.history').closest('a');
