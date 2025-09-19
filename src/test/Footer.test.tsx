@@ -16,7 +16,6 @@ describe('Footer component', () => {
   it('renders correctly', () => {
     render(<Footer />);
 
-
     const githubLink = screen.getByText('app.github');
     expect(githubLink).toBeInTheDocument();
     expect(githubLink).toHaveAttribute(
@@ -24,9 +23,7 @@ describe('Footer component', () => {
       'https://github.com/ViktoriiaPet/rest-client-app'
     );
 
- 
     expect(screen.getByText('2025')).toBeInTheDocument();
-
 
     const rsImage = screen.getByAltText('rss logo');
     expect(rsImage).toBeInTheDocument();
