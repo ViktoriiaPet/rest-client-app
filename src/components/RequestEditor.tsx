@@ -21,6 +21,7 @@ import {
   validateJson,
   prettifyJson,
 } from '@/utils/requestEditor';
+import { useTranslation } from 'react-i18next';
 
 export default function RequestEditor({
   method = 'GET',
@@ -38,6 +39,8 @@ export default function RequestEditor({
   onChange,
   onSend,
 }: RequestEditorProps) {
+  const { t } = useTranslation();
+
   const [selectedMethod, setSelectedMethod] = useState<HttpMethod>(method);
   const [requestUrl, setRequestUrl] = useState(url);
   const [queryParams, setQueryParams] = useState<KeyValueRow[]>(
@@ -115,17 +118,32 @@ export default function RequestEditor({
       />
 
       <Tabs defaultValue="params" className="w-full">
-        <TabsList>
-          <TabsTrigger value="params">Params</TabsTrigger>
-          <TabsTrigger value="headers">Headers</TabsTrigger>
-          <TabsTrigger value="body">Body</TabsTrigger>
+        <TabsList className="bg-pink-50/40 p-1 rounded-xl">
+          <TabsTrigger
+            value="params"
+            className="transition-colors data-[state=active]:bg-pink-300 data-[state=active]:text-purple-600"
+          >
+            {t('request.params')}
+          </TabsTrigger>
+          <TabsTrigger
+            value="headers"
+            className="transition-colors data-[state=active]:bg-pink-300 data-[state=active]:text-purple-600"
+          >
+            {t('request.headers')}
+          </TabsTrigger>
+          <TabsTrigger
+            value="body"
+            className="transition-colors data-[state=active]:bg-pink-300 data-[state=active]:text-purple-600"
+          >
+            {t('request.body')}
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="params" className="space-y-2">
+        <TabsContent value="params" className="space-y-2 ">
           <KeyValueEditor
             rows={queryParams}
             onChange={setQueryParams}
-            addLabel="Add param"
+            addLabel={t('request.addParam')}
           />
         </TabsContent>
 
@@ -133,7 +151,7 @@ export default function RequestEditor({
           <KeyValueEditor
             rows={requestHeaders}
             onChange={setRequestHeaders}
-            addLabel="Add header"
+            addLabel={t('request.addHeader')}
           />
         </TabsContent>
 
@@ -159,7 +177,7 @@ export default function RequestEditor({
                     }}
                     disabled={!!jsonError}
                   >
-                    Prettify
+                    {t('buttons.prettify')}
                   </Button>
                 </div>
               </div>

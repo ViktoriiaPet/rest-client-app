@@ -14,7 +14,7 @@ export default function AuthorizedUserPage(): JSX.Element | null {
     setMounted(true);
   }, []);
   if (!mounted) return null;
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>{t('app.loading')}</div>;
   if (!user) return <Navigate to="/" replace />;
   return (
     <nav className="p-[5vw] text-center flex flex-col items-center gap-3">

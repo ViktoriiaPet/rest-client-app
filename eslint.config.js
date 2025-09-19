@@ -7,7 +7,14 @@ import prettierPlugin from 'eslint-plugin-prettier';
 
 export default tseslint.config(
   {
-    ignores: ['dist', 'build', 'coverage', 'node_modules', '.react-router'],
+    ignores: [
+      'dist',
+      'build',
+      'coverage',
+      'node_modules',
+      '.react-router',
+      'src/test/*',
+    ],
   },
   {
     files: ['**/*.{ts,tsx}'],

@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/select';
 import { buildHarFromSnapshot } from '@/utils/generatedCode';
 
-export default function GeneratedCodePostman({
+export default function GeneratedCodePanel({
   snapshot,
   className = '',
 }: {

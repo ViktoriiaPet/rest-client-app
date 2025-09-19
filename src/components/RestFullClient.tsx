@@ -1,63 +1,33 @@
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import RequestEditor from './RequestEditor';
 import ResponseSection from './ResponseSection';
 
-import type { HttpMethod } from '@/types/apiMethods';
-import type { RequestSnapshot } from '@/types/restFullClient';
+import type {
+  RequestSnapshot,
+  RestFullChangePayload,
+  RestFullClientProps,
+} from '@/types/restFullClient';
 import type { JSX } from 'react';
 
 import CodePanelSheet from '@/components/CodePanelSheet';
 import { useAuth } from '@/context/AuthContext';
 import { logRequest } from '@/utils/logRequest';
-import { buildClientUrl } from '@/utils/restUrl';
-import { applyVariables } from '@/utils/variables';
-
-export type RestFullChangePayload = { method: HttpMethod; url: string };
-
-export type RestFullClientProps = {
-  method?: HttpMethod;
-  onChange?(v: RestFullChangePayload): void;
-};
-
-type StringRecord = Record<string, string>;
-
-function toRecord(
-  rows: { enabled: boolean; key: string; value: string }[]
-): StringRecord {
-  return Object.fromEntries(
-    rows.filter((r) => r.enabled && r.key).map((r) => [r.key, r.value])
-  );
-}
-
-function hasHeader(headers: Record<string, string>, key: string): boolean {
-  const needle = key.toLowerCase();
-  return Object.keys(headers).some((k) => k.toLowerCase() === needle);
-}
-
-function getLsVars(uid: string | null | undefined): Record<string, string> {
-  try {
-    const raw = localStorage.getItem(`userVariables_${uid ?? ''}`);
-    if (!raw) return {};
-    const parsed = JSON.parse(raw) as unknown;
-    if (parsed && typeof parsed === 'object') {
-      return Object.fromEntries(
-        Object.entries(parsed as Record<string, unknown>)
-          .filter(([, v]) => typeof v === 'string')
-          .map(([k, v]) => [k, v as string])
-      );
-    }
-    return {};
-  } catch {
-    return {};
-  }
-}
+import {
+  buildClientUrl,
+  hasHeader,
+  toRecord,
+  type StringRecord,
+} from '@/utils/restUrl';
+import { applyVariables, getLSVars } from '@/utils/variables';
+import { useTranslation } from 'react-i18next';
 
 export default function RestFullClient({
   method,
   onChange,
 }: RestFullClientProps): JSX.Element {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -87,10 +57,9 @@ export default function RestFullClient({
   async function handleSend(snapshot: RequestSnapshot): Promise<void> {
     setLoading(true);
     const t0 = performance.now();
-
-    const vars = getLsVars(user?.uid);
+    const vars = getLSVars(user?.uid);
     const resolvedUrl = applyVariables(snapshot.url, vars);
-    const resolvedBodyStr =
+    const resolvedBody =
       snapshot.body.mode === 'json'
         ? applyVariables(snapshot.body.jsonText ?? '', vars)
         : snapshot.body.mode === 'raw'
@@ -134,7 +103,7 @@ export default function RestFullClient({
         case 'json': {
           if (!hasHeader(requestHeaders, 'content-type'))
             requestHeaders['Content-Type'] = 'application/json';
-          requestBody = resolvedBodyStr ?? '';
+          requestBody = resolvedBody ?? '';
           break;
         }
         case 'form-data': {
@@ -151,7 +120,7 @@ export default function RestFullClient({
           break;
         }
         case 'raw': {
-          requestBody = resolvedBodyStr ?? '';
+          requestBody = resolvedBody ?? '';
           break;
         }
       }
@@ -186,10 +155,10 @@ export default function RestFullClient({
         body: {
           ...snapshot.body,
           ...(snapshot.body.mode === 'json'
-            ? { jsonText: resolvedBodyStr ?? '' }
+            ? { jsonText: resolvedBody ?? '' }
             : {}),
           ...(snapshot.body.mode === 'raw'
-            ? { rawText: resolvedBodyStr ?? '' }
+            ? { rawText: resolvedBody ?? '' }
             : {}),
         },
       });
@@ -213,7 +182,7 @@ export default function RestFullClient({
         params: { ...enabledParams },
         headers: { ...requestHeaders },
         bodyMode: snapshot.body.mode,
-        bodyPreview: resolvedBodyStr ?? '',
+        bodyPreview: resolvedBody ?? '',
         latencyMs,
         statusCode,
         statusText,
@@ -227,27 +196,31 @@ export default function RestFullClient({
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-4">
-      <div className="h-[40vh] overflow-auto">
+      <div className="h-[37vh] overflow-auto">
         <RequestEditor
           loading={loading}
           onSend={handleSend}
           onChange={emitChange}
           method={method}
         />
-        <div className="flex items-center justify-end">
-          <CodePanelSheet snapshot={lastSentSnapshot} />
-        </div>
       </div>
+
+      <div className="flex items-center justify-end">
+        <CodePanelSheet snapshot={lastSentSnapshot} />
+      </div>
+
       <div className="rounded-lg border border-pink-300/60 bg-pink-50/40">
         <div className="flex items-center justify-between px-4 py-2 border-b border-pink-300/60">
-          <h2 className="font-semibold text-purple-700">Response</h2>
+          <h2 className="font-semibold text-purple-600">
+            {t('request.response')}
+          </h2>
           {response && (
             <span className="text-xs text-purple-700/70">
               {response.statusCode} {response.statusText ?? ''}
             </span>
           )}
         </div>
-        <div className="h-[40vh] p-3 overflow-auto">
+        <div className="h-[38vh] p-3 overflow-auto">
           {response ? (
             <ResponseSection
               statusCode={response.statusCode}
@@ -257,7 +230,7 @@ export default function RestFullClient({
             />
           ) : (
             <div className="h-full grid place-items-center text-sm opacity-70">
-              Click send to get a response
+              {t('restfull.noResponse')}
             </div>
           )}
         </div>
