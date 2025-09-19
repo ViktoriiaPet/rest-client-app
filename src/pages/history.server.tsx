@@ -128,11 +128,7 @@ export async function loader({
   return { token, history, userId, userName, lang };
 }
 
-export function HistoryPageInner({
-  loaderData,
-}: {
-  loaderData: LoaderData;
-}) {
+export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
   console.log(loaderData);
 
   const t = (key: string) => {
@@ -182,73 +178,72 @@ export function HistoryPageInner({
           </tr>
         </thead>
         <tbody>
-            {loaderData.history.length === 0 ? (
-    <tr>
-      <td
-        colSpan={6}
-        className="px-4 py-2 text-center text-gray-500"
-      >
-        {loaderData.lang === 'ru'
-          ? 'История пока пуста.'
-          : 'No requests recorded yet.'}
-      </td>
-    </tr>
-  ) : (
-    loaderData.history.map((row) => {
-      const urlB64 = b64EncodeUnicode(row.url);
-      let bodyB64 = '';
-      if (row.bodyPreview) {
-        if (typeof row.bodyPreview === 'string') {
-          bodyB64 = b64EncodeUnicode(row.bodyPreview);
-        } else {
-          bodyB64 = b64EncodeUnicode(JSON.stringify(row.bodyPreview));
-        }
-      }
-      const link = `/auth/restfull/${row.method}/${urlB64}/${bodyB64}`;
+          {loaderData.history.length === 0 ? (
+            <tr>
+              <td colSpan={6} className="px-4 py-2 text-center text-gray-500">
+                {loaderData.lang === 'ru'
+                  ? 'История пока пуста.'
+                  : 'No requests recorded yet.'}
+              </td>
+            </tr>
+          ) : (
+            loaderData.history.map((row) => {
+              const urlB64 = b64EncodeUnicode(row.url);
+              let bodyB64 = '';
+              if (row.bodyPreview) {
+                if (typeof row.bodyPreview === 'string') {
+                  bodyB64 = b64EncodeUnicode(row.bodyPreview);
+                } else {
+                  bodyB64 = b64EncodeUnicode(JSON.stringify(row.bodyPreview));
+                }
+              }
+              const link = `/auth/restfull/${row.method}/${urlB64}/${bodyB64}`;
 
-      return (
-        <tr key={row.id} className="hover:bg-amber-50">
-          <td className="px-4 py-2 border-b text-purple-600">
-            {row.statusCode}
-          </td>
-          <td className="px-4 py-2 border-b font-medium text-purple-600">
-            {row.method}
-          </td>
-          <td className="px-4 py-2 border-b text-purple-600">
-            <a
-              href={link}
-              className="underline text-blue-600 truncate"
-              title={row.url}
-            >
-              {row.url}
-            </a>
-          </td>
-          <td className="px-4 py-2 border-b text-purple-600">
-            {row.createdAt?.toISOString()}
-          </td>
-          <td className="px-4 py-2 border-b text-purple-600">
-            {row.latencyMs}
-          </td>
-          <td className="px-4 py-2 border-b text-purple-600">
-            {row.statusText}
-          </td>
-        </tr>
-      );
-    })
-  )}
-
+              return (
+                <tr key={row.id} className="hover:bg-amber-50">
+                  <td className="px-4 py-2 border-b text-purple-600">
+                    {row.statusCode}
+                  </td>
+                  <td className="px-4 py-2 border-b font-medium text-purple-600">
+                    {row.method}
+                  </td>
+                  <td className="px-4 py-2 border-b text-purple-600">
+                    <a
+                      href={link}
+                      className="underline text-blue-600 truncate"
+                      title={row.url}
+                    >
+                      {row.url}
+                    </a>
+                  </td>
+                  <td className="px-4 py-2 border-b text-purple-600">
+                    {row.createdAt?.toISOString()}
+                  </td>
+                  <td className="px-4 py-2 border-b text-purple-600">
+                    {row.latencyMs}
+                  </td>
+                  <td className="px-4 py-2 border-b text-purple-600">
+                    {row.statusText}
+                  </td>
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
     </div>
   );
 }
 
-
 const LazyHistoryPage = lazy(async () => ({
   default: HistoryPageInner,
 }));
 
-export default function HistoryPage({ loaderData }: { loaderData: LoaderData }) {
+export default function HistoryPage({
+  loaderData,
+}: {
+  loaderData: LoaderData;
+}) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <LazyHistoryPage loaderData={loaderData} />

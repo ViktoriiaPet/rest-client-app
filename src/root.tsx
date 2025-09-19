@@ -8,7 +8,7 @@ import { VariablesProvider } from '@/context/VariablesContext';
 import './i18n/i18n.ts';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
-import Header from './components/Header';
+import Header from './components/Header.tsx';
 import { store } from './store';
 
 import type { JSX } from 'react';

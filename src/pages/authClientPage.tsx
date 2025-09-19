@@ -1,11 +1,9 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, Outlet, Navigate } from 'react-router';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import type { JSX } from 'react';
 
-import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
 
 export default function AuthorizedUserPage(): JSX.Element | null {
