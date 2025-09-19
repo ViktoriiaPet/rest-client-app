@@ -6,7 +6,6 @@ import { getUserVariables, saveUserVariables } from '@/store/variableStorage';
 import type { Variables } from '@/types/variables';
 import type { User } from 'firebase/auth';
 
-
 vi.mock('@/context/AuthContext', () => ({
   useAuth: vi.fn(),
 }));
@@ -15,7 +14,6 @@ vi.mock('@/store/variableStorage', () => ({
   getUserVariables: vi.fn(),
   saveUserVariables: vi.fn(),
 }));
-
 
 const TestComponent = () => {
   const { variables, setVariables } = useVariables();
@@ -175,7 +173,6 @@ describe('VariablesContext', () => {
   });
 
   it('throws error when useVariables is used outside VariablesProvider', () => {
-
     const consoleError = vi.spyOn(console, 'error');
     consoleError.mockImplementation(() => {});
 
