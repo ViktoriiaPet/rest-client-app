@@ -28,3 +28,5 @@ export const getLoginSchema = () =>
         t('validation.passwordInvalid')
       ),
   });
+
+  export type LoginSchema = z.infer<ReturnType<typeof getLoginSchema>>;
