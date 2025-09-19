@@ -3,24 +3,25 @@ import { describe, it, vi, beforeEach, expect } from 'vitest';
 import LangToggle from '@/components/LangToggle';
 import { setLanguage } from '@/store/languageSlice';
 
-
 const mockChangeLanguage = vi.fn();
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
-    i18n: { changeLanguage: mockChangeLanguage, getFixedT: vi.fn(() => (k: string) => k) },
+    i18n: {
+      changeLanguage: mockChangeLanguage,
+      getFixedT: vi.fn(() => (k: string) => k),
+    },
   }),
 }));
-
 
 vi.mock('@/utils/getLangFromCookie', () => ({
   getLangFromCookie: vi.fn(() => 'en'),
 }));
 
-
 const mockDispatch = vi.fn();
 vi.mock('react-redux', async () => {
-  const actual = await vi.importActual<typeof import('react-redux')>('react-redux');
+  const actual =
+    await vi.importActual<typeof import('react-redux')>('react-redux');
   return {
     ...actual,
     useDispatch: () => mockDispatch,
@@ -41,11 +42,10 @@ describe('LangToggle component', () => {
 
   it('switches language when clicked', () => {
     render(<LangToggle />);
-    const switchButton = screen.getByRole('switch'); 
+    const switchButton = screen.getByRole('switch');
 
     fireEvent.click(switchButton);
 
-    
     expect(mockDispatch).toHaveBeenCalledWith(setLanguage('ru'));
     expect(mockChangeLanguage).toHaveBeenCalledWith('ru');
   });

@@ -27,17 +27,14 @@ describe('VariablesAddBar component', () => {
     ) as HTMLInputElement;
     const addButton = screen.getByText('variables.addButton');
 
-
     expect(nameInput).toBeInTheDocument();
     expect(valueInput).toBeInTheDocument();
     expect(addButton).toBeInTheDocument();
-
 
     fireEvent.change(nameInput, { target: { value: 'TestName' } });
     fireEvent.change(valueInput, { target: { value: 'TestValue' } });
     expect(nameInput.value).toBe('TestName');
     expect(valueInput.value).toBe('TestValue');
-
 
     fireEvent.click(addButton);
 
