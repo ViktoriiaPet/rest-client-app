@@ -1,0 +1,239 @@
+{
+  "buildManifest": {
+    "serverBundles": {
+      "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0": {
+        "id": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+        "file": "build/server/nodejs_eyJydW50aW1lIjoibm9kZWpzIn0/index.js",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    },
+    "routeIdToServerBundleId": {
+      "pages/home": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "pages/authClientPage": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "pages/signIn": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "pages/signUp": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "pages/variables": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "pages/history": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "pages/restfull": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "pages/notFound": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0"
+    },
+    "routes": {
+      "root": {
+        "id": "root",
+        "file": "src/root.tsx",
+        "path": "",
+        "config": {}
+      },
+      "pages/home": {
+        "id": "pages/home",
+        "parentId": "root",
+        "file": "src/pages/home.tsx",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "layouts/layout": {
+        "id": "layouts/layout",
+        "parentId": "root",
+        "file": "src/layouts/layout.tsx",
+        "config": {}
+      },
+      "pages/authClientPage": {
+        "id": "pages/authClientPage",
+        "parentId": "layouts/layout",
+        "file": "src/pages/authClientPage.tsx",
+        "path": "mainClint",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "pages/signIn": {
+        "id": "pages/signIn",
+        "parentId": "layouts/layout",
+        "file": "src/pages/signIn.tsx",
+        "path": "signIn",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "pages/signUp": {
+        "id": "pages/signUp",
+        "parentId": "layouts/layout",
+        "file": "src/pages/signUp.tsx",
+        "path": "signUp",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "pages/variables": {
+        "id": "pages/variables",
+        "parentId": "layouts/layout",
+        "file": "src/pages/variables.tsx",
+        "path": "auth/clientVariales",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "pages/history": {
+        "id": "pages/history",
+        "parentId": "layouts/layout",
+        "file": "src/pages/history.tsx",
+        "path": "auth/clientHistory",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "pages/restfull": {
+        "id": "pages/restfull",
+        "parentId": "layouts/layout",
+        "file": "src/pages/restfull.tsx",
+        "path": "auth/restfull/:method?/:urlB64?/:bodyB64?",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "pages/notFound": {
+        "id": "pages/notFound",
+        "parentId": "layouts/layout",
+        "file": "src/pages/notFound.tsx",
+        "path": "*",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    }
+  },
+  "reactRouterConfig": {
+    "appDirectory": "C:/Users/pc/Desktop/final/rest-client-app/src",
+    "basename": "/",
+    "buildDirectory": "C:/Users/pc/Desktop/final/rest-client-app/build",
+    "future": {
+      "v8_middleware": false,
+      "unstable_optimizeDeps": false,
+      "unstable_splitRouteModules": false,
+      "unstable_subResourceIntegrity": false,
+      "unstable_viteEnvironmentApi": false
+    },
+    "routes": {
+      "root": {
+        "id": "root",
+        "file": "root.tsx",
+        "path": ""
+      },
+      "pages/home": {
+        "id": "pages/home",
+        "parentId": "root",
+        "file": "./pages/home.tsx",
+        "index": true
+      },
+      "layouts/layout": {
+        "id": "layouts/layout",
+        "parentId": "root",
+        "file": "./layouts/layout.tsx"
+      },
+      "pages/authClientPage": {
+        "id": "pages/authClientPage",
+        "parentId": "layouts/layout",
+        "file": "./pages/authClientPage.tsx",
+        "path": "mainClint"
+      },
+      "pages/signIn": {
+        "id": "pages/signIn",
+        "parentId": "layouts/layout",
+        "file": "./pages/signIn.tsx",
+        "path": "signIn"
+      },
+      "pages/signUp": {
+        "id": "pages/signUp",
+        "parentId": "layouts/layout",
+        "file": "./pages/signUp.tsx",
+        "path": "signUp"
+      },
+      "pages/variables": {
+        "id": "pages/variables",
+        "parentId": "layouts/layout",
+        "file": "./pages/variables.tsx",
+        "path": "auth/clientVariales"
+      },
+      "pages/history": {
+        "id": "pages/history",
+        "parentId": "layouts/layout",
+        "file": "./pages/history.tsx",
+        "path": "auth/clientHistory"
+      },
+      "pages/restfull": {
+        "id": "pages/restfull",
+        "parentId": "layouts/layout",
+        "file": "./pages/restfull.tsx",
+        "path": "auth/restfull/:method?/:urlB64?/:bodyB64?"
+      },
+      "pages/notFound": {
+        "id": "pages/notFound",
+        "parentId": "layouts/layout",
+        "file": "./pages/notFound.tsx",
+        "path": "*"
+      }
+    },
+    "routeDiscovery": {
+      "mode": "lazy",
+      "manifestPath": "/__manifest"
+    },
+    "serverBuildFile": "index.js",
+    "serverModuleFormat": "esm",
+    "ssr": true,
+    "unstable_routeConfig": [
+      {
+        "id": "root",
+        "path": "",
+        "file": "root.tsx",
+        "children": [
+          {
+            "file": "./pages/home.tsx",
+            "index": true
+          },
+          {
+            "file": "./layouts/layout.tsx",
+            "children": [
+              {
+                "file": "./pages/authClientPage.tsx",
+                "path": "mainClint"
+              },
+              {
+                "file": "./pages/signIn.tsx",
+                "path": "signIn"
+              },
+              {
+                "file": "./pages/signUp.tsx",
+                "path": "signUp"
+              },
+              {
+                "file": "./pages/variables.tsx",
+                "path": "auth/clientVariales"
+              },
+              {
+                "file": "./pages/history.tsx",
+                "path": "auth/clientHistory"
+              },
+              {
+                "file": "./pages/restfull.tsx",
+                "path": "auth/restfull/:method?/:urlB64?/:bodyB64?"
+              },
+              {
+                "file": "./pages/notFound.tsx",
+                "path": "*"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "viteConfig": {
+    "build": {
+      "assetsDir": "assets"
+    }
+  }
+}

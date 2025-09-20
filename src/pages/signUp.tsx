@@ -1,0 +1,181 @@
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
+import { NavLink, useNavigate } from 'react-router';
+import { FirebaseError } from 'firebase/app';
+import { Button } from '../components/ui/button.tsx';
+import { getRegistrationSchema } from '../utils/validateRegistration.ts';
+import ErrorModal from '@/components/modal.tsx';
+import type { FormData, FormErrors } from '../types/validationType.ts';
+
+import { useAuth } from '@/context/AuthContext.tsx';
+import { registerWithEmailAndPassword } from '@/service/firebase.ts';
+
+export default function SignUp() {
+  const { t } = useTranslation();
+  const [formData, setFormData] = useState<FormData>({
+    username: '',
+    email: '',
+    password: '',
+  });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [, setSubmitted] = useState(false);
+  const { setUser, setToken, user } = useAuth();
+  const navigate = useNavigate();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const showError = (msg: string) => {
+    setModalMessage(msg);
+    setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+    if (user) {
+      void navigate('/mainClint');
+    }
+  }, [user, navigate]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    const schema = getRegistrationSchema();
+    const result = schema.safeParse({ ...formData, [name]: value });
+
+    if (result.success) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    } else {
+      const fieldError = result.error.issues.find(
+        (issue) => issue.path[0] === name
+      );
+      setErrors((prev) => ({
+        ...prev,
+        [name]: fieldError ? fieldError.message : undefined,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitted(true);
+
+    const schema = getRegistrationSchema();
+    const result = schema.safeParse(formData);
+
+    if (result.success) {
+      setErrors({});
+      try {
+        const res = await registerWithEmailAndPassword(
+          formData.username,
+          formData.email,
+          formData.password
+        );
+
+        if (res) {
+          setUser(res.user);
+          setToken(res.token);
+
+          document.cookie = `userToken=${res.token}; path=/; max-age=3600; samesite=lax;`;
+          document.cookie = `userId=${res.user.uid}; path=/; max-age=3600; samesite=lax;`;
+
+          void navigate('/mainClint');
+        }
+      } catch (err) {
+        if (err instanceof FirebaseError) {
+          showError(err.message);
+          console.error('Firebase error:', err);
+        } else if (err instanceof Error) {
+          if (
+            err.message.includes('setUser must be used within AuthProvider')
+          ) {
+            console.warn('Internal React hook error, ignoring for modal:', err);
+          } else {
+            showError(err.message);
+          }
+          console.error('JS error:', err);
+        } else {
+          showError('Unknown error');
+          console.error('Unknown error:', err);
+        }
+      }
+    } else {
+      const fieldErrors: FormErrors = {};
+      result.error.issues.forEach((issue) => {
+        const typedIssue = issue;
+        if (typedIssue.path[0]) {
+          fieldErrors[typedIssue.path[0] as keyof FormData] =
+            typedIssue.message;
+        }
+      });
+      setErrors(fieldErrors);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="form-position  text-purple-600  flex flex-col items-center"
+    >
+      <ErrorModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        message={modalMessage}
+      />
+      <h2 className="pb-[3vw] font-inter text-xl text-purple-600">
+        {t('auth.signUp')}
+      </h2>
+      <div className="flex flex-col items-center p-[5vw] gap-[1vw] rounded-[15%] border-2 border-purple-300">
+        <div className="relative w-full max-w-[40vw]">
+          <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" />
+          <input
+            name="username"
+            placeholder={t('form.name')}
+            value={formData.username}
+            onChange={handleChange}
+            className="pl-10 pr-2 bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
+          />
+        </div>
+        <p className="errors text-center w-full">{errors.username || ''}</p>
+
+        <div className="relative w-full max-w-[40vw]">
+          <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" />
+          <input
+            name="email"
+            placeholder={t('form.email')}
+            value={formData.email}
+            onChange={handleChange}
+            className="pl-10 pr-2 w-full bg-transparent border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
+          />
+        </div>
+        <p className="errors text-center w-full">{errors.email || ''}</p>
+
+        <div className="relative w-full max-w-[40vw]">
+          <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" />
+          <input
+            name="password"
+            type="password"
+            placeholder={t('form.password')}
+            value={formData.password}
+            onChange={handleChange}
+            className="pl-10 pr-2 bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"
+          />
+        </div>
+        <p className="errors text-center w-full">{errors.password || ''}</p>
+
+        <div className="buttons-block pt-[3vw]">
+          <Button variant="custom" className="mr-[2vw]" type="submit">
+            {t('form.submit')}
+          </Button>
+          <NavLink to="/signIn" end>
+            <Button variant="custom" type="button">
+              {t('auth.isAccount')}
+            </Button>
+          </NavLink>
+        </div>
+      </div>
+    </form>
+  );
+}
