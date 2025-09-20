@@ -2,9 +2,6 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   LANGS,
-  TARGETS,
-  type HTTPSnippetCtor,
-  type HTTPSnippetLiteModule,
   type RequestSnapshot,
   type SnippetState,
   type TabKey,
@@ -17,7 +14,11 @@ import {
   SelectContent,
   SelectItem,
 } from '@/components/ui/select';
-import { buildHarFromSnapshot } from '@/utils/generatedCode';
+import {
+  buildUrl,
+  generateSnippets,
+  firstAvailableLanguage,
+} from '@/utils/generatedCode';
 
 export default function GeneratedCodePanel({
   snapshot,
@@ -30,62 +31,35 @@ export default function GeneratedCodePanel({
   const [state, setState] = React.useState<SnippetState>({ status: 'idle' });
   const [selected, setSelected] = React.useState<TabKey | null>(null);
 
+  const finalUrl = React.useMemo(() => buildUrl(snapshot), [snapshot]);
+
   React.useEffect(() => {
-    let urlObj: URL;
-    try {
-      urlObj = new URL(snapshot.url);
-    } catch {
+    if (!finalUrl) {
       setState({ status: 'error', message: t('restfull.urlInvalid') });
       return;
     }
-
-    for (const p of snapshot.params ?? []) {
-      if (p.enabled && p.key) urlObj.searchParams.set(p.key, p.value);
-    }
-
     setState({ status: 'loading' });
-
-    (async () => {
-      try {
-        const mod = (await import(
-          'httpsnippet-lite'
-        )) as unknown as HTTPSnippetLiteModule;
-        const HTTPSnippet: HTTPSnippetCtor =
-          'HTTPSnippet' in mod ? mod.HTTPSnippet : mod.default;
-        const har = buildHarFromSnapshot(snapshot, urlObj.toString());
-        const snip = new HTTPSnippet(har);
-
-        const results = await Promise.all(
-          LANGS.map(async (lang) => {
-            const [target, client, opts] = TARGETS[lang];
-            const out = await snip.convert(target, client, opts);
-            return [lang, typeof out === 'string' ? out : undefined] as const;
-          })
-        );
-
-        const code: Partial<Record<TabKey, string>> = {};
-        for (const [key, value] of results) if (value) code[key] = value;
-
+    generateSnippets(snapshot, finalUrl)
+      .then((code) => {
+        const first = firstAvailableLanguage(code);
         setState({
           status: 'ready',
           code,
-          context: { method: snapshot.method, url: urlObj.toString() },
+          context: { method: snapshot.method, url: finalUrl },
         });
-
-        const first = LANGS.find((lang) => !!code[lang]) ?? null;
         setSelected(first);
-      } catch {
-        setState({ status: 'error', message: t('restfull.genFailed') });
-      }
-    })();
-  }, [snapshot, t]);
-
-  const copy = async (text: string): Promise<void> => {
-    await navigator.clipboard.writeText(text);
-  };
+      })
+      .catch(() =>
+        setState({ status: 'error', message: t('restfull.genFailed') })
+      );
+  }, [snapshot, finalUrl, t]);
 
   const currentSnippet =
     state.status === 'ready' && selected ? state.code[selected] : undefined;
+
+  const copy = React.useCallback(async (text: string): Promise<void> => {
+    await navigator.clipboard.writeText(text);
+  }, []);
 
   return (
     <section className={`rounded-xl border bg-white ${className}`}>
@@ -118,14 +92,15 @@ export default function GeneratedCodePanel({
               <SelectValue placeholder={t('restfull.chooseLanguage')} />
             </SelectTrigger>
             <SelectContent>
-              {LANGS.map((lang) => {
-                const disabled = !state.code[lang];
-                return (
-                  <SelectItem key={lang} value={lang} disabled={disabled}>
-                    {lang}
-                  </SelectItem>
-                );
-              })}
+              {LANGS.map((lang) => (
+                <SelectItem
+                  key={lang}
+                  value={lang}
+                  disabled={!state.code[lang]}
+                >
+                  {lang}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
 
@@ -140,7 +115,7 @@ export default function GeneratedCodePanel({
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => void copy(currentSnippet)}
+                  onClick={() => copy(currentSnippet)}
                 >
                   {t('buttons.copy')}
                 </Button>
