@@ -4,11 +4,14 @@ import {
   getDocs,
   query,
   where,
+  orderBy,
+  limit,
+  type QueryConstraint,
   type Timestamp,
   type DocumentData,
 } from 'firebase/firestore';
-import React, { lazy, Suspense } from 'react';
-import type { JSX } from 'react';
+import { lazy, Suspense } from 'react';
+import { Link } from 'react-router-dom';
 
 import { db } from '@/service/firebase';
 
@@ -22,7 +25,10 @@ type FireRequestDoc = {
   bodyPreview?: string | null;
   headers?: Record<string, unknown> | null;
   params?: Record<string, unknown> | null;
-  statusText?: string;
+  statusText?: string | null;
+  bodyMode?: string | null;
+  requestBytes: string | null;
+  responseBytes: string | null;
 };
 
 type HistoryRow = {
@@ -31,11 +37,15 @@ type HistoryRow = {
   url: string;
   createdAt: Date | null;
   bodyMode: string;
-  bodyPreview: object;
+  bodyPreview: string;
+  headersRecord: Record<string, string>;
+  paramsRecord: Record<string, string>;
   latencyMs: number | null;
   statusCode: number | null;
   statusText: string;
   lang: string;
+  requestBytes: string | null;
+  responseBytes: string | null;
 };
 
 type LoaderData = {
@@ -64,9 +74,21 @@ function parseJwt(token: string): FirebaseTokenPayload | null {
 
 function b64EncodeUnicode(str: string): string {
   return btoa(
-    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p1) =>
-      String.fromCharCode(parseInt(p1, 16))
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, hex) =>
+      String.fromCharCode(parseInt(hex, 16))
     )
+  );
+}
+
+function toBase64Json(value: unknown): string {
+  return b64EncodeUnicode(JSON.stringify(value));
+}
+
+function toStringRecord(
+  input?: Record<string, unknown> | null
+): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(input ?? {}).map(([key, val]) => [key, String(val)])
   );
 }
 
@@ -78,7 +100,6 @@ export async function loader({
   const cookieHeader = request?.headers.get('cookie') ?? '';
   const cookies = cookie.parse(cookieHeader);
   const token = cookies.userToken ?? null;
-
   const lang = cookies.lang ?? 'en';
 
   let userId: string | null = null;
@@ -92,45 +113,48 @@ export async function loader({
     }
   }
 
-  let history: HistoryRow[] = [];
+  const colRef = collection(db, 'requests').withConverter<FireRequestDoc>({
+    fromFirestore: (snap) => snap.data() as FireRequestDoc,
+    toFirestore: (data: FireRequestDoc): DocumentData => ({ ...data }),
+  });
 
-  if (userId) {
-    const colRef = collection(db, 'requests').withConverter<FireRequestDoc>({
-      fromFirestore: (snap) => snap.data() as FireRequestDoc,
-      toFirestore: (data: FireRequestDoc): DocumentData => ({ ...data }),
-    });
+  const constraints: QueryConstraint[] = [
+    orderBy('createdAt', 'desc'),
+    limit(userId ? 50 : 25),
+  ];
+  if (userId) constraints.unshift(where('userId', '==', userId));
+  const snap = await getDocs(query(colRef, ...constraints));
 
-    const q = query(colRef, where('userId', '==', userId));
+  let history: HistoryRow[] = snap.docs.map((doc) => {
+    const d = doc.data();
+    return {
+      id: doc.id,
+      method: d.method ?? 'GET',
+      url: d.url ?? '',
+      createdAt: d.createdAt ? d.createdAt.toDate() : null,
+      latencyMs: d.latencyMs ?? null,
+      statusCode: d.statusCode ?? null,
+      statusText: d.statusText ?? '',
+      bodyMode: d.bodyMode ?? 'none',
+      bodyPreview: d.bodyPreview ?? '',
+      headersRecord: toStringRecord(d.headers),
+      paramsRecord: toStringRecord(d.params),
+      lang,
+      requestBytes: d.requestBytes ?? null,
+      responseBytes: d.responseBytes ?? null,
+    };
+  });
 
-    const snap = await getDocs(q);
-
-    history = snap.docs
-      .map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          method: data.method ?? 'GET',
-          url: data.url ?? '',
-          createdAt: data.createdAt ? data.createdAt.toDate() : null,
-          latencyMs: data.latencyMs,
-          statusCode: data.statusCode,
-          statusText: data.statusText,
-          lang: lang,
-        } as HistoryRow;
-      })
-      .filter((row) => row.url && row.createdAt);
-    history.sort((a, b) => {
-      if (!a.createdAt || !b.createdAt) return 0;
-      return b.createdAt.getTime() - a.createdAt.getTime();
-    });
-  }
+  history = history
+    .filter((row) => row.url)
+    .sort(
+      (a, b) => (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
+    );
 
   return { token, history, userId, userName, lang };
 }
 
 export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
-  console.log(loaderData);
-
   const t = (key: string) => {
     const dict: Record<string, Record<string, string>> = {
       en: {
@@ -140,6 +164,8 @@ export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
         createdAt: 'Created At',
         duration: 'Request duration',
         error: 'Error information',
+        requestMemory: 'Размер запроса',
+        responceMemory: 'Размер ответа',
       },
       ru: {
         statusCode: 'Код ответа',
@@ -148,6 +174,8 @@ export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
         createdAt: 'Создано',
         duration: 'Длительность запроса',
         error: 'Информация об ошибке',
+        requestMemory: 'Размер запроса',
+        responceMemory: 'Размер ответа',
       },
     };
     return dict[loaderData.lang]?.[key] ?? key;
@@ -174,6 +202,12 @@ export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
             <th className="px-4 py-2 border-b text-purple-800">
               {t('duration')}
             </th>
+            <th className="px-4 py-2 border-b text-purple-800">
+              {t('requestMemory')}
+            </th>
+            <th className="px-4 py-2 border-b text-purple-800">
+              {t('responceMemory')}
+            </th>
             <th className="px-4 py-2 border-b text-purple-800">{t('error')}</th>
           </tr>
         </thead>
@@ -188,16 +222,15 @@ export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
             </tr>
           ) : (
             loaderData.history.map((row) => {
-              const urlB64 = b64EncodeUnicode(row.url);
-              let bodyB64 = '';
-              if (row.bodyPreview) {
-                if (typeof row.bodyPreview === 'string') {
-                  bodyB64 = b64EncodeUnicode(row.bodyPreview);
-                } else {
-                  bodyB64 = b64EncodeUnicode(JSON.stringify(row.bodyPreview));
-                }
-              }
-              const link = `/auth/restfull/${row.method}/${urlB64}/${bodyB64}`;
+              const prefill = {
+                method: row.method,
+                url: row.url,
+                headers: row.headersRecord,
+                params: row.paramsRecord,
+                bodyMode: row.bodyMode,
+                bodyText: row.bodyPreview,
+              };
+              const prefillEncoded = encodeURIComponent(toBase64Json(prefill));
 
               return (
                 <tr key={row.id} className="hover:bg-amber-50">
@@ -208,19 +241,29 @@ export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
                     {row.method}
                   </td>
                   <td className="px-4 py-2 border-b text-purple-600">
-                    <a
-                      href={link}
+                    <Link
+                      to={{
+                        pathname: '/auth/restfull',
+                        search: `?prefill=${prefillEncoded}`,
+                      }}
+                      state={{ prefill }}
                       className="underline text-blue-600 truncate"
                       title={row.url}
                     >
                       {row.url}
-                    </a>
+                    </Link>
                   </td>
                   <td className="px-4 py-2 border-b text-purple-600">
                     {row.createdAt?.toISOString()}
                   </td>
                   <td className="px-4 py-2 border-b text-purple-600">
                     {row.latencyMs}
+                  </td>
+                  <td className="px-4 py-2 border-b text-purple-600">
+                    {row.responseBytes}
+                  </td>
+                  <td className="px-4 py-2 border-b text-purple-600">
+                    {row.requestBytes}
                   </td>
                   <td className="px-4 py-2 border-b text-purple-600">
                     {row.statusText}

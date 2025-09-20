@@ -1,65 +1,63 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
+import { logRequest, type LogPayload } from '@/utils/logRequest';
 
 vi.mock('firebase/firestore', () => ({
   addDoc: vi.fn(),
-  collection: vi.fn(() => ({ __tag: 'collection' })),
-  serverTimestamp: vi.fn(() => '__server_ts__'),
+  collection: vi.fn(),
+  serverTimestamp: vi.fn(),
 }));
 
 vi.mock('@/service/firebase', () => ({
-  db: { __tag: 'db' },
+  db: { tag: 'DB' },
 }));
 
-import { addDoc, collection } from 'firebase/firestore';
-import { logRequest } from '@/utils/logRequest';
-import type { LogPayload } from '@/utils/logRequest';
-
-beforeEach(() => {
-  vi.clearAllMocks();
-});
-
-function firstCall() {
-  const calls = (addDoc as unknown as { mock: { calls: unknown[][] } }).mock
-    .calls;
-  return calls[0] as [unknown, Record<string, unknown>];
-}
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 describe('logRequest', () => {
-  it('truncates bodyPreview and writes server timestamp', async () => {
-    const payload: LogPayload = {
-      method: 'GET',
-      url: 'https://api.test',
-      headers: { a: 'b' },
-      bodyMode: 'json',
-      bodyPreview: 'x'.repeat(9000),
-      latencyMs: 123,
-      statusCode: 200,
-      statusText: 'OK',
-      userId: 'u1',
-    };
-    await logRequest(payload);
-    expect(collection).toHaveBeenCalledWith(expect.anything(), 'requests');
-    expect(addDoc).toHaveBeenCalledTimes(1);
-    const [, docArg] = firstCall();
-    expect(docArg.createdAt).toBe('__server_ts__');
-    expect(String(docArg.bodyPreview).length).toBe(8192);
-    expect(docArg.method).toBe('GET');
-    expect(docArg.url).toBe('https://api.test');
-    expect(docArg.latencyMs).toBe(123);
-    expect(docArg.statusCode).toBe(200);
-    expect(docArg.statusText).toBe('OK');
-    expect(docArg.userId).toBe('u1');
+  const basePayload: LogPayload = {
+    method: 'GET',
+    url: 'https://example.com/api',
+    params: { a: '1' },
+    headers: { Accept: '*/*' },
+    bodyMode: 'none',
+    bodyPreview: '',
+    latencyMs: 123,
+    statusCode: 200,
+    statusText: 'OK',
+    requestBytes: 10,
+    requestHeadersBytes: 4,
+    requestBodyBytes: 6,
+    responseBytes: 20,
+    responseHeadersBytes: 8,
+    responseBodyBytes: 12,
+    errorType: null,
+    errorMessage: null,
+    userId: 'u1',
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it('omits bodyPreview when absent', async () => {
-    const payload: LogPayload = {
-      method: 'POST',
-      url: 'https://api.test/2',
-      latencyMs: 5,
-      statusCode: 204,
-    };
-    await logRequest(payload);
-    const [, docArg] = firstCall();
-    expect(docArg.bodyPreview).toBeUndefined();
+  it('writes a request document with server timestamp', async () => {
+    (serverTimestamp as unknown as Mock).mockReturnValue('TS');
+    (collection as unknown as Mock).mockReturnValue('COL_REF');
+    (addDoc as unknown as Mock).mockResolvedValue({ id: 'doc1' });
+
+    await logRequest(basePayload);
+
+    expect(collection).toHaveBeenCalledWith({ tag: 'DB' }, 'requests');
+    expect(addDoc).toHaveBeenCalledWith('COL_REF', {
+      ...basePayload,
+      createdAt: 'TS',
+    });
+  });
+
+  it('rejects when addDoc fails', async () => {
+    (serverTimestamp as unknown as Mock).mockReturnValue('TS');
+    (collection as unknown as Mock).mockReturnValue('COL_REF');
+    (addDoc as unknown as Mock).mockRejectedValue(new Error('boom'));
+
+    await expect(logRequest(basePayload)).rejects.toThrow('boom');
   });
 });

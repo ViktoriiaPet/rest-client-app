@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { BodyModeSelector } from './BodyModeSelector';
 import { KeyValueEditor } from './KeyValueEditor';
 import RequestBar from './RequestBar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Textarea } from './ui/textarea';
+import { Button } from '@/components/ui/button';
 
 import type {
   BodyMode,
@@ -12,8 +14,6 @@ import type {
   RequestEditorProps,
   RequestSnapshot,
 } from '@/types/restFullClient';
-
-import { Button } from '@/components/ui/button';
 import { DEFAULT_METHODS, type HttpMethod } from '@/types/apiMethods';
 import {
   withIds,
@@ -21,7 +21,6 @@ import {
   validateJson,
   prettifyJson,
 } from '@/utils/requestEditor';
-import { useTranslation } from 'react-i18next';
 
 export default function RequestEditor({
   method = 'GET',
@@ -38,7 +37,7 @@ export default function RequestEditor({
   className = '',
   onChange,
   onSend,
-}: RequestEditorProps) {
+}: RequestEditorProps): React.JSX.Element {
   const { t } = useTranslation();
 
   const [selectedMethod, setSelectedMethod] = useState<HttpMethod>(method);
@@ -53,19 +52,14 @@ export default function RequestEditor({
   const [jsonBody, setJsonBody] = useState(jsonText);
   const [formRows, setFormRows] = useState<KeyValueRow[]>(withIds(formData));
   const [rawBody, setRawBody] = useState(rawText);
-  const [hasTypedUrl, setHasTypedUrl] = useState(false);
 
   useEffect(() => {
     setSelectedMethod(method);
   }, [method]);
+
   useEffect(() => {
     setRequestUrl(url);
   }, [url]);
-
-  const isUrlValid = useMemo(() => {
-    if (!validateUrl || !hasTypedUrl) return true;
-    return isValidUrl(requestUrl);
-  }, [requestUrl, hasTypedUrl, validateUrl]);
 
   const jsonError = useMemo(() => validateJson(jsonBody), [jsonBody]);
 
@@ -93,10 +87,12 @@ export default function RequestEditor({
     onChange?.(snapshot);
   }, [snapshot, onChange]);
 
+  const urlInvalid = validateUrl && !isValidUrl(requestUrl);
+
   const submit = (e?: React.FormEvent) => {
     e?.preventDefault();
+    if (urlInvalid) return;
     onSend?.(snapshot);
-    console.log('🚀 ~ submit ~ snapshot:', snapshot);
   };
 
   return (
@@ -110,12 +106,17 @@ export default function RequestEditor({
         onChange={({ method, url }) => {
           setSelectedMethod(method);
           setRequestUrl(url);
-          setHasTypedUrl(true);
         }}
-        onSend={() => {
-          submit();
-        }}
+        onSend={() => submit()}
       />
+
+      <div className="px-1 h-4 text-xs ml-30">
+        {urlInvalid && (
+          <div className="px-1 text-xs text-rose-600">
+            {t('request.invalidUrl')}
+          </div>
+        )}
+      </div>
 
       <Tabs defaultValue="params" className="w-full">
         <TabsList className="bg-pink-50/40 p-1 rounded-xl">
@@ -139,7 +140,7 @@ export default function RequestEditor({
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="params" className="space-y-2 ">
+        <TabsContent value="params" className="space-y-2">
           <KeyValueEditor
             rows={queryParams}
             onChange={setQueryParams}
@@ -164,7 +165,7 @@ export default function RequestEditor({
                 <div
                   className={`text-xs ${jsonError ? 'text-rose-600' : 'text-slate-500'}`}
                 >
-                  {jsonError ? jsonError : 'Valid JSON'}
+                  {jsonError}
                 </div>
                 <div className="flex items-center gap-2">
                   <Button
@@ -172,9 +173,7 @@ export default function RequestEditor({
                     variant="outline"
                     size="sm"
                     className="hover:bg-yellow-100 bg-pink-300 text-purple-600 font-semibold py-2 px-4 rounded-lg shadow-md"
-                    onClick={() => {
-                      setJsonBody(prettifyJson(jsonBody));
-                    }}
+                    onClick={() => setJsonBody(prettifyJson(jsonBody))}
                     disabled={!!jsonError}
                   >
                     {t('buttons.prettify')}
@@ -184,9 +183,9 @@ export default function RequestEditor({
 
               <Textarea
                 value={jsonBody}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                  setJsonBody(e.target.value);
-                }}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setJsonBody(e.target.value)
+                }
                 placeholder='{"hello":"world"}'
                 className="min-h-[180px] font-mono text-sm rounded-lg border border-pink-300/60 bg-pink-50/40"
               />
@@ -197,17 +196,17 @@ export default function RequestEditor({
             <KeyValueEditor
               rows={formRows}
               onChange={setFormRows}
-              addLabel="Add field"
+              addLabel={t('request.addField')}
             />
           )}
 
           {mode === 'raw' && (
             <Textarea
               value={rawBody}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                setRawBody(e.target.value);
-              }}
-              placeholder="Raw body"
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setRawBody(e.target.value)
+              }
+              placeholder={t('request.rawBody')}
               className="min-h-[140px] font-mono text-sm"
             />
           )}

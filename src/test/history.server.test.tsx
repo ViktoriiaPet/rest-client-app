@@ -1,7 +1,8 @@
+import '@testing-library/jest-dom/vitest';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
-
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-
+import { MemoryRouter } from 'react-router-dom';
 import HistoryPage from '@/pages/history.server';
 
 vi.mock('firebase/firestore', async (importOriginal) => {
@@ -12,12 +13,12 @@ vi.mock('firebase/firestore', async (importOriginal) => {
     getDocs: vi.fn(),
     query: vi.fn(),
     where: vi.fn(),
+    orderBy: vi.fn(),
+    limit: vi.fn(),
   };
 });
 
-vi.mock('@/service/firebase', () => ({
-  db: {},
-}));
+vi.mock('@/service/firebase', () => ({ db: {} }));
 
 describe('HistoryPage', () => {
   beforeEach(() => {
@@ -25,40 +26,42 @@ describe('HistoryPage', () => {
   });
 
   it('renders "No requests recorded yet." when history is empty (English)', async () => {
-    const mockLoaderData = {
+    const loaderData = {
       token: null,
       history: [],
       userId: null,
       userName: null,
       lang: 'en',
     };
-
-    render(<HistoryPage loaderData={mockLoaderData} />);
-
+    render(
+      <MemoryRouter>
+        <HistoryPage loaderData={loaderData} />
+      </MemoryRouter>
+    );
     await screen.findByText('No requests recorded yet.');
-
     expect(screen.getByText('No requests recorded yet.')).toBeInTheDocument();
-    expect(screen.queryByRole('table')).toBeInTheDocument();
+    expect(screen.getByRole('table')).toBeInTheDocument();
   });
 
   it('renders "История пока пуста." when history is empty (Russian)', async () => {
-    const mockLoaderData = {
+    const loaderData = {
       token: null,
       history: [],
       userId: null,
       userName: null,
       lang: 'ru',
     };
-
-    render(<HistoryPage loaderData={mockLoaderData} />);
-
+    render(
+      <MemoryRouter>
+        <HistoryPage loaderData={loaderData} />
+      </MemoryRouter>
+    );
     await screen.findByText('История пока пуста.');
-
     expect(screen.getByText('История пока пуста.')).toBeInTheDocument();
   });
 
   it('renders history items when provided', async () => {
-    const mockLoaderData = {
+    const loaderData = {
       token: 'mockToken',
       history: [
         {
@@ -67,7 +70,9 @@ describe('HistoryPage', () => {
           url: 'https://example.com/api/test',
           createdAt: new Date('2023-01-01T10:00:00Z'),
           bodyMode: 'json',
-          bodyPreview: {},
+          bodyPreview: '{}',
+          headersRecord: {},
+          paramsRecord: {},
           latencyMs: 120,
           statusCode: 200,
           statusText: 'OK',
@@ -79,7 +84,9 @@ describe('HistoryPage', () => {
           url: 'https://example.com/api/data',
           createdAt: new Date('2023-01-02T11:00:00Z'),
           bodyMode: 'json',
-          bodyPreview: { key: 'value' },
+          bodyPreview: '{"key":"value"}',
+          headersRecord: {},
+          paramsRecord: {},
           latencyMs: 300,
           statusCode: 201,
           statusText: 'Created',
@@ -91,7 +98,11 @@ describe('HistoryPage', () => {
       lang: 'en',
     };
 
-    render(<HistoryPage loaderData={mockLoaderData} />);
+    render(
+      <MemoryRouter>
+        <HistoryPage loaderData={loaderData} />
+      </MemoryRouter>
+    );
 
     await screen.findByText('https://example.com/api/test');
 

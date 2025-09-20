@@ -1,10 +1,12 @@
-import { useCallback, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import RequestEditor from './RequestEditor';
 import ResponseSection from './ResponseSection';
 
 import type {
+  BodyMode,
   RequestSnapshot,
   RestFullChangePayload,
   RestFullClientProps,
@@ -14,14 +16,23 @@ import type { JSX } from 'react';
 import CodePanelSheet from '@/components/CodePanelSheet';
 import { useAuth } from '@/context/AuthContext';
 import { logRequest } from '@/utils/logRequest';
-import {
-  buildClientUrl,
-  hasHeader,
-  toRecord,
-  type StringRecord,
-} from '@/utils/restUrl';
+import { buildClientUrl, toRecord, type StringRecord } from '@/utils/restUrl';
 import { applyVariables, getLSVars } from '@/utils/variables';
-import { useTranslation } from 'react-i18next';
+import { type HttpMethod } from '@/types/apiMethods';
+import {
+  type PrefillState,
+  buildRequestBody,
+  computeRequestByteSizes,
+  ensureContentType,
+  fromB64JSON,
+  headersBytesTotalFromRecord,
+  headersToRecord,
+  mergeQueryParams,
+  normalizeMethod,
+  recToRows,
+  resolveBodyText,
+  utf8Bytes,
+} from '@/utils/restfull';
 
 export default function RestFullClient({
   method,
@@ -30,6 +41,34 @@ export default function RestFullClient({
   const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+
+  const prefillState = (location.state as { prefill?: PrefillState })?.prefill;
+  const prefillQS = searchParams.get('prefill');
+  const prefillFromQS = prefillQS
+    ? (fromB64JSON(prefillQS) as PrefillState)
+    : undefined;
+  const prefill = prefillState ?? prefillFromQS;
+
+  const initial = useMemo(() => {
+    const methodNorm: HttpMethod = normalizeMethod(prefill?.method ?? method);
+    const url = prefill?.url ?? '';
+    const headersRows = recToRows(prefill?.headers);
+    const paramsRows = recToRows(prefill?.params);
+    const bodyMode = (prefill?.bodyMode as BodyMode) ?? 'none';
+    const jsonText = bodyMode === 'json' ? (prefill?.bodyText ?? '') : '';
+    const rawText = bodyMode === 'raw' ? (prefill?.bodyText ?? '') : '';
+    return {
+      method: methodNorm,
+      url,
+      headersRows,
+      paramsRows,
+      bodyMode,
+      jsonText,
+      rawText,
+    };
+  }, [prefill, method]);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [response, setResponse] = useState<{
@@ -57,25 +96,16 @@ export default function RestFullClient({
   async function handleSend(snapshot: RequestSnapshot): Promise<void> {
     setLoading(true);
     const t0 = performance.now();
+
     const vars = getLSVars(user?.uid);
     const resolvedUrl = applyVariables(snapshot.url, vars);
-    const resolvedBody =
-      snapshot.body.mode === 'json'
-        ? applyVariables(snapshot.body.jsonText ?? '', vars)
-        : snapshot.body.mode === 'raw'
-          ? applyVariables(snapshot.body.rawText ?? '', vars)
-          : undefined;
+    const resolvedBodyText = resolveBodyText(snapshot, vars);
 
     const enabledParams: StringRecord = toRecord(snapshot.params);
     const enabledHeaders: StringRecord = toRecord(snapshot.headers);
 
-    let requestUrl = resolvedUrl;
-    try {
-      const u = new URL(resolvedUrl);
-      for (const [k, v] of Object.entries(enabledParams))
-        u.searchParams.set(k, v);
-      requestUrl = u.toString();
-    } catch {
+    const requestUrl = mergeQueryParams(resolvedUrl, enabledParams);
+    if (!requestUrl) {
       setResponse({
         statusCode: 0,
         statusText: 'Invalid URL',
@@ -94,53 +124,41 @@ export default function RestFullClient({
     });
     navigate(permalink, { replace: true });
 
-    const requestHeaders: StringRecord = { ...enabledHeaders };
-    const canSendBody = !['GET', 'HEAD'].includes(snapshot.method);
-    let requestBody: BodyInit | undefined;
-
-    if (canSendBody) {
-      switch (snapshot.body.mode) {
-        case 'json': {
-          if (!hasHeader(requestHeaders, 'content-type'))
-            requestHeaders['Content-Type'] = 'application/json';
-          requestBody = resolvedBody ?? '';
-          break;
-        }
-        case 'form-data': {
-          const form = new FormData();
-          (snapshot.body.formData ?? [])
-            .filter((r) => r.enabled && r.key)
-            .forEach((r) => {
-              form.append(
-                applyVariables(r.key, vars),
-                applyVariables(r.value, vars)
-              );
-            });
-          requestBody = form;
-          break;
-        }
-        case 'raw': {
-          requestBody = resolvedBody ?? '';
-          break;
-        }
-      }
-    }
+    const initialHeaders = ensureContentType({ ...enabledHeaders }, snapshot);
+    const requestBody = buildRequestBody(snapshot, resolvedBodyText, vars);
+    const {
+      finalHeaders,
+      requestBodyBytes,
+      requestHeadersBytes,
+      requestBytes,
+    } = await computeRequestByteSizes(
+      requestUrl,
+      snapshot.method,
+      initialHeaders,
+      requestBody
+    );
 
     let statusCode = 0;
     let statusText = '';
     let bodyText = '';
+    let responseHeadersBytes = 0;
+    let responseBodyBytes = 0;
     let errorType: string | null = null;
     let errorMessage: string | null = null;
 
     try {
       const res = await fetch(requestUrl, {
         method: snapshot.method,
-        headers: requestHeaders,
+        headers: finalHeaders,
         body: requestBody,
       });
       statusCode = res.status;
       statusText = res.statusText;
       bodyText = await res.text();
+      responseBodyBytes = utf8Bytes(bodyText);
+      responseHeadersBytes = headersBytesTotalFromRecord(
+        headersToRecord(res.headers)
+      );
 
       setResponse({
         statusCode,
@@ -148,44 +166,47 @@ export default function RestFullClient({
         bodyText,
         timeMs: Math.round(performance.now() - t0),
       });
-
       setLastSentSnapshot({
         ...snapshot,
         url: requestUrl,
         body: {
           ...snapshot.body,
           ...(snapshot.body.mode === 'json'
-            ? { jsonText: resolvedBody ?? '' }
+            ? { jsonText: resolvedBodyText }
             : {}),
           ...(snapshot.body.mode === 'raw'
-            ? { rawText: resolvedBody ?? '' }
+            ? { rawText: resolvedBodyText }
             : {}),
         },
       });
     } catch (e) {
       errorType = e instanceof Error ? e.name : 'UnknownError';
       errorMessage = e instanceof Error ? e.message : String(e);
-
       setResponse({
         statusCode: 0,
         statusText: errorMessage || 'Request failed',
         bodyText: '',
         timeMs: Math.round(performance.now() - t0),
       });
-
       setLastSentSnapshot(snapshot);
     } finally {
       const latencyMs = Math.round(performance.now() - t0);
-      void logRequest({
+      await logRequest({
         method: snapshot.method,
         url: requestUrl,
         params: { ...enabledParams },
-        headers: { ...requestHeaders },
+        headers: { ...finalHeaders },
         bodyMode: snapshot.body.mode,
-        bodyPreview: resolvedBody ?? '',
+        bodyPreview: resolvedBodyText,
         latencyMs,
         statusCode,
         statusText,
+        requestBytes,
+        requestHeadersBytes,
+        requestBodyBytes,
+        responseBytes: responseHeadersBytes + responseBodyBytes,
+        responseHeadersBytes,
+        responseBodyBytes,
         errorType,
         errorMessage,
         userId: user?.uid ?? null,
@@ -201,7 +222,13 @@ export default function RestFullClient({
           loading={loading}
           onSend={handleSend}
           onChange={emitChange}
-          method={method}
+          method={initial.method}
+          url={initial.url}
+          headers={initial.headersRows}
+          params={initial.paramsRows}
+          bodyMode={initial.bodyMode}
+          jsonText={initial.jsonText}
+          rawText={initial.rawText}
         />
       </div>
 

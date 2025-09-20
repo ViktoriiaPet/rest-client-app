@@ -121,7 +121,7 @@ describe('AuthorizedUserPage', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(`WELCOME, ${mockUser.displayName}`)
+        screen.getByText(`auth.welcome, ${mockUser.displayName}`)
       ).toBeInTheDocument();
       expect(screen.getByText('clientPage.restfull')).toBeInTheDocument();
       expect(screen.getByText('clientPage.variables')).toBeInTheDocument();

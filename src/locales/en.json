@@ -39,7 +39,10 @@
     "copyJSON": "Copy JSON",
     "params": "Params",
     "addParam": "Add param",
-    "addHeader": "Add header"
+    "addHeader": "Add header",
+    "addField": "Add field",
+    "rawBody": "Raw body",
+    "invalidUrl": "Invalid URL"
   },
   "emptyState": {
     "noRequests": "You haven't executed any requests",

@@ -65,9 +65,7 @@ export default function Restfull(): JSX.Element {
   return (
     <div className="w-full">
       <Suspense
-        fallback={
-          <div className="p-2 text-sm opacity-70">{t('app.loading')}</div>
-        }
+        fallback={<div className="p-2 text-sm opacity-70">Loading...</div>}
       >
         <RestFullClient method={currentMethod} onChange={handleChange} />
       </Suspense>
