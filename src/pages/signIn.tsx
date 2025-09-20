@@ -20,7 +20,7 @@ export default function SignIn() {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [, setSubmitted] = useState(false);
   const { user, token, setUser, setToken } = useAuth();
 
   const navigate = useNavigate();

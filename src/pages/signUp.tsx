@@ -19,7 +19,7 @@ export default function SignUp() {
     password: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [, setSubmitted] = useState(false);
   const { setUser, setToken, user } = useAuth();
   const navigate = useNavigate();
 
