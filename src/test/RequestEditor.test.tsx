@@ -7,7 +7,9 @@ import type { KeyValueRow, BodyMode } from '@/types/restFullClient';
 
 const last = <T,>(arr: T[]): T => arr[arr.length - 1];
 
-vi.mock('react-i18next', () => ({ useTranslation: () => ({ t: (k: string) => k }) }));
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({ t: (k: string) => k }),
+}));
 
 vi.mock('@/components/RequestBar', () => ({
   __esModule: true,
@@ -23,8 +25,16 @@ vi.mock('@/components/RequestBar', () => ({
     onSend: () => void;
   }) => (
     <div>
-      <input aria-label="method" value={method} onChange={(e) => onChange({ method: e.target.value, url })} />
-      <input aria-label="url" value={url} onChange={(e) => onChange({ method, url: e.target.value })} />
+      <input
+        aria-label="method"
+        value={method}
+        onChange={(e) => onChange({ method: e.target.value, url })}
+      />
+      <input
+        aria-label="url"
+        value={url}
+        onChange={(e) => onChange({ method, url: e.target.value })}
+      />
       <button onClick={onSend}>send</button>
     </div>
   ),
@@ -40,7 +50,9 @@ vi.mock('@/components/KeyValueEditor', () => ({
   }) => (
     <button
       aria-label={addLabel}
-      onClick={() => onChange([{ id: '1', enabled: true, key: 'k', value: 'v' }])}
+      onClick={() =>
+        onChange([{ id: '1', enabled: true, key: 'k', value: 'v' }])
+      }
     >
       {addLabel}
     </button>
@@ -66,7 +78,9 @@ vi.mock('@/components/BodyModeSelector', () => ({
 
 vi.mock('@/components/ui/tabs', () => ({
   Tabs: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  TabsList: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  TabsList: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
   TabsTrigger: ({
     children,
     value,
@@ -80,15 +94,21 @@ vi.mock('@/components/ui/tabs', () => ({
       {children}
     </button>
   ),
-  TabsContent: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  TabsContent: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
 }));
 
 vi.mock('@/components/ui/textarea', () => ({
-  Textarea: (props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => <textarea {...props} />,
+  Textarea: (props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => (
+    <textarea {...props} />
+  ),
 }));
 
 vi.mock('@/components/ui/button', () => ({
-  Button: (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => <button {...props} />,
+  Button: (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
+    <button {...props} />
+  ),
 }));
 
 describe('RequestEditor', () => {
@@ -112,11 +132,18 @@ describe('RequestEditor', () => {
   it('submits for valid url', () => {
     const onSend = vi.fn();
     const onChange = vi.fn();
-    render(<RequestEditor url="https://example.com" onSend={onSend} onChange={onChange} />);
+    render(
+      <RequestEditor
+        url="https://example.com"
+        onSend={onSend}
+        onChange={onChange}
+      />
+    );
     fireEvent.click(screen.getByText('send'));
     expect(onSend).toHaveBeenCalledTimes(1);
     const snap =
-      (onSend.mock.calls[0] && onSend.mock.calls[0][0]) || last(onChange.mock.calls)[0];
+      (onSend.mock.calls[0] && onSend.mock.calls[0][0]) ||
+      last(onChange.mock.calls)[0];
     expect(snap.url).toBe('https://example.com');
   });
 
@@ -125,8 +152,12 @@ describe('RequestEditor', () => {
     const prettifyBtn = screen.getByText('buttons.prettify');
     expect(prettifyBtn).not.toBeDisabled();
     fireEvent.click(prettifyBtn);
-    const textarea = screen.getByPlaceholderText('{"hello":"world"}') as HTMLTextAreaElement;
-    expect(textarea.value).toBe('{\n  "a": 1,\n  "b": [\n    2,\n    3\n  ]\n}');
+    const textarea = screen.getByPlaceholderText(
+      '{"hello":"world"}'
+    ) as HTMLTextAreaElement;
+    expect(textarea.value).toBe(
+      '{\n  "a": 1,\n  "b": [\n    2,\n    3\n  ]\n}'
+    );
     fireEvent.change(textarea, { target: { value: '{a:1}' } });
     expect(screen.getByText(/JSON error:/)).toBeInTheDocument();
     expect(prettifyBtn).toBeDisabled();

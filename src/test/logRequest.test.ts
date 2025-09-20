@@ -47,7 +47,10 @@ describe('logRequest', () => {
     await logRequest(basePayload);
 
     expect(collection).toHaveBeenCalledWith({ tag: 'DB' }, 'requests');
-    expect(addDoc).toHaveBeenCalledWith('COL_REF', { ...basePayload, createdAt: 'TS' });
+    expect(addDoc).toHaveBeenCalledWith('COL_REF', {
+      ...basePayload,
+      createdAt: 'TS',
+    });
   });
 
   it('rejects when addDoc fails', async () => {

@@ -26,7 +26,13 @@ describe('HistoryPage', () => {
   });
 
   it('renders "No requests recorded yet." when history is empty (English)', async () => {
-    const loaderData = { token: null, history: [], userId: null, userName: null, lang: 'en' };
+    const loaderData = {
+      token: null,
+      history: [],
+      userId: null,
+      userName: null,
+      lang: 'en',
+    };
     render(
       <MemoryRouter>
         <HistoryPage loaderData={loaderData} />
@@ -38,7 +44,13 @@ describe('HistoryPage', () => {
   });
 
   it('renders "История пока пуста." when history is empty (Russian)', async () => {
-    const loaderData = { token: null, history: [], userId: null, userName: null, lang: 'ru' };
+    const loaderData = {
+      token: null,
+      history: [],
+      userId: null,
+      userName: null,
+      lang: 'ru',
+    };
     render(
       <MemoryRouter>
         <HistoryPage loaderData={loaderData} />
@@ -103,13 +115,17 @@ describe('HistoryPage', () => {
 
     expect(screen.getByText('200')).toBeInTheDocument();
     expect(screen.getByText('GET')).toBeInTheDocument();
-    expect(screen.getByText('https://example.com/api/test')).toBeInTheDocument();
+    expect(
+      screen.getByText('https://example.com/api/test')
+    ).toBeInTheDocument();
     expect(screen.getByText('120')).toBeInTheDocument();
     expect(screen.getByText('OK')).toBeInTheDocument();
 
     expect(screen.getByText('201')).toBeInTheDocument();
     expect(screen.getByText('POST')).toBeInTheDocument();
-    expect(screen.getByText('https://example.com/api/data')).toBeInTheDocument();
+    expect(
+      screen.getByText('https://example.com/api/data')
+    ).toBeInTheDocument();
     expect(screen.getByText('300')).toBeInTheDocument();
     expect(screen.getByText('Created')).toBeInTheDocument();
   });
