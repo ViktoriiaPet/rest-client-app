@@ -85,7 +85,7 @@ export const loader = serverOnly$(
         <td class="px-4 py-2 border-b text-purple-600">
           <a href="${href}" title="${d.url ?? ''}" class="underline text-blue-600 truncate">${d.url ?? ''}</a>
         </td>
-        <td class="px-4 py-2 border-b text-purple-600">${d.createdAt?.toDate().toISOString() ?? ''}</td>
+        <td class="px-4 py-2 border-b text-purple-600">${d.createdAt instanceof Date ? d.createdAt.toISOString() : ''}</td>
         <td class="px-4 py-2 border-b text-purple-600">${d.latencyMs ?? ''}</td>
         <td class="px-4 py-2 border-b text-purple-600">${d.requestBytes ?? ''}</td>
         <td class="px-4 py-2 border-b text-purple-600">${d.responseBytes ?? ''}</td>
