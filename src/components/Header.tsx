@@ -57,7 +57,7 @@ export default function Header(): JSX.Element | null {
       setUser(null);
       setToken(null);
       void navigate('/');
-      console.log('Log out');
+      console.warn('Log out');
     } catch (err) {
       console.error('Log error', err);
     }
