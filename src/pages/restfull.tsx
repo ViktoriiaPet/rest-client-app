@@ -80,7 +80,7 @@ export default function Restfull(): JSX.Element {
     <div className="w-full">
       <Suspense
         fallback={
-          <div className="p-2 text-sm opacity-70">
+          <div className="hover:bg-yellow-100 bg-pink-300 text-purple-600 font-semibold py-2 px-4 rounded-lg shadow-md">
             {t('app.loading')} <Loader />
           </div>
         }

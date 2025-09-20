@@ -80,26 +80,27 @@ export default function Header(): JSX.Element | null {
           <div className="w-[300px] flex items-center justify-center">
             <LangToggle />
           </div>
-          <div className="flex flex-row items-center justify-center  w-[200px]"></div>
-          {user ? (
-            <>
-              <Button variant="custom" onClick={handleLogout}>
-                {t('auth.logOut')}
-              </Button>
-              <NavLink to="/mainClint" end>
-                <Button variant="custom">{t('app.mainPage')}</Button>
-              </NavLink>
-            </>
-          ) : (
-            <div className="flex gap-2">
-              <NavLink to="/signIn" end className="flex justify-end">
-                <SignButton text="auth.signIn" />
-              </NavLink>
-              <NavLink to="/signUp" end>
-                <SignButton text="auth.signUp" />
-              </NavLink>
-            </div>
-          )}
+          <div className="flex flex-row items-center justify-center  w-[300px] gap-2">
+            {user ? (
+              <>
+                <Button variant="custom" onClick={handleLogout} >
+                  {t('auth.logOut')}
+                </Button>
+                <NavLink to="/mainClint" end className="w-1/2">
+                  <Button variant="custom">{t('app.mainPage')}</Button>
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink to="/signIn" end className="w-1/2 flex justify-end">
+                  <SignButton text="auth.signIn" />
+                </NavLink>
+                <NavLink to="/signUp" end className="w-1/2">
+                  <SignButton text="auth.signUp" />
+                </NavLink>
+              </>
+            )}
+          </div>
         </nav>
       </div>
     </header>
