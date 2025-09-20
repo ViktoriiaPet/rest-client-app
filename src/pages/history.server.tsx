@@ -27,6 +27,8 @@ type FireRequestDoc = {
   params?: Record<string, unknown> | null;
   statusText?: string | null;
   bodyMode?: string | null;
+  requestBytes: string | null;
+  responseBytes: string | null;
 };
 
 type HistoryRow = {
@@ -42,6 +44,8 @@ type HistoryRow = {
   statusCode: number | null;
   statusText: string;
   lang: string;
+  requestBytes: string | null;
+  responseBytes: string | null;
 };
 
 type LoaderData = {
@@ -136,6 +140,8 @@ export async function loader({
       headersRecord: toStringRecord(d.headers),
       paramsRecord: toStringRecord(d.params),
       lang,
+      requestBytes: d.requestBytes ?? null,
+      responseBytes: d.responseBytes ?? null
     };
   });
 
@@ -145,7 +151,7 @@ export async function loader({
       (a, b) => (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
     );
 
-  return { token, history, userId, userName, lang };
+  return { token, history, userId, userName, lang};
 }
 
 export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
@@ -158,6 +164,8 @@ export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
         createdAt: 'Created At',
         duration: 'Request duration',
         error: 'Error information',
+        requestMemory: "Размер запроса",
+        responceMemory: "Размер ответа"
       },
       ru: {
         statusCode: 'Код ответа',
@@ -166,6 +174,8 @@ export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
         createdAt: 'Создано',
         duration: 'Длительность запроса',
         error: 'Информация об ошибке',
+        requestMemory: "Размер запроса",
+        responceMemory: "Размер ответа"
       },
     };
     return dict[loaderData.lang]?.[key] ?? key;
@@ -191,6 +201,12 @@ export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
             </th>
             <th className="px-4 py-2 border-b text-purple-800">
               {t('duration')}
+            </th>
+                        <th className="px-4 py-2 border-b text-purple-800">
+              {t('requestMemory')}
+            </th>
+            <th className="px-4 py-2 border-b text-purple-800">
+              {t('responceMemory')}
             </th>
             <th className="px-4 py-2 border-b text-purple-800">{t('error')}</th>
           </tr>
@@ -242,6 +258,12 @@ export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
                   </td>
                   <td className="px-4 py-2 border-b text-purple-600">
                     {row.latencyMs}
+                  </td>
+                                    <td className="px-4 py-2 border-b text-purple-600">
+                    {row.responseBytes}
+                  </td>
+                                    <td className="px-4 py-2 border-b text-purple-600">
+                    {row.requestBytes}
                   </td>
                   <td className="px-4 py-2 border-b text-purple-600">
                     {row.statusText}
