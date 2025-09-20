@@ -13,7 +13,7 @@ import { store } from './store';
 
 import type { JSX } from 'react';
 
-import './App.css';
+import './index.css';
 
 export default function Root(): JSX.Element {
   const navigate = useNavigate();
