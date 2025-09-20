@@ -1,56 +1,87 @@
-# React + TypeScript + Vite
+# RS React Final Task – Project README
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Course:** Rolling Scopes School – React
+> **Students:** Viktoriia Petukhova, Alyona Oshchepkova, Darya Daniuk
+> **Mentor:** Anastasiya Kozlova
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## Expanding the ESLint configuration
+A React application inspired by Postman. Users can build requests with different methods (GET, POST, etc.), add headers and query parameters, send them to a backend, and view structured responses. The app also provides request history.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Built with modern React tooling (routing, Redux Toolkit for state management, form handling with React Hook Form + Zod, and react-intl for i18n), it ensures a smooth UX. 
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      ...tseslint.configs.recommendedTypeChecked,
-      ...tseslint.configs.strictTypeChecked,
-      ...tseslint.configs.stylisticTypeChecked,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-  },
-]);
+
+---
+
+## Tech Stack
+
+* **Framework:** React 18
+* **Language:** TypeScript (strict mode)
+* **Styling:** Tailwind CSS  + **shadcn/ui**
+* **State:** Redux Toolkit
+* **Data fetching & cache:** TanStack Query
+* **Forms & validation:** React Hook Form + Zod
+* **i18n:** react‑intl
+* **Testing:** Vitest
+* **Lint/Format:** ESLint + Prettier
+* **Build/Dev:** Vite for libraries
+
+---
+
+## ▶️ Getting Started
+
+### Prerequisites
+
+* Node.js LTS (>= 18)
+* npm
+
+### Installation
+
+```bash
+npm i
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Local development
 
-```js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      reactX.configs['recommended-typescript'],
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-  },
-]);
+```bash
+npm run dev
 ```
+
+### Linting & Formatting
+
+```bash
+npm run lint
+```
+
+### Tests & Coverage
+
+```bash
+npm test
+npm run coverage
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+---
+
+## Internationalization
+
+* **Library:** next‑intl
+* **Locales:** `en`, `ru`
+* **Default locale:** `en`
+
+---
+
+
+## References
+
+* RS School Course Project (Final Task) FAQ: [https://rs.school/docs/en/final-task](https://rs.school/docs/en/final-task)
+
+---
+
