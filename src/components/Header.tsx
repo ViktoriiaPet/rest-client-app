@@ -5,11 +5,9 @@ import { NavLink, useNavigate } from 'react-router';
 import LangToggle from './LangToggle';
 import { SignButton } from './SignButton';
 import { Button } from './ui/button';
-import userIcon from '../assets/img/user-icon.jpg';
 
 import type { JSX } from 'react';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Header(): JSX.Element | null {
@@ -57,7 +55,6 @@ export default function Header(): JSX.Element | null {
       setUser(null);
       setToken(null);
       void navigate('/');
-      console.warn('Log out');
     } catch (err) {
       console.error('Log error', err);
     }
@@ -91,15 +88,6 @@ export default function Header(): JSX.Element | null {
               </Button>
               <NavLink to="/mainClint" end>
                 <Button variant="custom">{t('app.mainPage')}</Button>
-              </NavLink>
-              <NavLink to="/mainClint" end>
-                <div className="w-1/4">
-                  <Avatar>
-                    <AvatarImage src={userIcon} />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <span>{user.displayName}</span>
-                </div>
               </NavLink>
             </>
           ) : (

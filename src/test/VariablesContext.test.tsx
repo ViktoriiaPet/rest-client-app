@@ -3,7 +3,7 @@ import { vi, it, describe, expect, beforeEach } from 'vitest';
 import { VariablesProvider, useVariables } from '@/context/VariablesContext';
 import { useAuth } from '@/context/AuthContext';
 import { getUserVariables, saveUserVariables } from '@/store/variableStorage';
-import type { Variables } from '@/types/variables';
+
 import type { User } from 'firebase/auth';
 
 vi.mock('@/context/AuthContext', () => ({

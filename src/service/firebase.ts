@@ -102,7 +102,6 @@ const registerWithEmailAndPassword = async (
 const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
-    alert('Password reset link sent!');
   } catch (err) {
     console.error(err);
   }
@@ -111,7 +110,6 @@ const sendPasswordReset = async (email: string) => {
 const logout = async (): Promise<void> => {
   try {
     await signOut(auth);
-    console.warn('Logged out');
   } catch (err) {
     console.error('Logout failed:', err);
   }
