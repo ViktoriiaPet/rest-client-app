@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
   return {
     base: '/',
     build: {
-    outDir: 'dist',
+      outDir: 'dist',
     },
     plugins: [tailwindcss(), !isTest && reactRouter(), envOnlyMacros()],
     define: {
