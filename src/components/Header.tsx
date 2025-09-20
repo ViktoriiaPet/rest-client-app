@@ -87,10 +87,10 @@ export default function Header(): JSX.Element | null {
           {user ? (
             <>
               <Button variant="custom" onClick={handleLogout}>
-                {t('LogOut')}
+                {t('auth.logOut')}
               </Button>
               <NavLink to="/mainClint" end>
-                <Button variant="custom">{t('MainPage')}</Button>
+                <Button variant="custom">{t('app.mainPage')}</Button>
               </NavLink>
               <NavLink to="/mainClint" end>
                 <div className="w-1/4">
@@ -105,10 +105,10 @@ export default function Header(): JSX.Element | null {
           ) : (
             <div className="flex gap-2">
               <NavLink to="/signIn" end className="flex justify-end">
-                <SignButton text={t('auth.signIn')} />
+                <SignButton text="auth.signIn" />
               </NavLink>
               <NavLink to="/signUp" end>
-                <SignButton text={t('auth.signUp')} />
+                <SignButton text="auth.signUp" />
               </NavLink>
             </div>
           )}
