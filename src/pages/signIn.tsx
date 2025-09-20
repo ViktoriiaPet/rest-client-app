@@ -75,8 +75,6 @@ export default function SignIn() {
         );
 
         if (res) {
-          console.log('is logined:', res.user);
-          console.log('token:', res.token);
           setUser(res.user);
           setToken(res.token);
           document.cookie = `userToken=${res.token}; path=/; max-age=3600; samesite=lax;`;
@@ -112,10 +110,7 @@ export default function SignIn() {
     }
   };
 
-  useEffect(() => {
-    console.log('user from context:', user);
-    console.log('token from context:', token);
-  }, [user, token]);
+  useEffect(() => {}, [user, token]);
 
   return (
     <form

@@ -27,13 +27,13 @@ export default function LangToggle({
       void i18n.changeLanguage(cookieLang);
     }
     setMounted(true);
-  }, []);
+  }, [dispatch, i18n, lang]);
   const ssrT = (key: 'lang.english' | 'lang.russian') =>
     typeof window === 'undefined' ? i18n.getFixedT(initialLang)(key) : t(key);
 
   useEffect(() => {
     void i18n.changeLanguage(lang ?? 'en');
-  }, [lang]);
+  }, [lang, i18n]);
 
   const changeLanguage = (): void => {
     const newLang = lang === 'en' ? 'ru' : 'en';
