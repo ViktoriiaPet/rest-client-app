@@ -77,6 +77,10 @@ export default function SignUp() {
         if (res) {
           setUser(res.user);
           setToken(res.token);
+
+          document.cookie = `userToken=${res.token}; path=/; max-age=3600; samesite=lax;`;
+          document.cookie = `userId=${res.user.uid}; path=/; max-age=3600; samesite=lax;`;
+
           void navigate('/mainClint');
         }
       } catch (err) {
