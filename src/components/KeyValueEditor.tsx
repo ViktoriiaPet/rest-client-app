@@ -1,5 +1,4 @@
 import { Plus, Trash2 } from 'lucide-react';
-import React from 'react';
 
 import { Checkbox } from './ui/checkbox';
 

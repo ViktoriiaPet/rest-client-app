@@ -39,7 +39,10 @@
     "copyJSON": "Скопировать JSON",
     "params": "Параметры",
     "addParam": "Добавить параметры",
-    "addHeader": "Добавить заголовки"
+    "addHeader": "Добавить заголовки",
+    "addField": "Добавить поле",
+    "rawBody": "Текст",
+    "invalidUrl": "Неверный URL"
   },
   "emptyState": {
     "noRequests": "Вы ещё не выполняли запросы",
@@ -79,7 +82,7 @@
     "prettify": "Отформатировать"
   },
   "clientPage": {
-    "restfull": "Restfull",
+    "restfull": "Pестфул",
     "variables": "Переменные",
     "history": "История"
   },
