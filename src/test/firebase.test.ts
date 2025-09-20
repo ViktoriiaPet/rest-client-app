@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { User} from 'firebase/auth';
+import type { User } from 'firebase/auth';
 
 import {
   logInWithEmailAndPassword,

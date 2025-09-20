@@ -2,8 +2,6 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { vi, it, describe, expect, beforeEach } from 'vitest';
 import VariablesPage from '@/pages/variables';
 
-
-
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
@@ -13,7 +11,6 @@ vi.mock('react-i18next', () => ({
     },
   }),
 }));
-
 
 vi.mock('react-router-dom', () => ({
   Navigate: ({ to }: { to: string }) => <div>Navigate to {to}</div>,
@@ -29,7 +26,9 @@ vi.mock('@/context/VariablesContext', () => ({
 
 vi.mock('@/components/TableRow', () => ({
   default: ({ name, value }: { name: string; value: string }) => (
-    <div>Row: {name}={value}</div>
+    <div>
+      Row: {name}={value}
+    </div>
   ),
 }));
 vi.mock('@/components/TableHeader', () => ({
@@ -81,8 +80,8 @@ describe('VariablesPage', () => {
     await waitFor(() => {
       expect(screen.getByText('variables.title')).toBeInTheDocument();
     });
-const header = await screen.findByTestId('table-header');
-expect(header).toBeInTheDocument();
+    const header = await screen.findByTestId('table-header');
+    expect(header).toBeInTheDocument();
     expect(screen.getByText('Row: testKey=testValue')).toBeInTheDocument();
   });
 });
