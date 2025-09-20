@@ -96,10 +96,10 @@ export default function HomePage(): JSX.Element | null {
       </div>
       <div className="flex flex-row gap-[5vw] justify-around">
         <NavLink to="/signIn" end>
-          <SignButton text={t('auth.signIn')} />
+          <SignButton text="auth.signIn" />
         </NavLink>
         <NavLink to="/signUp" end>
-          <SignButton text={t('auth.signUp')} />
+          <SignButton text="auth.signUp" />
         </NavLink>
       </div>
     </div>

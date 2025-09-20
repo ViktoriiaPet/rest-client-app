@@ -1,12 +1,5 @@
 import type { HttpMethod } from './apiMethods';
 
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-};
-
 export type RequestData = {
   id: string;
   userId: string;
@@ -23,12 +16,3 @@ export type RequestData = {
   errorDetails?: string;
   timestamp: number;
 };
-
-type VariablesData = Record<string, string>;
-
-type UserVariables = {
-  id: string;
-  variables: VariablesData;
-};
-
-type VariablesKey = 'API_URL' | 'TOKEN' | 'USER_ID';
