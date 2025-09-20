@@ -1,1 +1,43 @@
-import{w as e,u as o,j as s,L as a}from"./chunk-PVWAREVJ-DHjQzAty.js";import{u as c}from"./useTranslation-ZsYxALZe.js";const d=e(function(){const t=o(),{t:n}=c();return s.jsx("main",{className:"grid min-h-[100svh] place-items-center px-4",children:s.jsxs("section",{className:"mx-auto max-w-xl p-8 text-center space-y-4",children:[s.jsx("img",{src:"/ice-cream.svg",alt:"not-found",className:"mx-auto w-80 h-80"}),s.jsx("h2",{className:"text-3xl font-bold",children:n("notFound.title")}),s.jsx("p",{className:"opacity-80",children:n("notFound.description")}),s.jsxs("div",{className:"flex gap-3 justify-center",children:[s.jsx("button",{className:"rounded-2xl px-4 py-2 shadow",onClick:()=>t(-1),children:n("notFound.back")}),s.jsx(a,{className:"rounded-2xl px-4 py-2 shadow",to:"/",children:n("notFound.home")})]})]})})});export{d as default};
+import { w as e, u as o, j as s, L as a } from './chunk-PVWAREVJ-DHjQzAty.js';
+import { u as c } from './useTranslation-ZsYxALZe.js';
+const d = e(function () {
+  const t = o(),
+    { t: n } = c();
+  return s.jsx('main', {
+    className: 'grid min-h-[100svh] place-items-center px-4',
+    children: s.jsxs('section', {
+      className: 'mx-auto max-w-xl p-8 text-center space-y-4',
+      children: [
+        s.jsx('img', {
+          src: '/ice-cream.svg',
+          alt: 'not-found',
+          className: 'mx-auto w-80 h-80',
+        }),
+        s.jsx('h2', {
+          className: 'text-3xl font-bold',
+          children: n('notFound.title'),
+        }),
+        s.jsx('p', {
+          className: 'opacity-80',
+          children: n('notFound.description'),
+        }),
+        s.jsxs('div', {
+          className: 'flex gap-3 justify-center',
+          children: [
+            s.jsx('button', {
+              className: 'rounded-2xl px-4 py-2 shadow',
+              onClick: () => t(-1),
+              children: n('notFound.back'),
+            }),
+            s.jsx(a, {
+              className: 'rounded-2xl px-4 py-2 shadow',
+              to: '/',
+              children: n('notFound.home'),
+            }),
+          ],
+        }),
+      ],
+    }),
+  });
+});
+export { d as default };
