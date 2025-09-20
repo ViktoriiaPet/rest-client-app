@@ -12,7 +12,7 @@ const TableHeader = () => {
         {t('variables.variableValue')}
       </div>
       <div className="text-[20px]  text-purple-600 pb-[2vw] flex justify-center items-center ">
-        {t('variables.delete')}
+        {t('variables.actions')}
       </div>
     </>
   );

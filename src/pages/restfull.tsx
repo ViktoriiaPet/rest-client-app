@@ -1,4 +1,11 @@
-import { Suspense, lazy, useCallback, useEffect, useMemo } from 'react';
+import {
+  Suspense,
+  lazy,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import {
   Navigate,
   useLocation,
@@ -11,6 +18,7 @@ import { useAuth } from '@/context/AuthContext';
 import { DEFAULT_METHODS, type HttpMethod } from '@/types/apiMethods';
 import { parseClientUrl, buildClientUrl } from '@/utils/restUrl';
 import { useTranslation } from 'react-i18next';
+import { Loader } from '@/components/Loader';
 
 const RestFullClient = lazy(() => import('@/components/RestFullClient'));
 
@@ -20,11 +28,16 @@ const isHttpMethod = (value: unknown): value is HttpMethod =>
 
 export default function Restfull(): JSX.Element {
   const { t } = useTranslation();
+  const [mounted, setMounted] = useState(false);
 
   const { user, loading } = useAuth();
   const { method: methodParam, urlB64 } = useParams();
   const { search } = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const parsed = useMemo(
     () => parseClientUrl({ method: methodParam, urlB64, search }),
@@ -58,6 +71,7 @@ export default function Restfull(): JSX.Element {
     },
     [navigate, currentMethod, urlB64, search]
   );
+  if (!mounted) return <></>;
 
   if (loading) return <div>{t('app.loading')}</div>;
   if (!user) return <Navigate to="/" replace />;
@@ -65,7 +79,11 @@ export default function Restfull(): JSX.Element {
   return (
     <div className="w-full">
       <Suspense
-        fallback={<div className="p-2 text-sm opacity-70">Loading...</div>}
+        fallback={
+          <div className="p-2 text-sm opacity-70">
+            {t('app.loading')} <Loader />
+          </div>
+        }
       >
         <RestFullClient method={currentMethod} onChange={handleChange} />
       </Suspense>
