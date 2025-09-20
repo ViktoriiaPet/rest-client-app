@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { withTranslation, type WithTranslation } from 'react-i18next';
 
 import type { ErrorInfo, ReactNode } from 'react';

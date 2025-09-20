@@ -1,12 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { buildClientUrl, parseClientUrl } from '@/utils/restUrl';
 
-declare global {
-  var atob: (b64: string) => string;
-
-  var btoa: (bin: string) => string;
-}
-
 beforeAll(() => {
   if (typeof globalThis.atob === 'undefined') {
     globalThis.atob = (b64: string) =>
