@@ -126,82 +126,12 @@ describe('Header', () => {
     render(<Stub initialEntries={['/']} />);
 
     await waitFor(() => {
-      // expect(screen.getByTestId('sign-in-button')).toBeInTheDocument();
-      // expect(screen.getByTestId('sign-up-button')).toBeInTheDocument();
       expect(screen.getByText('auth.signIn')).toBeInTheDocument();
       expect(screen.getByText('auth.signUp')).toBeInTheDocument();
       expect(screen.queryByTestId('logout-button')).not.toBeInTheDocument();
       expect(screen.queryByTestId('mainpage-button')).not.toBeInTheDocument();
     });
   });
-
-  // it('renders user info and logout button for authorized users', async () => {
-  //   const mockUser = {
-  //     displayName: 'TestUser',
-  //     email: 'test@example.com',
-  //   } as unknown as User;
-
-  //   const Stub = createTestAppStub({
-  //     user: mockUser,
-  //     token: 'mock-token',
-  //     loading: false,
-  //     setUser: mockSetUser,
-  //     setToken: mockSetToken,
-  //   });
-
-  //   render(<Stub initialEntries={['/']} />);
-
-  //   await waitFor(() => {
-  //     expect(screen.getByTestId('logout-button')).toBeInTheDocument();
-  //     expect(screen.getByTestId('mainpage-button')).toBeInTheDocument();
-  //     expect(screen.getByText('LogOut')).toBeInTheDocument();
-  //     expect(screen.getByText('MainPage')).toBeInTheDocument();
-  //     expect(screen.getByText(mockUser.displayName!)).toBeInTheDocument();
-  //     expect(screen.queryByTestId('sign-in-button')).not.toBeInTheDocument();
-  //     expect(screen.queryByTestId('sign-up-button')).not.toBeInTheDocument();
-  //   });
-  // });
-
-  // it('handles logout correctly', async () => {
-  //   const mockUser = {
-  //     displayName: 'TestUser',
-  //   } as unknown as User;
-
-  //   const Stub = createTestAppStub({
-  //     user: mockUser,
-  //     token: 'mock-token',
-  //     loading: false,
-  //     setUser: mockSetUser,
-  //     setToken: mockSetToken,
-  //   });
-
-  //   render(<Stub initialEntries={['/']} />);
-
-  //   const logoutButton = screen.getByTestId('logout-button');
-  //   fireEvent.click(logoutButton);
-
-  //   await waitFor(() => {
-  //     expect(mockSetUser).toHaveBeenCalledWith(null);
-  //     expect(mockSetToken).toHaveBeenCalledWith(null);
-  //   });
-  // });
-
-  // it('navigates to correct pages on link click', async () => {
-  //   const Stub = createTestAppStub({
-  //     user: null,
-  //     token: null,
-  //     loading: false,
-  //     setUser: mockSetUser,
-  //     setToken: mockSetToken,
-  //   });
-
-  //   render(<Stub initialEntries={['/']} />);
-
-  //   const signUpButton = screen.getByTestId('sign-up-button');
-
-  //   fireEvent.click(signUpButton);
-  //   expect(window.location.pathname).toBe('/signUp');
-  // });
 
   it('applies scrolled styles when page is scrolled', async () => {
     const Stub = createTestAppStub({

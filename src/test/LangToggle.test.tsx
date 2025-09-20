@@ -2,8 +2,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, vi, beforeEach, expect } from 'vitest';
 import LangToggle from '@/components/LangToggle';
 import { setLanguage } from '@/store/languageSlice';
+import type { RootState } from '@/store';
+import type { LanguageState } from '@/store/languageSlice';
 
 const mockChangeLanguage = vi.fn();
+
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
@@ -25,7 +28,8 @@ vi.mock('react-redux', async () => {
   return {
     ...actual,
     useDispatch: () => mockDispatch,
-    useSelector: (fn: any) => fn({ language: { lang: 'en' } }),
+    useSelector: (selector: (state: RootState) => LanguageState['lang']) =>
+      selector({ language: { lang: 'en' } }),
   };
 });
 
@@ -50,7 +54,7 @@ describe('LangToggle component', () => {
     expect(mockChangeLanguage).toHaveBeenCalledWith('ru');
   });
 
-  it('does not crash if component initially unmounted', () => {
+  it('renders correctly with initialLang "ru"', () => {
     render(<LangToggle initialLang="ru" />);
     expect(screen.getByText('lang.english')).toBeInTheDocument();
     expect(screen.getByText('lang.russian')).toBeInTheDocument();
