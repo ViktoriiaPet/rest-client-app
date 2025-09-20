@@ -83,7 +83,7 @@ export default function Header(): JSX.Element | null {
           <div className="flex flex-row items-center justify-center  w-[300px] gap-2">
             {user ? (
               <>
-                <Button variant="custom" onClick={handleLogout} >
+                <Button variant="custom" onClick={handleLogout}>
                   {t('auth.logOut')}
                 </Button>
                 <NavLink to="/mainClint" end className="w-1/2">
