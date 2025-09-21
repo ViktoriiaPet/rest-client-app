@@ -1,5 +1,5 @@
 export default {
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  content: ['./src/**/*.{ts,tsx}'],
   safelist: ['hover:bg-lavender-300'],
   theme: {
     extend: {

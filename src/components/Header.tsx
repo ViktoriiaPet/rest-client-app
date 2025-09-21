@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
 
@@ -66,7 +66,7 @@ export default function Header(): JSX.Element | null {
     <header className="sticky top-0 z-50 w-full">
       <div
         className={
-          `sticky top-0  py-2 z-50 w-full backdrop-blur-sm  px-4 py-2 ` +
+          `sticky top-0 z-50 w-full backdrop-blur-sm  px-4 py-2 ` +
           `${reduceMotion ? '' : 'transition-all duration-300 ease-in-out'} ` +
           (scrolled
             ? 'bg-white/80 border-b border-pink-300 shadow-md'
