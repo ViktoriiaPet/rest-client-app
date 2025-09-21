@@ -1,9 +1,9 @@
 import React from 'react';
+import type { JSX } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useEffect } from 'react';
-
-import type { JSX } from 'react';
+import rssLogo from '../../public/rss-logo.svg'
 
 export default function Footer(): JSX.Element | null {
   const [mounted, setMounted] = useState(false);
@@ -26,12 +26,12 @@ export default function Footer(): JSX.Element | null {
 
         <span className="text-purple-600">2025</span>
 
-        <a href="https://rs.school/" target="_blank" rel="noreferrer">
-          <img
-            className="w-[40px]"
-            src="https://rs.school/_next/static/media/rss-logo.c19ce1b4.svg"
-            alt="rss logo"
-          />
+        <a
+          href="https://rs.school/courses/reactjs"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img className="w-[40px]" src={rssLogo} alt="rss logo" />
         </a>
       </div>
     </footer>
