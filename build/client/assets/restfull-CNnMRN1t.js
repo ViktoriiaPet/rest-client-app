@@ -1,6 +1,0 @@
-import { r as a } from './restfull-Ckydh6YK.js';
-import './AuthContext-DbrGQ4pj.js';
-import './chunk-B7RQU5TL-BAM8tVsL.js';
-import './Loader-KYBo_zvB.js';
-import './useTranslation-CbMF285u.js';
-export { a as default };

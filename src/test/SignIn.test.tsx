@@ -6,6 +6,7 @@ import SignIn from '@/pages/signIn';
 import { AuthContext } from '@/context/AuthContext';
 import * as firebaseService from '@/service/firebase';
 import { FirebaseError } from 'firebase/app';
+import * as validation from '../utils/validateRegistration';
 import type { LoginSchema } from '../utils/validateRegistration';
 import type { User } from 'firebase/auth';
 

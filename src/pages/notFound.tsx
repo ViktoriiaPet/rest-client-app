@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -6,7 +7,11 @@ import type { JSX } from 'react';
 export default function NotFound(): JSX.Element {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return <></>;
   return (
     <main className="grid min-h-[80svh] place-items-center px-4">
       <section className="mx-auto max-w-xl p-8 text-center space-y-4">
