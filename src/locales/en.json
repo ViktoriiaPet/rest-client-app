@@ -112,5 +112,11 @@
     "codeText": "Send a request to generate code",
     "codeBtn": "Show Code",
     "noResponse": "Click send to get a response"
+  },
+  "info": {
+    "projectText": "Final assignment for the RS School React course, implemented according to the spec:",
+    "projectLink": "final task",
+    "courseText": "The Rolling Scopes School React course — free, community-driven training:",
+    "courseLink": "rs.school/react"
   }
 }

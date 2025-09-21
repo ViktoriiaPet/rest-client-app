@@ -125,7 +125,7 @@ export default function SignIn() {
       <h2 className="pb-[3vw] font-inter text-xl text-purple-600">
         {t('auth.signIn')}
       </h2>
-      <div className="flex flex-col items-center p-[5vw] gap-[1vw] rounded-[15%] border-2 border-purple-300">
+      <div className="flex flex-col items-center p-[5vw] w-[550px] gap-[1vw] rounded-[15%] border-2 border-purple-300">
         <p className="errors text-center w-full">{errors.username || ''}</p>
         <div className="relative w-full max-w-[40vw]">
           <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" />

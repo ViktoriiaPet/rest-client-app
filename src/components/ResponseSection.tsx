@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from './ui/button';
 
 import { badgeColor } from '@/utils/getStatusCodeColor';
+import { getStatusText } from '@/utils/getStatusText';
 
 type ResponseSectionProps = {
   statusCode: number;
@@ -39,7 +40,7 @@ export default function ResponseSection({
       <div className="flex items-center justify-between gap-3 border-b bg-white px-4 py-2">
         <div className="flex items-center gap-3 min-w-0">
           <span
-            className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold text-white ${badgeColor(
+            className={`inline-flex items-center rounded-full px-2.5 py-1 text-[14px] font-semibold text-white ${badgeColor(
               statusCode
             )}`}
           >
@@ -49,7 +50,7 @@ export default function ResponseSection({
             className="text-sm text-slate-700 truncate"
             title={statusText ?? ''}
           >
-            {statusText ?? ''}
+            {statusText ?? getStatusText(statusCode)}
           </span>
         </div>
         <Button variant="custom" type="button" onClick={copy}>

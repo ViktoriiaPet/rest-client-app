@@ -254,7 +254,7 @@ export function HistoryPageInner({ loaderData }: { loaderData: LoaderData }) {
                     </Link>
                   </td>
                   <td className="px-4 py-2 border-b text-purple-600">
-                    {row.createdAt?.toISOString()}
+                    {row.createdAt?.toLocaleString()}
                   </td>
                   <td className="px-4 py-2 border-b text-purple-600">
                     {row.latencyMs}

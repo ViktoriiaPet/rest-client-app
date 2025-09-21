@@ -69,12 +69,12 @@ export default function HomePage(): JSX.Element | null {
             href="https://github.com/darinadaniuk/rs_react"
             target="_blank"
             rel="noreferrer"
-            className="text-purple-600 font-bold text-center text-l mb-2 mt-2"
+            className="text-purple-600 font-bold text-center text-l mb-2 mt-auto"
           >
             {t('aboutDarya.linkGitHub')}
           </a>
         </div>
-        <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">
+        <div className="flex flex-col border border-purple-600 p-[2vw] rounded-lg">
           <img
             src={alyona}
             alt={t('aboutAlyona.photoAlt')}
@@ -88,10 +88,36 @@ export default function HomePage(): JSX.Element | null {
             href="https://github.com/alyona317"
             target="_blank"
             rel="noreferrer"
-            className="text-purple-600 font-bold text-center text-l mb-2 mt-2"
+            className="text-purple-600 font-bold text-center text-l mb-2 mt-auto"
           >
             {t('aboutAlyona.linkGitHub')}
           </a>
+        </div>
+      </div>
+      <div className="text-sm space-y-4 mb-4">
+        <div>
+          <p>
+            {t('info.projectText')}{' '}
+            <a
+              href="https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/final.md"
+              className="text-purple-600 font-bold text-center"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t('info.projectLink')}
+            </a>
+          </p>
+          <p>
+            {t('info.courseText')}{' '}
+            <a
+              href="https://rs.school/courses/reactjs"
+              className="text-purple-600 font-bold text-center"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t('info.courseLink')}
+            </a>
+          </p>
         </div>
       </div>
       <div className="flex flex-row gap-[5vw] justify-around">
