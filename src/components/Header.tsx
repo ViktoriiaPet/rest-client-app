@@ -63,10 +63,10 @@ export default function Header(): JSX.Element | null {
   if (!ready) return null;
 
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header className="sticky top-0 z-50 w-full ">
       <div
         className={
-          `sticky top-0  py-2 z-50 w-full backdrop-blur-sm  px-4 py-2 ` +
+          `sticky top-0  py-2 z-50 w-full backdrop-blur-sm  px-8 py-2 ` +
           `${reduceMotion ? '' : 'transition-all duration-300 ease-in-out'} ` +
           (scrolled
             ? 'bg-white/80 border-b border-pink-300 shadow-md'
@@ -92,7 +92,7 @@ export default function Header(): JSX.Element | null {
               </>
             ) : (
               <>
-                <NavLink to="/signIn" end className="w-1/2 flex justify-end">
+                <NavLink to="/signIn" end className="w-1/2 flex justify-end ">
                   <SignButton text="auth.signIn" />
                 </NavLink>
                 <NavLink to="/signUp" end className="w-1/2">

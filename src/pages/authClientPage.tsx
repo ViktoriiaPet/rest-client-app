@@ -26,21 +26,21 @@ export default function AuthorizedUserPage(): JSX.Element | null {
                 [&>div]:flex-1 [&>div]:basis-0 [&>div]:min-w-0"
       >
         <NavLink
-          className="bg-pink-300 text-purple-600 shadow-md rounded-lg px-6 py-3 inline-block transition-colors duration-300 ease-in-out hover:bg-lavender-500 hover:bg-yellow-100"
+          className="bg-pink-300 text-purple-600 shadow-md rounded-lg px-6 py-3 inline-block transition-colors duration-300 ease-in-out hover:bg-lavender-500 hover:bg-yellow-100 font-semibold"
           to="/auth/restfull"
           end
         >
           <div>{t('clientPage.restfull')}</div>
         </NavLink>
         <NavLink
-          className="bg-pink-300 text-purple-600 shadow-md rounded-lg px-6 py-3 inline-block transition-colors duration-300 ease-in-out hover:bg-lavender-500 hover:bg-yellow-100"
+          className="bg-pink-300 text-purple-600 shadow-md rounded-lg px-6 py-3 inline-block transition-colors duration-300 ease-in-out hover:bg-lavender-500 hover:bg-yellow-100 font-semibold"
           to="/auth/clientVariales"
           end
         >
           <div>{t('clientPage.variables')}</div>
         </NavLink>
         <NavLink
-          className="bg-pink-300 text-purple-600 shadow-md rounded-lg px-6 py-3 inline-block transition-colors duration-300 ease-in-out hover:bg-lavender-500 hover:bg-yellow-100"
+          className="bg-pink-300 text-purple-600 shadow-md rounded-lg px-6 py-3 inline-block transition-colors duration-300 ease-in-out hover:bg-lavender-500 hover:bg-yellow-100 font-semibold"
           to="/auth/clientHistory"
           end
         >

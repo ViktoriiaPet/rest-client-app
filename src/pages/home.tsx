@@ -5,6 +5,7 @@ import { useState } from 'react';
 import type { JSX } from 'react';
 
 import { SignButton } from '@/components/SignButton';
+import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext.tsx';
 
 import darya from '@/assets/img/Darya.jpg';
@@ -52,7 +53,7 @@ export default function HomePage(): JSX.Element | null {
             rel="noreferrer"
             className="text-purple-600 font-bold text-center text-l mb-2 mt-auto"
           >
-            {t('aboutVika.linkGitHub')}
+            <Button variant="custom">{t('aboutVika.linkGitHub')}</Button>
           </a>
         </div>
         <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">
@@ -71,7 +72,7 @@ export default function HomePage(): JSX.Element | null {
             rel="noreferrer"
             className="text-purple-600 font-bold text-center text-l mb-2 mt-auto"
           >
-            {t('aboutDarya.linkGitHub')}
+            <Button variant="custom">{t('aboutDarya.linkGitHub')}</Button>
           </a>
         </div>
         <div className="flex flex-col border border-purple-600 p-[2vw] rounded-lg">
@@ -90,7 +91,7 @@ export default function HomePage(): JSX.Element | null {
             rel="noreferrer"
             className="text-purple-600 font-bold text-center text-l mb-2 mt-auto"
           >
-            {t('aboutAlyona.linkGitHub')}
+            <Button variant="custom">{t('aboutAlyona.linkGitHub')}</Button>
           </a>
         </div>
       </div>
