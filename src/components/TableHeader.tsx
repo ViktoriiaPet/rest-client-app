@@ -5,13 +5,13 @@ const TableHeader = () => {
 
   return (
     <>
-      <div className="text-[20px]  text-purple-600 pb-[2vw] flex justify-center items-center">
+      <div className="text-[20px]  text-purple-800 pb-[2vw] flex justify-center items-center">
         {t('variables.variableName')}
       </div>
-      <div className="text-[20px]  text-purple-600 pb-[2vw] flex justify-center items-center">
+      <div className="text-[20px]  text-purple-800 pb-[2vw] flex justify-center items-center">
         {t('variables.variableValue')}
       </div>
-      <div className="text-[20px]  text-purple-600 pb-[2vw] flex justify-center items-center ">
+      <div className="text-[20px]  text-purple-800 pb-[2vw] flex justify-center items-center ">
         {t('variables.actions')}
       </div>
     </>

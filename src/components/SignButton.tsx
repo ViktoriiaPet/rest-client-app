@@ -9,11 +9,5 @@ type SignButtonProps = {
 
 export const SignButton = ({ text }: SignButtonProps) => {
   const { t } = useTranslation();
-  return (
-    <Button
-      variant="custom"
-    >
-      {t(text)}
-    </Button>
-  );
+  return <Button variant="custom">{t(text)}</Button>;
 };

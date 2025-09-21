@@ -13,11 +13,10 @@ import alyona from '@/assets/img/alyona.jpg';
 import vika from '@/assets/img/vika.jpg';
 
 export default function HomePage(): JSX.Element | null {
-  const [mounted, setMounted] = useState(false);
   const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
-
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);

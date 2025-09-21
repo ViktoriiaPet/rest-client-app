@@ -87,11 +87,9 @@
     "history": "История"
   },
   "variables": {
-    "title": "Переменные",
     "addButton": "Добавить",
     "variableName": "Название переменной",
     "variableValue": "Значение переменной",
-    "actions": "Действия",
     "delete": "Удалить"
   },
   "aboutDarya": {
