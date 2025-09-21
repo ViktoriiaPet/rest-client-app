@@ -22,10 +22,6 @@ export default function SignUp() {
   const [, setSubmitted] = useState(false);
   const { setUser, setToken, user } = useAuth();
   const navigate = useNavigate();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
@@ -117,7 +113,7 @@ export default function SignUp() {
       setErrors(fieldErrors);
     }
   };
-  if (!mounted) return null;
+
   return (
     <form
       onSubmit={handleSubmit}

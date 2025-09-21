@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
 import { useState } from 'react';
 import type { JSX } from 'react';
 
 import { SignButton } from '@/components/SignButton';
-import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext.tsx';
 
 import darya from '@/assets/img/Darya.jpg';
@@ -13,10 +12,11 @@ import alyona from '@/assets/img/alyona.jpg';
 import vika from '@/assets/img/vika.jpg';
 
 export default function HomePage(): JSX.Element | null {
+  const [mounted, setMounted] = useState(false);
   const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -52,7 +52,7 @@ export default function HomePage(): JSX.Element | null {
             rel="noreferrer"
             className="text-purple-600 font-bold text-center text-l mb-2 mt-auto"
           >
-            <Button variant="custom">{t('aboutVika.linkGitHub')}</Button>
+            {t('aboutVika.linkGitHub')}
           </a>
         </div>
         <div className="flex flex-col border  border-purple-600 p-[2vw] rounded-lg">
@@ -71,7 +71,7 @@ export default function HomePage(): JSX.Element | null {
             rel="noreferrer"
             className="text-purple-600 font-bold text-center text-l mb-2 mt-auto"
           >
-            <Button variant="custom">{t('aboutDarya.linkGitHub')}</Button>
+            {t('aboutDarya.linkGitHub')}
           </a>
         </div>
         <div className="flex flex-col border border-purple-600 p-[2vw] rounded-lg">
@@ -90,7 +90,7 @@ export default function HomePage(): JSX.Element | null {
             rel="noreferrer"
             className="text-purple-600 font-bold text-center text-l mb-2 mt-auto"
           >
-            <Button variant="custom">{t('aboutAlyona.linkGitHub')}</Button>
+            {t('aboutAlyona.linkGitHub')}
           </a>
         </div>
       </div>

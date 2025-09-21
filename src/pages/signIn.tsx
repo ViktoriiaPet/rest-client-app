@@ -26,10 +26,6 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const showError = (message: string) => {
     setModalMessage(message);
@@ -115,7 +111,7 @@ export default function SignIn() {
   };
 
   useEffect(() => {}, [user, token]);
-  if (!mounted) return null;
+
   return (
     <form
       onSubmit={handleSubmit}

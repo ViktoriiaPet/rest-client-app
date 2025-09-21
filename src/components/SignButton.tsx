@@ -9,5 +9,12 @@ type SignButtonProps = {
 
 export const SignButton = ({ text }: SignButtonProps) => {
   const { t } = useTranslation();
-  return <Button variant="custom">{t(text)}</Button>;
+  return (
+    <Button
+      variant="outline"
+      className="hover:bg-yellow-100 bg-pink-300 text-purple-600 font-semibold py-2 px-4 rounded-lg shadow-md"
+    >
+      {t(text)}
+    </Button>
+  );
 };

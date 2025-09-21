@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Dialog,
   DialogContent,
@@ -24,11 +23,9 @@ export default function ErrorModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="w-[300px] p-4 text-center">
-        <DialogTitle className="text-purple-600">
-          {t('buttons.error')}
-        </DialogTitle>
+        <DialogTitle>{t('buttons.error')}</DialogTitle>
         <DialogDescription>{message}</DialogDescription>
-        <Button className="mt-4" variant="custom" onClick={onClose}>
+        <Button className="mt-4" onClick={onClose}>
           {t('buttons.close')}
         </Button>
       </DialogContent>

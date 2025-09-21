@@ -1,0 +1,2444 @@
+const __vite__mapDeps = (
+  i,
+  m = __vite__mapDeps,
+  d = m.f ||
+    (m.f = ['assets/firebase-_GfKOiAI.js', 'assets/index.esm-BE3Wjq2f.js'])
+) => i.map((i) => d[i]);
+import {
+  e as gt,
+  r as h,
+  j as l,
+  u as Ue,
+  a as H,
+  w as mt,
+  O as yt,
+  S as wt,
+} from './chunk-B7RQU5TL-BAM8tVsL.js';
+import { u as bt, _ as vt, A as xt } from './AuthContext-DbrGQ4pj.js';
+import { i as St } from './firebase-_GfKOiAI.js';
+import { V as kt } from './VariablesContext-D9rWs1hi.js';
+import { i as _t } from './i18next-Bhq85MQn.js';
+import {
+  s as Et,
+  a as Ct,
+  g as Rt,
+  u as Y,
+} from './useTranslation-CbMF285u.js';
+import { a as Pt, c as jt, P as Be, b as At } from './index-DbfQkS6M.js';
+import { u as $e, a as be, B as ve } from './button-DEmol27v.js';
+import { u as Tt, a as Ot } from './index-CcJr-wev.js';
+import { S as xe } from './SignButton-laMLIsRF.js';
+import './index.esm-BE3Wjq2f.js';
+import './index-N5PhXsCK.js';
+var re = { exports: {} },
+  oe = {};
+/**
+ * @license React
+ * use-sync-external-store-with-selector.production.js
+ *
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */ var Se;
+function Nt() {
+  if (Se) return oe;
+  Se = 1;
+  var e = gt();
+  function t(c, f) {
+    return (c === f && (c !== 0 || 1 / c === 1 / f)) || (c !== c && f !== f);
+  }
+  var n = typeof Object.is == 'function' ? Object.is : t,
+    r = e.useSyncExternalStore,
+    o = e.useRef,
+    i = e.useEffect,
+    s = e.useMemo,
+    a = e.useDebugValue;
+  return (
+    (oe.useSyncExternalStoreWithSelector = function (c, f, u, d, g) {
+      var y = o(null);
+      if (y.current === null) {
+        var m = { hasValue: !1, value: null };
+        y.current = m;
+      } else m = y.current;
+      y = s(
+        function () {
+          function b(v) {
+            if (!x) {
+              if (((x = !0), (k = v), (v = d(v)), g !== void 0 && m.hasValue)) {
+                var E = m.value;
+                if (g(E, v)) return (p = E);
+              }
+              return (p = v);
+            }
+            if (((E = p), n(k, v))) return E;
+            var R = d(v);
+            return g !== void 0 && g(E, R) ? ((k = v), E) : ((k = v), (p = R));
+          }
+          var x = !1,
+            k,
+            p,
+            w = u === void 0 ? null : u;
+          return [
+            function () {
+              return b(f());
+            },
+            w === null
+              ? void 0
+              : function () {
+                  return b(w());
+                },
+          ];
+        },
+        [f, u, d, g]
+      );
+      var S = r(c, y[0], y[1]);
+      return (
+        i(
+          function () {
+            ((m.hasValue = !0), (m.value = S));
+          },
+          [S]
+        ),
+        a(S),
+        S
+      );
+    }),
+    oe
+  );
+}
+var ke;
+function Dt() {
+  return (ke || ((ke = 1), (re.exports = Nt())), re.exports);
+}
+var It = Dt();
+function Lt(e) {
+  e();
+}
+function Mt() {
+  let e = null,
+    t = null;
+  return {
+    clear() {
+      ((e = null), (t = null));
+    },
+    notify() {
+      Lt(() => {
+        let n = e;
+        for (; n; ) (n.callback(), (n = n.next));
+      });
+    },
+    get() {
+      const n = [];
+      let r = e;
+      for (; r; ) (n.push(r), (r = r.next));
+      return n;
+    },
+    subscribe(n) {
+      let r = !0;
+      const o = (t = { callback: n, next: null, prev: t });
+      return (
+        o.prev ? (o.prev.next = o) : (e = o),
+        function () {
+          !r ||
+            e === null ||
+            ((r = !1),
+            o.next ? (o.next.prev = o.prev) : (t = o.prev),
+            o.prev ? (o.prev.next = o.next) : (e = o.next));
+        }
+      );
+    },
+  };
+}
+var _e = { notify() {}, get: () => [] };
+function Ft(e, t) {
+  let n,
+    r = _e,
+    o = 0,
+    i = !1;
+  function s(S) {
+    u();
+    const b = r.subscribe(S);
+    let x = !1;
+    return () => {
+      x || ((x = !0), b(), d());
+    };
+  }
+  function a() {
+    r.notify();
+  }
+  function c() {
+    m.onStateChange && m.onStateChange();
+  }
+  function f() {
+    return i;
+  }
+  function u() {
+    (o++, n || ((n = e.subscribe(c)), (r = Mt())));
+  }
+  function d() {
+    (o--, n && o === 0 && (n(), (n = void 0), r.clear(), (r = _e)));
+  }
+  function g() {
+    i || ((i = !0), u());
+  }
+  function y() {
+    i && ((i = !1), d());
+  }
+  const m = {
+    addNestedSub: s,
+    notifyNestedSubs: a,
+    handleChangeWrapper: c,
+    isSubscribed: f,
+    trySubscribe: g,
+    tryUnsubscribe: y,
+    getListeners: () => r,
+  };
+  return m;
+}
+var Ut = () =>
+    typeof window < 'u' &&
+    typeof window.document < 'u' &&
+    typeof window.document.createElement < 'u',
+  Bt = Ut(),
+  $t = () => typeof navigator < 'u' && navigator.product === 'ReactNative',
+  zt = $t(),
+  Ht = () => (Bt || zt ? h.useLayoutEffect : h.useEffect),
+  qt = Ht(),
+  Vt = Symbol.for('react-redux-context'),
+  Wt = typeof globalThis < 'u' ? globalThis : {};
+function Gt() {
+  if (!h.createContext) return {};
+  const e = (Wt[Vt] ??= new Map());
+  let t = e.get(h.createContext);
+  return (t || ((t = h.createContext(null)), e.set(h.createContext, t)), t);
+}
+var O = Gt();
+function Kt(e) {
+  const { children: t, context: n, serverState: r, store: o } = e,
+    i = h.useMemo(() => {
+      const c = Ft(o);
+      return {
+        store: o,
+        subscription: c,
+        getServerState: r ? () => r : void 0,
+      };
+    }, [o, r]),
+    s = h.useMemo(() => o.getState(), [o]);
+  qt(() => {
+    const { subscription: c } = i;
+    return (
+      (c.onStateChange = c.notifyNestedSubs),
+      c.trySubscribe(),
+      s !== o.getState() && c.notifyNestedSubs(),
+      () => {
+        (c.tryUnsubscribe(), (c.onStateChange = void 0));
+      }
+    );
+  }, [i, s]);
+  const a = n || O;
+  return h.createElement(a.Provider, { value: i }, t);
+}
+var Xt = Kt;
+function pe(e = O) {
+  return function () {
+    return h.useContext(e);
+  };
+}
+var ze = pe();
+function He(e = O) {
+  const t = e === O ? ze : pe(e),
+    n = () => {
+      const { store: r } = t();
+      return r;
+    };
+  return (Object.assign(n, { withTypes: () => n }), n);
+}
+var Qt = He();
+function Jt(e = O) {
+  const t = e === O ? Qt : He(e),
+    n = () => t().dispatch;
+  return (Object.assign(n, { withTypes: () => n }), n);
+}
+var Yt = Jt(),
+  Zt = (e, t) => e === t;
+function en(e = O) {
+  const t = e === O ? ze : pe(e),
+    n = (r, o = {}) => {
+      const { equalityFn: i = Zt } =
+          typeof o == 'function' ? { equalityFn: o } : o,
+        s = t(),
+        { store: a, subscription: c, getServerState: f } = s;
+      h.useRef(!0);
+      const u = h.useCallback(
+          {
+            [r.name](g) {
+              return r(g);
+            },
+          }[r.name],
+          [r]
+        ),
+        d = It.useSyncExternalStoreWithSelector(
+          c.addNestedSub,
+          a.getState,
+          f || a.getState,
+          u,
+          i
+        );
+      return (h.useDebugValue(d), d);
+    };
+  return (Object.assign(n, { withTypes: () => n }), n);
+}
+var tn = en();
+const { slice: nn, forEach: rn } = [];
+function on(e) {
+  return (
+    rn.call(nn.call(arguments, 1), (t) => {
+      if (t) for (const n in t) e[n] === void 0 && (e[n] = t[n]);
+    }),
+    e
+  );
+}
+function sn(e) {
+  return typeof e != 'string'
+    ? !1
+    : [
+        /<\s*script.*?>/i,
+        /<\s*\/\s*script\s*>/i,
+        /<\s*img.*?on\w+\s*=/i,
+        /<\s*\w+\s*on\w+\s*=.*?>/i,
+        /javascript\s*:/i,
+        /vbscript\s*:/i,
+        /expression\s*\(/i,
+        /eval\s*\(/i,
+        /alert\s*\(/i,
+        /document\.cookie/i,
+        /document\.write\s*\(/i,
+        /window\.location/i,
+        /innerHTML/i,
+      ].some((n) => n.test(e));
+}
+const Ee = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/,
+  an = function (e, t) {
+    const r =
+        arguments.length > 2 && arguments[2] !== void 0
+          ? arguments[2]
+          : { path: '/' },
+      o = encodeURIComponent(t);
+    let i = `${e}=${o}`;
+    if (r.maxAge > 0) {
+      const s = r.maxAge - 0;
+      if (Number.isNaN(s)) throw new Error('maxAge should be a Number');
+      i += `; Max-Age=${Math.floor(s)}`;
+    }
+    if (r.domain) {
+      if (!Ee.test(r.domain)) throw new TypeError('option domain is invalid');
+      i += `; Domain=${r.domain}`;
+    }
+    if (r.path) {
+      if (!Ee.test(r.path)) throw new TypeError('option path is invalid');
+      i += `; Path=${r.path}`;
+    }
+    if (r.expires) {
+      if (typeof r.expires.toUTCString != 'function')
+        throw new TypeError('option expires is invalid');
+      i += `; Expires=${r.expires.toUTCString()}`;
+    }
+    if (
+      (r.httpOnly && (i += '; HttpOnly'),
+      r.secure && (i += '; Secure'),
+      r.sameSite)
+    )
+      switch (
+        typeof r.sameSite == 'string' ? r.sameSite.toLowerCase() : r.sameSite
+      ) {
+        case !0:
+          i += '; SameSite=Strict';
+          break;
+        case 'lax':
+          i += '; SameSite=Lax';
+          break;
+        case 'strict':
+          i += '; SameSite=Strict';
+          break;
+        case 'none':
+          i += '; SameSite=None';
+          break;
+        default:
+          throw new TypeError('option sameSite is invalid');
+      }
+    return (r.partitioned && (i += '; Partitioned'), i);
+  },
+  Ce = {
+    create(e, t, n, r) {
+      let o =
+        arguments.length > 4 && arguments[4] !== void 0
+          ? arguments[4]
+          : { path: '/', sameSite: 'strict' };
+      (n &&
+        ((o.expires = new Date()),
+        o.expires.setTime(o.expires.getTime() + n * 60 * 1e3)),
+        r && (o.domain = r),
+        (document.cookie = an(e, t, o)));
+    },
+    read(e) {
+      const t = `${e}=`,
+        n = document.cookie.split(';');
+      for (let r = 0; r < n.length; r++) {
+        let o = n[r];
+        for (; o.charAt(0) === ' '; ) o = o.substring(1, o.length);
+        if (o.indexOf(t) === 0) return o.substring(t.length, o.length);
+      }
+      return null;
+    },
+    remove(e, t) {
+      this.create(e, '', -1, t);
+    },
+  };
+var cn = {
+    name: 'cookie',
+    lookup(e) {
+      let { lookupCookie: t } = e;
+      if (t && typeof document < 'u') return Ce.read(t) || void 0;
+    },
+    cacheUserLanguage(e, t) {
+      let {
+        lookupCookie: n,
+        cookieMinutes: r,
+        cookieDomain: o,
+        cookieOptions: i,
+      } = t;
+      n && typeof document < 'u' && Ce.create(n, e, r, o, i);
+    },
+  },
+  un = {
+    name: 'querystring',
+    lookup(e) {
+      let { lookupQuerystring: t } = e,
+        n;
+      if (typeof window < 'u') {
+        let { search: r } = window.location;
+        !window.location.search &&
+          window.location.hash?.indexOf('?') > -1 &&
+          (r = window.location.hash.substring(
+            window.location.hash.indexOf('?')
+          ));
+        const i = r.substring(1).split('&');
+        for (let s = 0; s < i.length; s++) {
+          const a = i[s].indexOf('=');
+          a > 0 && i[s].substring(0, a) === t && (n = i[s].substring(a + 1));
+        }
+      }
+      return n;
+    },
+  },
+  ln = {
+    name: 'hash',
+    lookup(e) {
+      let { lookupHash: t, lookupFromHashIndex: n } = e,
+        r;
+      if (typeof window < 'u') {
+        const { hash: o } = window.location;
+        if (o && o.length > 2) {
+          const i = o.substring(1);
+          if (t) {
+            const s = i.split('&');
+            for (let a = 0; a < s.length; a++) {
+              const c = s[a].indexOf('=');
+              c > 0 &&
+                s[a].substring(0, c) === t &&
+                (r = s[a].substring(c + 1));
+            }
+          }
+          if (r) return r;
+          if (!r && n > -1) {
+            const s = o.match(/\/([a-zA-Z-]*)/g);
+            return Array.isArray(s)
+              ? s[typeof n == 'number' ? n : 0]?.replace('/', '')
+              : void 0;
+          }
+        }
+      }
+      return r;
+    },
+  };
+let L = null;
+const Re = () => {
+  if (L !== null) return L;
+  try {
+    if (((L = typeof window < 'u' && window.localStorage !== null), !L))
+      return !1;
+    const e = 'i18next.translate.boo';
+    (window.localStorage.setItem(e, 'foo'), window.localStorage.removeItem(e));
+  } catch {
+    L = !1;
+  }
+  return L;
+};
+var fn = {
+  name: 'localStorage',
+  lookup(e) {
+    let { lookupLocalStorage: t } = e;
+    if (t && Re()) return window.localStorage.getItem(t) || void 0;
+  },
+  cacheUserLanguage(e, t) {
+    let { lookupLocalStorage: n } = t;
+    n && Re() && window.localStorage.setItem(n, e);
+  },
+};
+let M = null;
+const Pe = () => {
+  if (M !== null) return M;
+  try {
+    if (((M = typeof window < 'u' && window.sessionStorage !== null), !M))
+      return !1;
+    const e = 'i18next.translate.boo';
+    (window.sessionStorage.setItem(e, 'foo'),
+      window.sessionStorage.removeItem(e));
+  } catch {
+    M = !1;
+  }
+  return M;
+};
+var dn = {
+    name: 'sessionStorage',
+    lookup(e) {
+      let { lookupSessionStorage: t } = e;
+      if (t && Pe()) return window.sessionStorage.getItem(t) || void 0;
+    },
+    cacheUserLanguage(e, t) {
+      let { lookupSessionStorage: n } = t;
+      n && Pe() && window.sessionStorage.setItem(n, e);
+    },
+  },
+  hn = {
+    name: 'navigator',
+    lookup(e) {
+      const t = [];
+      if (typeof navigator < 'u') {
+        const { languages: n, userLanguage: r, language: o } = navigator;
+        if (n) for (let i = 0; i < n.length; i++) t.push(n[i]);
+        (r && t.push(r), o && t.push(o));
+      }
+      return t.length > 0 ? t : void 0;
+    },
+  },
+  pn = {
+    name: 'htmlTag',
+    lookup(e) {
+      let { htmlTag: t } = e,
+        n;
+      const r = t || (typeof document < 'u' ? document.documentElement : null);
+      return (
+        r &&
+          typeof r.getAttribute == 'function' &&
+          (n = r.getAttribute('lang')),
+        n
+      );
+    },
+  },
+  gn = {
+    name: 'path',
+    lookup(e) {
+      let { lookupFromPathIndex: t } = e;
+      if (typeof window > 'u') return;
+      const n = window.location.pathname.match(/\/([a-zA-Z-]*)/g);
+      return Array.isArray(n)
+        ? n[typeof t == 'number' ? t : 0]?.replace('/', '')
+        : void 0;
+    },
+  },
+  mn = {
+    name: 'subdomain',
+    lookup(e) {
+      let { lookupFromSubdomainIndex: t } = e;
+      const n = typeof t == 'number' ? t + 1 : 1,
+        r =
+          typeof window < 'u' &&
+          window.location?.hostname?.match(
+            /^(\w{2,5})\.(([a-z0-9-]{1,63}\.[a-z]{2,6})|localhost)/i
+          );
+      if (r) return r[n];
+    },
+  };
+let qe = !1;
+try {
+  (document.cookie, (qe = !0));
+} catch {}
+const Ve = [
+  'querystring',
+  'cookie',
+  'localStorage',
+  'sessionStorage',
+  'navigator',
+  'htmlTag',
+];
+qe || Ve.splice(1, 1);
+const yn = () => ({
+  order: Ve,
+  lookupQuerystring: 'lng',
+  lookupCookie: 'i18next',
+  lookupLocalStorage: 'i18nextLng',
+  lookupSessionStorage: 'i18nextLng',
+  caches: ['localStorage'],
+  excludeCacheFor: ['cimode'],
+  convertDetectedLanguage: (e) => e,
+});
+class We {
+  constructor(t) {
+    let n = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    ((this.type = 'languageDetector'), (this.detectors = {}), this.init(t, n));
+  }
+  init() {
+    let t =
+        arguments.length > 0 && arguments[0] !== void 0
+          ? arguments[0]
+          : { languageUtils: {} },
+      n = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {},
+      r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+    ((this.services = t),
+      (this.options = on(n, this.options || {}, yn())),
+      typeof this.options.convertDetectedLanguage == 'string' &&
+        this.options.convertDetectedLanguage.indexOf('15897') > -1 &&
+        (this.options.convertDetectedLanguage = (o) => o.replace('-', '_')),
+      this.options.lookupFromUrlIndex &&
+        (this.options.lookupFromPathIndex = this.options.lookupFromUrlIndex),
+      (this.i18nOptions = r),
+      this.addDetector(cn),
+      this.addDetector(un),
+      this.addDetector(fn),
+      this.addDetector(dn),
+      this.addDetector(hn),
+      this.addDetector(pn),
+      this.addDetector(gn),
+      this.addDetector(mn),
+      this.addDetector(ln));
+  }
+  addDetector(t) {
+    return ((this.detectors[t.name] = t), this);
+  }
+  detect() {
+    let t =
+        arguments.length > 0 && arguments[0] !== void 0
+          ? arguments[0]
+          : this.options.order,
+      n = [];
+    return (
+      t.forEach((r) => {
+        if (this.detectors[r]) {
+          let o = this.detectors[r].lookup(this.options);
+          (o && typeof o == 'string' && (o = [o]), o && (n = n.concat(o)));
+        }
+      }),
+      (n = n
+        .filter((r) => r != null && !sn(r))
+        .map((r) => this.options.convertDetectedLanguage(r))),
+      this.services &&
+      this.services.languageUtils &&
+      this.services.languageUtils.getBestMatchFromCodes
+        ? n
+        : n.length > 0
+          ? n[0]
+          : null
+    );
+  }
+  cacheUserLanguage(t) {
+    let n =
+      arguments.length > 1 && arguments[1] !== void 0
+        ? arguments[1]
+        : this.options.caches;
+    n &&
+      ((this.options.excludeCacheFor &&
+        this.options.excludeCacheFor.indexOf(t) > -1) ||
+        n.forEach((r) => {
+          this.detectors[r] &&
+            this.detectors[r].cacheUserLanguage(t, this.options);
+        }));
+  }
+}
+We.type = 'languageDetector';
+const wn = {
+    type: '3rdParty',
+    init(e) {
+      (Et(e.options.react), Ct(e));
+    },
+  },
+  bn = (e, t = {}) =>
+    function (r) {
+      function o({ forwardedRef: s, ...a }) {
+        const [c, f, u] = Y(e, { ...a, keyPrefix: t.keyPrefix }),
+          d = { ...a, t: c, i18n: f, tReady: u };
+        return (
+          t.withRef && s
+            ? (d.ref = s)
+            : !t.withRef && s && (d.forwardedRef = s),
+          h.createElement(r, d)
+        );
+      }
+      ((o.displayName = `withI18nextTranslation(${Rt(r)})`),
+        (o.WrappedComponent = r));
+      const i = (s, a) =>
+        h.createElement(o, Object.assign({}, s, { forwardedRef: a }));
+      return t.withRef ? h.forwardRef(i) : o;
+    },
+  vn = {
+    signIn: 'Sign in',
+    signUp: 'Sign up',
+    welcome: 'Welcome',
+    welcomeBack: 'Welcome Back',
+    isAccount: 'Already have an account?',
+    logOut: 'Log Out',
+  },
+  xn = { name: 'Name', email: 'Email', password: 'Password', submit: 'Submit' },
+  Sn = { english: 'English', russian: 'Russian' },
+  kn = {
+    title: 'RESTClient',
+    history: 'History',
+    historyRequests: 'History Requests',
+    variables: 'Variables',
+    mainPage: 'Main page',
+    github: 'Github',
+    loading: 'Loading',
+  },
+  _n = {
+    method: 'Method',
+    endpointUrl: 'Endpoint URL',
+    headers: 'Headers',
+    headerKey: 'Header Key',
+    headerValue: 'Header Value',
+    code: 'Code',
+    body: 'Body',
+    response: 'Response',
+    status: 'Status',
+    copyJSON: 'Copy JSON',
+    params: 'Params',
+    addParam: 'Add param',
+    addHeader: 'Add header',
+    addField: 'Add field',
+    rawBody: 'Raw body',
+    invalidUrl: 'Invalid URL',
+  },
+  En = {
+    noRequests: "You haven't executed any requests",
+    hint: "It's empty here. Try:",
+  },
+  Cn = {
+    usernameRequired: 'Enter username',
+    usernameLetters: 'Username can only contain letters',
+    emailInvalid: 'Enter a valid email',
+    passwordInvalid:
+      'Password must be at least 8 characters and include uppercase, lowercase and a number',
+  },
+  Rn = {
+    title: '404 — Page not found',
+    description: 'The page you’re looking for doesn’t exist or has moved.',
+    back: 'Go back',
+    home: 'Go home',
+  },
+  Pn = { title: 'Something went wrong', tryAgain: 'Try again' },
+  jn = {
+    send: 'Send',
+    copy: 'Copy',
+    close: 'Close',
+    error: 'Error',
+    prettify: 'Prettify',
+  },
+  An = { restfull: 'Restfull', variables: 'Variables', history: 'History' },
+  Tn = {
+    title: 'Variables',
+    addButton: 'Add',
+    variableName: 'Variable name',
+    variableValue: 'Variable value',
+    actions: 'Actions',
+    delete: 'Delete',
+  },
+  On = {
+    photoAlt: "Darya's photo",
+    name: 'Dasha',
+    text: "Hi! My name is Dasha. I currently live in Ottawa, Canada, where I've been for the past three years after moving here with my family and our two cats. In my free time, I enjoy knitting and reading.",
+    linkGitHub: 'GitHub link',
+  },
+  Nn = {
+    photoAlt: "Alyona's photo",
+    name: 'Alyona',
+    text: 'Hi :) My name is Alyona. I live in Saint Petersburg, Russia. I love traveling and discovering new things.',
+    linkGitHub: 'GitHub link',
+  },
+  Dn = {
+    photoAlt: "Vika's photo",
+    name: 'Vika',
+    text: 'Hi, I’m Vika. I live in Barcelona and I’m diligently learning Spanish. My hobbies are everything related to handicrafts: sewing, knitting, sculpting. 😊',
+    linkGitHub: 'GitHub link',
+  },
+  In = {
+    generatedCode: 'Generated code',
+    generating: 'Generating snippets…',
+    chooseLanguage: 'Choose language…',
+    notAvailable: 'Not available for this request',
+    urlInvalid: 'URL is missing or invalid',
+    genFailed: 'Failed to generate code',
+    codeText: 'Send a request to generate code',
+    codeBtn: 'Show Code',
+    noResponse: 'Click send to get a response',
+  },
+  Ln = {
+    auth: vn,
+    form: xn,
+    lang: Sn,
+    app: kn,
+    request: _n,
+    emptyState: En,
+    validation: Cn,
+    notFound: Rn,
+    errorBoundary: Pn,
+    buttons: jn,
+    clientPage: An,
+    variables: Tn,
+    aboutDarya: On,
+    aboutAlyona: Nn,
+    aboutVika: Dn,
+    restfull: In,
+  },
+  Mn = {
+    signIn: 'Войти',
+    signUp: 'Регистрация',
+    welcome: 'Добро пожаловать',
+    welcomeBack: 'С возвращением',
+    isAccount: 'Уже есть аккаунт?',
+    logOut: 'Выйти',
+  },
+  Fn = {
+    name: 'Имя',
+    email: 'Электронная почта',
+    password: 'Пароль',
+    submit: 'Отправить',
+  },
+  Un = { english: 'Английский', russian: 'Русский' },
+  Bn = {
+    title: 'RESTClient',
+    history: 'История',
+    historyRequests: 'Запросы истории',
+    variables: 'Переменные',
+    mainPage: 'Главная страница',
+    github: 'Гитхаб',
+    loading: 'Загрузка',
+  },
+  $n = {
+    method: 'Метод',
+    endpointUrl: 'URL эндпоинта',
+    headers: 'Заголовки',
+    headerKey: 'Ключ заголовка',
+    headerValue: 'Значение заголовка',
+    code: 'Код',
+    body: 'Тело',
+    response: 'Ответ',
+    status: 'Статус',
+    copyJSON: 'Скопировать JSON',
+    params: 'Параметры',
+    addParam: 'Добавить параметры',
+    addHeader: 'Добавить заголовки',
+    addField: 'Добавить поле',
+    rawBody: 'Текст',
+    invalidUrl: 'Неверный URL',
+  },
+  zn = {
+    noRequests: 'Вы ещё не выполняли запросы',
+    hint: 'Здесь пусто. Попробуйте:',
+  },
+  Hn = 'Имя',
+  qn = 'Электронная почта',
+  Vn = 'Пароль',
+  Wn = 'Отправить',
+  Gn = 'Уже есть аккаунт?',
+  Kn = 'Выйти',
+  Xn = 'Главная страница',
+  Qn =
+    'Я живу в Барселоне и с большим интересом изучаю программирование. Раньше немного занималась аналитикой данных, и именно это подтолкнуло меня глубже погрузиться в сферу IT. Сейчас я параллельно обучаюсь на курсах по фуллстек-разработке и мне нравится ощущать прогресс: каждый новый модуль открывает что-то важное и помогает двигаться дальше. Особенно интересно наблюдать, как шаг за шагом удаётся собирать настоящие проекты, которые работают и приносят пользу. Для меня программирование — это не только про логику и код, но и про возможность воплощать идеи в реальность.',
+  Jn = {
+    usernameRequired: 'Введите имя пользователя',
+    usernameLetters: 'Имя должно содержать только буквы',
+    emailInvalid: 'Введите корректный email',
+    passwordInvalid:
+      'Пароль должен быть не менее 8 символов и содержать заглавную букву, строчную и цифру',
+  },
+  Yn = {
+    title: '404 — Страница не найдена',
+    description:
+      'Страница, которую вы ищете, не существует или была перемещена.',
+    back: 'Назад',
+    home: 'На главную',
+  },
+  Zn = { title: 'Что-то пошло не так', tryAgain: 'Попробовать снова' },
+  er = {
+    send: 'Отправить',
+    copy: 'Копировать',
+    close: 'Закрыть',
+    error: 'Ошибка',
+    prettify: 'Отформатировать',
+  },
+  tr = { restfull: 'Pестфул', variables: 'Переменные', history: 'История' },
+  nr = {
+    title: 'Переменные',
+    addButton: 'Добавить',
+    variableName: 'Название переменной',
+    variableValue: 'Значение переменной',
+    actions: 'Действия',
+    delete: 'Удалить',
+  },
+  rr = {
+    photoAlt: 'Фото Даши',
+    name: 'Даша',
+    text: 'Привет! Меня зовут Даша. Сейчас я живу в Оттаве. Мы переехали сюда три года назад всей семьёй с двумя котами. В свободное время я люблю вязать и читать.',
+    linkGitHub: 'Ссылка на Гитхаб',
+  },
+  or = {
+    photoAlt: 'Фото Алёны',
+    name: 'Алёна',
+    text: 'Привет :) Меня зовут Алёна. Я живу в Санкт-Петербурге. Очень люблю путешествовать и открывать для себя что-то новое.',
+    linkGitHub: 'Ссылка на Гитхаб',
+  },
+  ir = {
+    photoAlt: 'Фото Вики',
+    name: 'Вика',
+    text: 'Привет, я Вика. Я живу в Барселоне и упорно изучаю испанский язык. Мои хобби — всё, что связано с рукоделием: шить, вязать, лепить. 😊',
+    linkGitHub: 'Ссылка на Гитхаб',
+  },
+  sr = {
+    generatedCode: 'Сгенерированный код',
+    generating: 'Генерация сниппетов…',
+    chooseLanguage: 'Выберите язык…',
+    notAvailable: 'Недоступно для этого запроса',
+    urlInvalid: 'URL отсутствует или недействителен',
+    genFailed: 'Не удалось сгенерировать код',
+    codeText: 'Отправьте запрос, чтобы сгенерировать код',
+    codeBtn: 'Показать код',
+    noResponse: 'Нажмите Отправить, чтобы получить ответ',
+  },
+  ar = {
+    auth: Mn,
+    form: Fn,
+    lang: Un,
+    app: Bn,
+    request: $n,
+    emptyState: zn,
+    Name: Hn,
+    Email: qn,
+    Password: Vn,
+    Submit: Wn,
+    IsAccount: Gn,
+    LogOut: Kn,
+    MainPage: Xn,
+    abouVika: Qn,
+    validation: Jn,
+    notFound: Yn,
+    errorBoundary: Zn,
+    buttons: er,
+    clientPage: tr,
+    variables: nr,
+    aboutDarya: rr,
+    aboutAlyona: or,
+    aboutVika: ir,
+    restfull: sr,
+  };
+function cr() {
+  if (typeof document > 'u') return 'en';
+  const e = document.cookie.match(/(?:^|; )lang=([^;]+)/);
+  return e ? decodeURIComponent(e[1]) : 'en';
+}
+_t.use(We)
+  .use(wn)
+  .init({
+    debug: !0,
+    resources: { en: { translation: Ln }, ru: { translation: ar } },
+    lng: cr(),
+    fallbackLng: 'en',
+    interpolation: { escapeValue: !1 },
+  });
+class ur extends h.Component {
+  state = { hasError: !1 };
+  static getDerivedStateFromError(t) {
+    return {
+      hasError: !0,
+      message: t instanceof Error ? t.message : String(t),
+    };
+  }
+  componentDidCatch(t, n) {
+    console.error('ErrorBoundary:', t, n);
+  }
+  retry = () => {
+    this.setState({ hasError: !1, message: void 0 });
+  };
+  render() {
+    const { t } = this.props;
+    return this.state.hasError
+      ? l.jsxs('div', {
+          className: 'p-4 space-y-3',
+          children: [
+            l.jsx('h3', {
+              className: 'text-lg font-semibold',
+              children: t('errorBoundary.title', 'Something went wrong'),
+            }),
+            !!this.state.message &&
+              l.jsx('p', {
+                className: 'text-sm opacity-80 whitespace-pre-wrap break-words',
+                children: this.state.message,
+              }),
+            l.jsx('div', {
+              className: 'flex gap-2',
+              children: l.jsx('button', {
+                type: 'button',
+                onClick: this.retry,
+                className: 'px-3 py-1 rounded border',
+                children: t('errorBoundary.tryAgain', 'Try again'),
+              }),
+            }),
+          ],
+        })
+      : this.props.children;
+  }
+}
+const lr = bn()(ur);
+function fr() {
+  const [e, t] = h.useState(!1),
+    { t: n } = Y();
+  return (
+    h.useEffect(() => {
+      t(!0);
+    }, []),
+    e
+      ? l.jsx('footer', {
+          className: 'bottom-0 w-full bg-pink-200 px-4 py-2',
+          children: l.jsxs('div', {
+            className: 'mx-auto max-w-5xl flex items-center justify-between',
+            children: [
+              l.jsx('a', {
+                href: 'https://github.com/ViktoriiaPet/rest-client-app',
+                target: '_blank',
+                rel: 'noreferrer',
+                className: 'text-purple-600 ',
+                children: n('app.github'),
+              }),
+              l.jsx('span', { className: 'text-purple-600', children: '2025' }),
+              l.jsx('a', {
+                href: 'https://rs.school/',
+                target: '_blank',
+                rel: 'noreferrer',
+                children: l.jsx('img', {
+                  className: 'w-[40px]',
+                  src: 'https://rs.school/_next/static/media/rss-logo.c19ce1b4.svg',
+                  alt: 'rss logo',
+                }),
+              }),
+            ],
+          }),
+        })
+      : null
+  );
+}
+function Ge() {
+  if (typeof document > 'u') return 'en';
+  const e = document.cookie.match(/(?:^|; )lang=([^;]+)/);
+  return e ? decodeURIComponent(e[1]) : 'en';
+}
+var Z = 'Switch',
+  [dr] = jt(Z),
+  [hr, pr] = dr(Z),
+  Ke = h.forwardRef((e, t) => {
+    const {
+        __scopeSwitch: n,
+        name: r,
+        checked: o,
+        defaultChecked: i,
+        required: s,
+        disabled: a,
+        value: c = 'on',
+        onCheckedChange: f,
+        form: u,
+        ...d
+      } = e,
+      [g, y] = h.useState(null),
+      m = $e(t, (p) => y(p)),
+      S = h.useRef(!1),
+      b = g ? u || !!g.closest('form') : !0,
+      [x, k] = Pt({ prop: o, defaultProp: i ?? !1, onChange: f, caller: Z });
+    return l.jsxs(hr, {
+      scope: n,
+      checked: x,
+      disabled: a,
+      children: [
+        l.jsx(Be.button, {
+          type: 'button',
+          role: 'switch',
+          'aria-checked': x,
+          'aria-required': s,
+          'data-state': Ye(x),
+          'data-disabled': a ? '' : void 0,
+          disabled: a,
+          value: c,
+          ...d,
+          ref: m,
+          onClick: At(e.onClick, (p) => {
+            (k((w) => !w),
+              b &&
+                ((S.current = p.isPropagationStopped()),
+                S.current || p.stopPropagation()));
+          }),
+        }),
+        b &&
+          l.jsx(Je, {
+            control: g,
+            bubbles: !S.current,
+            name: r,
+            value: c,
+            checked: x,
+            required: s,
+            disabled: a,
+            form: u,
+            style: { transform: 'translateX(-100%)' },
+          }),
+      ],
+    });
+  });
+Ke.displayName = Z;
+var Xe = 'SwitchThumb',
+  Qe = h.forwardRef((e, t) => {
+    const { __scopeSwitch: n, ...r } = e,
+      o = pr(Xe, n);
+    return l.jsx(Be.span, {
+      'data-state': Ye(o.checked),
+      'data-disabled': o.disabled ? '' : void 0,
+      ...r,
+      ref: t,
+    });
+  });
+Qe.displayName = Xe;
+var gr = 'SwitchBubbleInput',
+  Je = h.forwardRef(
+    (
+      { __scopeSwitch: e, control: t, checked: n, bubbles: r = !0, ...o },
+      i
+    ) => {
+      const s = h.useRef(null),
+        a = $e(s, i),
+        c = Tt(n),
+        f = Ot(t);
+      return (
+        h.useEffect(() => {
+          const u = s.current;
+          if (!u) return;
+          const d = window.HTMLInputElement.prototype,
+            y = Object.getOwnPropertyDescriptor(d, 'checked').set;
+          if (c !== n && y) {
+            const m = new Event('click', { bubbles: r });
+            (y.call(u, n), u.dispatchEvent(m));
+          }
+        }, [c, n, r]),
+        l.jsx('input', {
+          type: 'checkbox',
+          'aria-hidden': !0,
+          defaultChecked: n,
+          ...o,
+          tabIndex: -1,
+          ref: a,
+          style: {
+            ...o.style,
+            ...f,
+            position: 'absolute',
+            pointerEvents: 'none',
+            opacity: 0,
+            margin: 0,
+          },
+        })
+      );
+    }
+  );
+Je.displayName = gr;
+function Ye(e) {
+  return e ? 'checked' : 'unchecked';
+}
+var Ze = Ke,
+  mr = Qe;
+const et = h.forwardRef(({ className: e, ...t }, n) =>
+  l.jsx(Ze, {
+    className: be(
+      'peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-pink-400 data-[state=unchecked]:bg-input',
+      e
+    ),
+    ...t,
+    ref: n,
+    children: l.jsx(mr, {
+      className: be(
+        'pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0'
+      ),
+    }),
+  })
+);
+et.displayName = Ze.displayName;
+function _(e) {
+  return `Minified Redux error #${e}; visit https://redux.js.org/Errors?code=${e} for the full message or use the non-minified dev environment for full errors. `;
+}
+var yr = (typeof Symbol == 'function' && Symbol.observable) || '@@observable',
+  je = yr,
+  ie = () => Math.random().toString(36).substring(7).split('').join('.'),
+  wr = {
+    INIT: `@@redux/INIT${ie()}`,
+    REPLACE: `@@redux/REPLACE${ie()}`,
+    PROBE_UNKNOWN_ACTION: () => `@@redux/PROBE_UNKNOWN_ACTION${ie()}`,
+  },
+  G = wr;
+function ge(e) {
+  if (typeof e != 'object' || e === null) return !1;
+  let t = e;
+  for (; Object.getPrototypeOf(t) !== null; ) t = Object.getPrototypeOf(t);
+  return Object.getPrototypeOf(e) === t || Object.getPrototypeOf(e) === null;
+}
+function tt(e, t, n) {
+  if (typeof e != 'function') throw new Error(_(2));
+  if (
+    (typeof t == 'function' && typeof n == 'function') ||
+    (typeof n == 'function' && typeof arguments[3] == 'function')
+  )
+    throw new Error(_(0));
+  if (
+    (typeof t == 'function' && typeof n > 'u' && ((n = t), (t = void 0)),
+    typeof n < 'u')
+  ) {
+    if (typeof n != 'function') throw new Error(_(1));
+    return n(tt)(e, t);
+  }
+  let r = e,
+    o = t,
+    i = new Map(),
+    s = i,
+    a = 0,
+    c = !1;
+  function f() {
+    s === i &&
+      ((s = new Map()),
+      i.forEach((b, x) => {
+        s.set(x, b);
+      }));
+  }
+  function u() {
+    if (c) throw new Error(_(3));
+    return o;
+  }
+  function d(b) {
+    if (typeof b != 'function') throw new Error(_(4));
+    if (c) throw new Error(_(5));
+    let x = !0;
+    f();
+    const k = a++;
+    return (
+      s.set(k, b),
+      function () {
+        if (x) {
+          if (c) throw new Error(_(6));
+          ((x = !1), f(), s.delete(k), (i = null));
+        }
+      }
+    );
+  }
+  function g(b) {
+    if (!ge(b)) throw new Error(_(7));
+    if (typeof b.type > 'u') throw new Error(_(8));
+    if (typeof b.type != 'string') throw new Error(_(17));
+    if (c) throw new Error(_(9));
+    try {
+      ((c = !0), (o = r(o, b)));
+    } finally {
+      c = !1;
+    }
+    return (
+      (i = s).forEach((k) => {
+        k();
+      }),
+      b
+    );
+  }
+  function y(b) {
+    if (typeof b != 'function') throw new Error(_(10));
+    ((r = b), g({ type: G.REPLACE }));
+  }
+  function m() {
+    const b = d;
+    return {
+      subscribe(x) {
+        if (typeof x != 'object' || x === null) throw new Error(_(11));
+        function k() {
+          const w = x;
+          w.next && w.next(u());
+        }
+        return (k(), { unsubscribe: b(k) });
+      },
+      [je]() {
+        return this;
+      },
+    };
+  }
+  return (
+    g({ type: G.INIT }),
+    { dispatch: g, subscribe: d, getState: u, replaceReducer: y, [je]: m }
+  );
+}
+function br(e) {
+  Object.keys(e).forEach((t) => {
+    const n = e[t];
+    if (typeof n(void 0, { type: G.INIT }) > 'u') throw new Error(_(12));
+    if (typeof n(void 0, { type: G.PROBE_UNKNOWN_ACTION() }) > 'u')
+      throw new Error(_(13));
+  });
+}
+function vr(e) {
+  const t = Object.keys(e),
+    n = {};
+  for (let i = 0; i < t.length; i++) {
+    const s = t[i];
+    typeof e[s] == 'function' && (n[s] = e[s]);
+  }
+  const r = Object.keys(n);
+  let o;
+  try {
+    br(n);
+  } catch (i) {
+    o = i;
+  }
+  return function (s = {}, a) {
+    if (o) throw o;
+    let c = !1;
+    const f = {};
+    for (let u = 0; u < r.length; u++) {
+      const d = r[u],
+        g = n[d],
+        y = s[d],
+        m = g(y, a);
+      if (typeof m > 'u') throw (a && a.type, new Error(_(14)));
+      ((f[d] = m), (c = c || m !== y));
+    }
+    return ((c = c || r.length !== Object.keys(s).length), c ? f : s);
+  };
+}
+function K(...e) {
+  return e.length === 0
+    ? (t) => t
+    : e.length === 1
+      ? e[0]
+      : e.reduce(
+          (t, n) =>
+            (...r) =>
+              t(n(...r))
+        );
+}
+function xr(...e) {
+  return (t) => (n, r) => {
+    const o = t(n, r);
+    let i = () => {
+      throw new Error(_(15));
+    };
+    const s = { getState: o.getState, dispatch: (c, ...f) => i(c, ...f) },
+      a = e.map((c) => c(s));
+    return ((i = K(...a)(o.dispatch)), { ...o, dispatch: i });
+  };
+}
+function Sr(e) {
+  return ge(e) && 'type' in e && typeof e.type == 'string';
+}
+var nt = Symbol.for('immer-nothing'),
+  Ae = Symbol.for('immer-draftable'),
+  P = Symbol.for('immer-state');
+function j(e, ...t) {
+  throw new Error(
+    `[Immer] minified error nr: ${e}. Full error at: https://bit.ly/3cXEKWf`
+  );
+}
+var F = Object.getPrototypeOf;
+function D(e) {
+  return !!e && !!e[P];
+}
+function T(e) {
+  return e
+    ? rt(e) ||
+        Array.isArray(e) ||
+        !!e[Ae] ||
+        !!e.constructor?.[Ae] ||
+        z(e) ||
+        te(e)
+    : !1;
+}
+var kr = Object.prototype.constructor.toString();
+function rt(e) {
+  if (!e || typeof e != 'object') return !1;
+  const t = F(e);
+  if (t === null) return !0;
+  const n = Object.hasOwnProperty.call(t, 'constructor') && t.constructor;
+  return n === Object
+    ? !0
+    : typeof n == 'function' && Function.toString.call(n) === kr;
+}
+function X(e, t) {
+  ee(e) === 0
+    ? Reflect.ownKeys(e).forEach((n) => {
+        t(n, e[n], e);
+      })
+    : e.forEach((n, r) => t(r, n, e));
+}
+function ee(e) {
+  const t = e[P];
+  return t ? t.type_ : Array.isArray(e) ? 1 : z(e) ? 2 : te(e) ? 3 : 0;
+}
+function ce(e, t) {
+  return ee(e) === 2 ? e.has(t) : Object.prototype.hasOwnProperty.call(e, t);
+}
+function ot(e, t, n) {
+  const r = ee(e);
+  r === 2 ? e.set(t, n) : r === 3 ? e.add(n) : (e[t] = n);
+}
+function _r(e, t) {
+  return e === t ? e !== 0 || 1 / e === 1 / t : e !== e && t !== t;
+}
+function z(e) {
+  return e instanceof Map;
+}
+function te(e) {
+  return e instanceof Set;
+}
+function N(e) {
+  return e.copy_ || e.base_;
+}
+function ue(e, t) {
+  if (z(e)) return new Map(e);
+  if (te(e)) return new Set(e);
+  if (Array.isArray(e)) return Array.prototype.slice.call(e);
+  const n = rt(e);
+  if (t === !0 || (t === 'class_only' && !n)) {
+    const r = Object.getOwnPropertyDescriptors(e);
+    delete r[P];
+    let o = Reflect.ownKeys(r);
+    for (let i = 0; i < o.length; i++) {
+      const s = o[i],
+        a = r[s];
+      (a.writable === !1 && ((a.writable = !0), (a.configurable = !0)),
+        (a.get || a.set) &&
+          (r[s] = {
+            configurable: !0,
+            writable: !0,
+            enumerable: a.enumerable,
+            value: e[s],
+          }));
+    }
+    return Object.create(F(e), r);
+  } else {
+    const r = F(e);
+    if (r !== null && n) return { ...e };
+    const o = Object.create(r);
+    return Object.assign(o, e);
+  }
+}
+function me(e, t = !1) {
+  return (
+    ne(e) ||
+      D(e) ||
+      !T(e) ||
+      (ee(e) > 1 &&
+        Object.defineProperties(e, {
+          set: { value: q },
+          add: { value: q },
+          clear: { value: q },
+          delete: { value: q },
+        }),
+      Object.freeze(e),
+      t && Object.values(e).forEach((n) => me(n, !0))),
+    e
+  );
+}
+function q() {
+  j(2);
+}
+function ne(e) {
+  return Object.isFrozen(e);
+}
+var Er = {};
+function I(e) {
+  const t = Er[e];
+  return (t || j(0, e), t);
+}
+var B;
+function it() {
+  return B;
+}
+function Cr(e, t) {
+  return {
+    drafts_: [],
+    parent_: e,
+    immer_: t,
+    canAutoFreeze_: !0,
+    unfinalizedDrafts_: 0,
+  };
+}
+function Te(e, t) {
+  t &&
+    (I('Patches'),
+    (e.patches_ = []),
+    (e.inversePatches_ = []),
+    (e.patchListener_ = t));
+}
+function le(e) {
+  (fe(e), e.drafts_.forEach(Rr), (e.drafts_ = null));
+}
+function fe(e) {
+  e === B && (B = e.parent_);
+}
+function Oe(e) {
+  return (B = Cr(B, e));
+}
+function Rr(e) {
+  const t = e[P];
+  t.type_ === 0 || t.type_ === 1 ? t.revoke_() : (t.revoked_ = !0);
+}
+function Ne(e, t) {
+  t.unfinalizedDrafts_ = t.drafts_.length;
+  const n = t.drafts_[0];
+  return (
+    e !== void 0 && e !== n
+      ? (n[P].modified_ && (le(t), j(4)),
+        T(e) && ((e = Q(t, e)), t.parent_ || J(t, e)),
+        t.patches_ &&
+          I('Patches').generateReplacementPatches_(
+            n[P].base_,
+            e,
+            t.patches_,
+            t.inversePatches_
+          ))
+      : (e = Q(t, n, [])),
+    le(t),
+    t.patches_ && t.patchListener_(t.patches_, t.inversePatches_),
+    e !== nt ? e : void 0
+  );
+}
+function Q(e, t, n) {
+  if (ne(t)) return t;
+  const r = t[P];
+  if (!r) return (X(t, (o, i) => De(e, r, t, o, i, n)), t);
+  if (r.scope_ !== e) return t;
+  if (!r.modified_) return (J(e, r.base_, !0), r.base_);
+  if (!r.finalized_) {
+    ((r.finalized_ = !0), r.scope_.unfinalizedDrafts_--);
+    const o = r.copy_;
+    let i = o,
+      s = !1;
+    (r.type_ === 3 && ((i = new Set(o)), o.clear(), (s = !0)),
+      X(i, (a, c) => De(e, r, o, a, c, n, s)),
+      J(e, o, !1),
+      n &&
+        e.patches_ &&
+        I('Patches').generatePatches_(r, n, e.patches_, e.inversePatches_));
+  }
+  return r.copy_;
+}
+function De(e, t, n, r, o, i, s) {
+  if (D(o)) {
+    const a =
+        i && t && t.type_ !== 3 && !ce(t.assigned_, r) ? i.concat(r) : void 0,
+      c = Q(e, o, a);
+    if ((ot(n, r, c), D(c))) e.canAutoFreeze_ = !1;
+    else return;
+  } else s && n.add(o);
+  if (T(o) && !ne(o)) {
+    if (!e.immer_.autoFreeze_ && e.unfinalizedDrafts_ < 1) return;
+    (Q(e, o),
+      (!t || !t.scope_.parent_) &&
+        typeof r != 'symbol' &&
+        (z(n) ? n.has(r) : Object.prototype.propertyIsEnumerable.call(n, r)) &&
+        J(e, o));
+  }
+}
+function J(e, t, n = !1) {
+  !e.parent_ && e.immer_.autoFreeze_ && e.canAutoFreeze_ && me(t, n);
+}
+function Pr(e, t) {
+  const n = Array.isArray(e),
+    r = {
+      type_: n ? 1 : 0,
+      scope_: t ? t.scope_ : it(),
+      modified_: !1,
+      finalized_: !1,
+      assigned_: {},
+      parent_: t,
+      base_: e,
+      draft_: null,
+      copy_: null,
+      revoke_: null,
+      isManual_: !1,
+    };
+  let o = r,
+    i = ye;
+  n && ((o = [r]), (i = $));
+  const { revoke: s, proxy: a } = Proxy.revocable(o, i);
+  return ((r.draft_ = a), (r.revoke_ = s), a);
+}
+var ye = {
+    get(e, t) {
+      if (t === P) return e;
+      const n = N(e);
+      if (!ce(n, t)) return jr(e, n, t);
+      const r = n[t];
+      return e.finalized_ || !T(r)
+        ? r
+        : r === se(e.base_, t)
+          ? (ae(e), (e.copy_[t] = he(r, e)))
+          : r;
+    },
+    has(e, t) {
+      return t in N(e);
+    },
+    ownKeys(e) {
+      return Reflect.ownKeys(N(e));
+    },
+    set(e, t, n) {
+      const r = st(N(e), t);
+      if (r?.set) return (r.set.call(e.draft_, n), !0);
+      if (!e.modified_) {
+        const o = se(N(e), t),
+          i = o?.[P];
+        if (i && i.base_ === n)
+          return ((e.copy_[t] = n), (e.assigned_[t] = !1), !0);
+        if (_r(n, o) && (n !== void 0 || ce(e.base_, t))) return !0;
+        (ae(e), de(e));
+      }
+      return (
+        (e.copy_[t] === n && (n !== void 0 || t in e.copy_)) ||
+          (Number.isNaN(n) && Number.isNaN(e.copy_[t])) ||
+          ((e.copy_[t] = n), (e.assigned_[t] = !0)),
+        !0
+      );
+    },
+    deleteProperty(e, t) {
+      return (
+        se(e.base_, t) !== void 0 || t in e.base_
+          ? ((e.assigned_[t] = !1), ae(e), de(e))
+          : delete e.assigned_[t],
+        e.copy_ && delete e.copy_[t],
+        !0
+      );
+    },
+    getOwnPropertyDescriptor(e, t) {
+      const n = N(e),
+        r = Reflect.getOwnPropertyDescriptor(n, t);
+      return (
+        r && {
+          writable: !0,
+          configurable: e.type_ !== 1 || t !== 'length',
+          enumerable: r.enumerable,
+          value: n[t],
+        }
+      );
+    },
+    defineProperty() {
+      j(11);
+    },
+    getPrototypeOf(e) {
+      return F(e.base_);
+    },
+    setPrototypeOf() {
+      j(12);
+    },
+  },
+  $ = {};
+X(ye, (e, t) => {
+  $[e] = function () {
+    return ((arguments[0] = arguments[0][0]), t.apply(this, arguments));
+  };
+});
+$.deleteProperty = function (e, t) {
+  return $.set.call(this, e, t, void 0);
+};
+$.set = function (e, t, n) {
+  return ye.set.call(this, e[0], t, n, e[0]);
+};
+function se(e, t) {
+  const n = e[P];
+  return (n ? N(n) : e)[t];
+}
+function jr(e, t, n) {
+  const r = st(t, n);
+  return r ? ('value' in r ? r.value : r.get?.call(e.draft_)) : void 0;
+}
+function st(e, t) {
+  if (!(t in e)) return;
+  let n = F(e);
+  for (; n; ) {
+    const r = Object.getOwnPropertyDescriptor(n, t);
+    if (r) return r;
+    n = F(n);
+  }
+}
+function de(e) {
+  e.modified_ || ((e.modified_ = !0), e.parent_ && de(e.parent_));
+}
+function ae(e) {
+  e.copy_ || (e.copy_ = ue(e.base_, e.scope_.immer_.useStrictShallowCopy_));
+}
+var Ar = class {
+  constructor(e) {
+    ((this.autoFreeze_ = !0),
+      (this.useStrictShallowCopy_ = !1),
+      (this.produce = (t, n, r) => {
+        if (typeof t == 'function' && typeof n != 'function') {
+          const i = n;
+          n = t;
+          const s = this;
+          return function (c = i, ...f) {
+            return s.produce(c, (u) => n.call(this, u, ...f));
+          };
+        }
+        (typeof n != 'function' && j(6),
+          r !== void 0 && typeof r != 'function' && j(7));
+        let o;
+        if (T(t)) {
+          const i = Oe(this),
+            s = he(t, void 0);
+          let a = !0;
+          try {
+            ((o = n(s)), (a = !1));
+          } finally {
+            a ? le(i) : fe(i);
+          }
+          return (Te(i, r), Ne(o, i));
+        } else if (!t || typeof t != 'object') {
+          if (
+            ((o = n(t)),
+            o === void 0 && (o = t),
+            o === nt && (o = void 0),
+            this.autoFreeze_ && me(o, !0),
+            r)
+          ) {
+            const i = [],
+              s = [];
+            (I('Patches').generateReplacementPatches_(t, o, i, s), r(i, s));
+          }
+          return o;
+        } else j(1, t);
+      }),
+      (this.produceWithPatches = (t, n) => {
+        if (typeof t == 'function')
+          return (s, ...a) => this.produceWithPatches(s, (c) => t(c, ...a));
+        let r, o;
+        return [
+          this.produce(t, n, (s, a) => {
+            ((r = s), (o = a));
+          }),
+          r,
+          o,
+        ];
+      }),
+      typeof e?.autoFreeze == 'boolean' && this.setAutoFreeze(e.autoFreeze),
+      typeof e?.useStrictShallowCopy == 'boolean' &&
+        this.setUseStrictShallowCopy(e.useStrictShallowCopy));
+  }
+  createDraft(e) {
+    (T(e) || j(8), D(e) && (e = Tr(e)));
+    const t = Oe(this),
+      n = he(e, void 0);
+    return ((n[P].isManual_ = !0), fe(t), n);
+  }
+  finishDraft(e, t) {
+    const n = e && e[P];
+    (!n || !n.isManual_) && j(9);
+    const { scope_: r } = n;
+    return (Te(r, t), Ne(void 0, r));
+  }
+  setAutoFreeze(e) {
+    this.autoFreeze_ = e;
+  }
+  setUseStrictShallowCopy(e) {
+    this.useStrictShallowCopy_ = e;
+  }
+  applyPatches(e, t) {
+    let n;
+    for (n = t.length - 1; n >= 0; n--) {
+      const o = t[n];
+      if (o.path.length === 0 && o.op === 'replace') {
+        e = o.value;
+        break;
+      }
+    }
+    n > -1 && (t = t.slice(n + 1));
+    const r = I('Patches').applyPatches_;
+    return D(e) ? r(e, t) : this.produce(e, (o) => r(o, t));
+  }
+};
+function he(e, t) {
+  const n = z(e)
+    ? I('MapSet').proxyMap_(e, t)
+    : te(e)
+      ? I('MapSet').proxySet_(e, t)
+      : Pr(e, t);
+  return ((t ? t.scope_ : it()).drafts_.push(n), n);
+}
+function Tr(e) {
+  return (D(e) || j(10, e), at(e));
+}
+function at(e) {
+  if (!T(e) || ne(e)) return e;
+  const t = e[P];
+  let n;
+  if (t) {
+    if (!t.modified_) return t.base_;
+    ((t.finalized_ = !0), (n = ue(e, t.scope_.immer_.useStrictShallowCopy_)));
+  } else n = ue(e, !0);
+  return (
+    X(n, (r, o) => {
+      ot(n, r, at(o));
+    }),
+    t && (t.finalized_ = !1),
+    n
+  );
+}
+var Or = new Ar(),
+  ct = Or.produce;
+function ut(e) {
+  return ({ dispatch: n, getState: r }) =>
+    (o) =>
+    (i) =>
+      typeof i == 'function' ? i(n, r, e) : o(i);
+}
+var Nr = ut(),
+  Dr = ut,
+  Ir =
+    typeof window < 'u' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      : function () {
+          if (arguments.length !== 0)
+            return typeof arguments[0] == 'object'
+              ? K
+              : K.apply(null, arguments);
+        };
+function Ie(e, t) {
+  function n(...r) {
+    if (t) {
+      let o = t(...r);
+      if (!o) throw new Error(A(0));
+      return {
+        type: e,
+        payload: o.payload,
+        ...('meta' in o && { meta: o.meta }),
+        ...('error' in o && { error: o.error }),
+      };
+    }
+    return { type: e, payload: r[0] };
+  }
+  return (
+    (n.toString = () => `${e}`),
+    (n.type = e),
+    (n.match = (r) => Sr(r) && r.type === e),
+    n
+  );
+}
+var lt = class U extends Array {
+  constructor(...t) {
+    (super(...t), Object.setPrototypeOf(this, U.prototype));
+  }
+  static get [Symbol.species]() {
+    return U;
+  }
+  concat(...t) {
+    return super.concat.apply(this, t);
+  }
+  prepend(...t) {
+    return t.length === 1 && Array.isArray(t[0])
+      ? new U(...t[0].concat(this))
+      : new U(...t.concat(this));
+  }
+};
+function Le(e) {
+  return T(e) ? ct(e, () => {}) : e;
+}
+function V(e, t, n) {
+  return e.has(t) ? e.get(t) : e.set(t, n(t)).get(t);
+}
+function Lr(e) {
+  return typeof e == 'boolean';
+}
+var Mr = () =>
+    function (t) {
+      const {
+        thunk: n = !0,
+        immutableCheck: r = !0,
+        serializableCheck: o = !0,
+        actionCreatorCheck: i = !0,
+      } = t ?? {};
+      let s = new lt();
+      return (n && (Lr(n) ? s.push(Nr) : s.push(Dr(n.extraArgument))), s);
+    },
+  Fr = 'RTK_autoBatch',
+  Me = (e) => (t) => {
+    setTimeout(t, e);
+  },
+  Ur =
+    (e = { type: 'raf' }) =>
+    (t) =>
+    (...n) => {
+      const r = t(...n);
+      let o = !0,
+        i = !1,
+        s = !1;
+      const a = new Set(),
+        c =
+          e.type === 'tick'
+            ? queueMicrotask
+            : e.type === 'raf'
+              ? typeof window < 'u' && window.requestAnimationFrame
+                ? window.requestAnimationFrame
+                : Me(10)
+              : e.type === 'callback'
+                ? e.queueNotification
+                : Me(e.timeout),
+        f = () => {
+          ((s = !1), i && ((i = !1), a.forEach((u) => u())));
+        };
+      return Object.assign({}, r, {
+        subscribe(u) {
+          const d = () => o && u(),
+            g = r.subscribe(d);
+          return (
+            a.add(u),
+            () => {
+              (g(), a.delete(u));
+            }
+          );
+        },
+        dispatch(u) {
+          try {
+            return (
+              (o = !u?.meta?.[Fr]),
+              (i = !o),
+              i && (s || ((s = !0), c(f))),
+              r.dispatch(u)
+            );
+          } finally {
+            o = !0;
+          }
+        },
+      });
+    },
+  Br = (e) =>
+    function (n) {
+      const { autoBatch: r = !0 } = n ?? {};
+      let o = new lt(e);
+      return (r && o.push(Ur(typeof r == 'object' ? r : void 0)), o);
+    };
+function $r(e) {
+  const t = Mr(),
+    {
+      reducer: n = void 0,
+      middleware: r,
+      devTools: o = !0,
+      preloadedState: i = void 0,
+      enhancers: s = void 0,
+    } = e || {};
+  let a;
+  if (typeof n == 'function') a = n;
+  else if (ge(n)) a = vr(n);
+  else throw new Error(A(1));
+  let c;
+  typeof r == 'function' ? (c = r(t)) : (c = t());
+  let f = K;
+  o && (f = Ir({ trace: !1, ...(typeof o == 'object' && o) }));
+  const u = xr(...c),
+    d = Br(u);
+  let g = typeof s == 'function' ? s(d) : d();
+  const y = f(...g);
+  return tt(a, i, y);
+}
+function ft(e) {
+  const t = {},
+    n = [];
+  let r;
+  const o = {
+    addCase(i, s) {
+      const a = typeof i == 'string' ? i : i.type;
+      if (!a) throw new Error(A(28));
+      if (a in t) throw new Error(A(29));
+      return ((t[a] = s), o);
+    },
+    addAsyncThunk(i, s) {
+      return (
+        s.pending && (t[i.pending.type] = s.pending),
+        s.rejected && (t[i.rejected.type] = s.rejected),
+        s.fulfilled && (t[i.fulfilled.type] = s.fulfilled),
+        s.settled && n.push({ matcher: i.settled, reducer: s.settled }),
+        o
+      );
+    },
+    addMatcher(i, s) {
+      return (n.push({ matcher: i, reducer: s }), o);
+    },
+    addDefaultCase(i) {
+      return ((r = i), o);
+    },
+  };
+  return (e(o), [t, n, r]);
+}
+function zr(e) {
+  return typeof e == 'function';
+}
+function Hr(e, t) {
+  let [n, r, o] = ft(t),
+    i;
+  if (zr(e)) i = () => Le(e());
+  else {
+    const a = Le(e);
+    i = () => a;
+  }
+  function s(a = i(), c) {
+    let f = [
+      n[c.type],
+      ...r.filter(({ matcher: u }) => u(c)).map(({ reducer: u }) => u),
+    ];
+    return (
+      f.filter((u) => !!u).length === 0 && (f = [o]),
+      f.reduce((u, d) => {
+        if (d)
+          if (D(u)) {
+            const y = d(u, c);
+            return y === void 0 ? u : y;
+          } else {
+            if (T(u)) return ct(u, (g) => d(g, c));
+            {
+              const g = d(u, c);
+              if (g === void 0) {
+                if (u === null) return u;
+                throw Error(
+                  'A case reducer on a non-draftable value must not return undefined'
+                );
+              }
+              return g;
+            }
+          }
+        return u;
+      }, a)
+    );
+  }
+  return ((s.getInitialState = i), s);
+}
+var qr = Symbol.for('rtk-slice-createasyncthunk');
+function Vr(e, t) {
+  return `${e}/${t}`;
+}
+function Wr({ creators: e } = {}) {
+  const t = e?.asyncThunk?.[qr];
+  return function (r) {
+    const { name: o, reducerPath: i = o } = r;
+    if (!o) throw new Error(A(11));
+    const s =
+        (typeof r.reducers == 'function' ? r.reducers(Xr()) : r.reducers) || {},
+      a = Object.keys(s),
+      c = {
+        sliceCaseReducersByName: {},
+        sliceCaseReducersByType: {},
+        actionCreators: {},
+        sliceMatchers: [],
+      },
+      f = {
+        addCase(p, w) {
+          const v = typeof p == 'string' ? p : p.type;
+          if (!v) throw new Error(A(12));
+          if (v in c.sliceCaseReducersByType) throw new Error(A(13));
+          return ((c.sliceCaseReducersByType[v] = w), f);
+        },
+        addMatcher(p, w) {
+          return (c.sliceMatchers.push({ matcher: p, reducer: w }), f);
+        },
+        exposeAction(p, w) {
+          return ((c.actionCreators[p] = w), f);
+        },
+        exposeCaseReducer(p, w) {
+          return ((c.sliceCaseReducersByName[p] = w), f);
+        },
+      };
+    a.forEach((p) => {
+      const w = s[p],
+        v = {
+          reducerName: p,
+          type: Vr(o, p),
+          createNotation: typeof r.reducers == 'function',
+        };
+      Jr(w) ? Zr(v, w, f, t) : Qr(v, w, f);
+    });
+    function u() {
+      const [p = {}, w = [], v = void 0] =
+          typeof r.extraReducers == 'function'
+            ? ft(r.extraReducers)
+            : [r.extraReducers],
+        E = { ...p, ...c.sliceCaseReducersByType };
+      return Hr(r.initialState, (R) => {
+        for (let C in E) R.addCase(C, E[C]);
+        for (let C of c.sliceMatchers) R.addMatcher(C.matcher, C.reducer);
+        for (let C of w) R.addMatcher(C.matcher, C.reducer);
+        v && R.addDefaultCase(v);
+      });
+    }
+    const d = (p) => p,
+      g = new Map(),
+      y = new WeakMap();
+    let m;
+    function S(p, w) {
+      return (m || (m = u()), m(p, w));
+    }
+    function b() {
+      return (m || (m = u()), m.getInitialState());
+    }
+    function x(p, w = !1) {
+      function v(R) {
+        let C = R[p];
+        return (typeof C > 'u' && w && (C = V(y, v, b)), C);
+      }
+      function E(R = d) {
+        const C = V(g, w, () => new WeakMap());
+        return V(C, R, () => {
+          const we = {};
+          for (const [ht, pt] of Object.entries(r.selectors ?? {}))
+            we[ht] = Gr(pt, R, () => V(y, R, b), w);
+          return we;
+        });
+      }
+      return {
+        reducerPath: p,
+        getSelectors: E,
+        get selectors() {
+          return E(v);
+        },
+        selectSlice: v,
+      };
+    }
+    const k = {
+      name: o,
+      reducer: S,
+      actions: c.actionCreators,
+      caseReducers: c.sliceCaseReducersByName,
+      getInitialState: b,
+      ...x(i),
+      injectInto(p, { reducerPath: w, ...v } = {}) {
+        const E = w ?? i;
+        return (
+          p.inject({ reducerPath: E, reducer: S }, v),
+          { ...k, ...x(E, !0) }
+        );
+      },
+    };
+    return k;
+  };
+}
+function Gr(e, t, n, r) {
+  function o(i, ...s) {
+    let a = t(i);
+    return (typeof a > 'u' && r && (a = n()), e(a, ...s));
+  }
+  return ((o.unwrapped = e), o);
+}
+var Kr = Wr();
+function Xr() {
+  function e(t, n) {
+    return { _reducerDefinitionType: 'asyncThunk', payloadCreator: t, ...n };
+  }
+  return (
+    (e.withTypes = () => e),
+    {
+      reducer(t) {
+        return Object.assign(
+          {
+            [t.name](...n) {
+              return t(...n);
+            },
+          }[t.name],
+          { _reducerDefinitionType: 'reducer' }
+        );
+      },
+      preparedReducer(t, n) {
+        return {
+          _reducerDefinitionType: 'reducerWithPrepare',
+          prepare: t,
+          reducer: n,
+        };
+      },
+      asyncThunk: e,
+    }
+  );
+}
+function Qr({ type: e, reducerName: t, createNotation: n }, r, o) {
+  let i, s;
+  if ('reducer' in r) {
+    if (n && !Yr(r)) throw new Error(A(17));
+    ((i = r.reducer), (s = r.prepare));
+  } else i = r;
+  o.addCase(e, i)
+    .exposeCaseReducer(t, i)
+    .exposeAction(t, s ? Ie(e, s) : Ie(e));
+}
+function Jr(e) {
+  return e._reducerDefinitionType === 'asyncThunk';
+}
+function Yr(e) {
+  return e._reducerDefinitionType === 'reducerWithPrepare';
+}
+function Zr({ type: e, reducerName: t }, n, r, o) {
+  if (!o) throw new Error(A(18));
+  const {
+      payloadCreator: i,
+      fulfilled: s,
+      pending: a,
+      rejected: c,
+      settled: f,
+      options: u,
+    } = n,
+    d = o(e, i, u);
+  (r.exposeAction(t, d),
+    s && r.addCase(d.fulfilled, s),
+    a && r.addCase(d.pending, a),
+    c && r.addCase(d.rejected, c),
+    f && r.addMatcher(d.settled, f),
+    r.exposeCaseReducer(t, {
+      fulfilled: s || W,
+      pending: a || W,
+      rejected: c || W,
+      settled: f || W,
+    }));
+}
+function W() {}
+function A(e) {
+  return `Minified Redux Toolkit error #${e}; visit https://redux-toolkit.js.org/Errors?code=${e} for the full message or use the non-minified dev environment for full errors. `;
+}
+const eo = {
+    lang:
+      typeof window < 'u' && localStorage.getItem('i18nextLng')
+        ? localStorage.getItem('i18nextLng')
+        : 'en',
+  },
+  dt = Kr({
+    name: 'language',
+    initialState: eo,
+    reducers: {
+      setLanguage(e, t) {
+        ((e.lang = t.payload),
+          typeof window < 'u' && localStorage.setItem('i18nextLng', t.payload));
+      },
+      loadLanguageFromStorage(e) {
+        if (typeof window < 'u') {
+          const t = localStorage.getItem('lang');
+          e.lang = t ?? 'en';
+        }
+      },
+    },
+  }),
+  { setLanguage: Fe } = dt.actions,
+  to = dt.reducer,
+  no = Ge();
+function ro({ initialLang: e = no }) {
+  const t = Yt(),
+    n = tn((u) => u.language.lang),
+    { t: r, i18n: o } = Y(),
+    [i, s] = h.useState(!1);
+  (h.useEffect(() => {
+    s(!0);
+  }, []),
+    h.useEffect(() => {
+      const u = Ge();
+      (u && u !== n && (t(Fe(u)), o.changeLanguage(u)), s(!0));
+    }, [t, o, n]));
+  const a = (u) => (typeof window > 'u' ? o.getFixedT(e)(u) : r(u));
+  h.useEffect(() => {
+    o.changeLanguage(n ?? 'en');
+  }, [n, o]);
+  const c = () => {
+    const u = n === 'en' ? 'ru' : 'en';
+    (t(Fe(u)),
+      typeof document < 'u' &&
+        (document.cookie = `lang=${u}; path=/; max-age=31536000`),
+      o.changeLanguage(u),
+      window.location.pathname === '/auth/clientHistory' &&
+        window.location.reload());
+  };
+  if (!i) return null;
+  const f = n === 'en';
+  return l.jsxs('div', {
+    className: 'flex flex-row gap-3 items-center w-full justify-center',
+    children: [
+      l.jsx('div', {
+        className: `w-1/3 flex justify-end ${f ? 'text-pink-600 font-bold' : 'text-pink-300 font-semibold'}`,
+        children: a('lang.english'),
+      }),
+      l.jsx(et, { onClick: c, checked: n === 'ru' }),
+      l.jsx('div', {
+        className: `w-1/3 flex ${f ? 'text-pink-300 font-semibold w-1/3' : 'text-pink-600 font-bold w-1/3'}`,
+        children: a('lang.russian'),
+      }),
+    ],
+  });
+}
+function oo() {
+  const [e, t] = h.useState(!1),
+    [n, r] = h.useState(!1),
+    o = h.useRef(null);
+  (h.useEffect(() => {
+    t(!0);
+  }, []),
+    h.useEffect(() => {
+      const m = () => {
+        o.current === null &&
+          (o.current = requestAnimationFrame(() => {
+            const S = window.scrollY || window.pageYOffset;
+            (r(S > 8), (o.current = null));
+          }));
+      };
+      return (
+        window.addEventListener('scroll', m, { passive: !0 }),
+        m(),
+        () => {
+          (window.removeEventListener('scroll', m),
+            o.current && cancelAnimationFrame(o.current));
+        }
+      );
+    }, []));
+  const i =
+      typeof window < 'u' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    { t: s, ready: a } = Y(),
+    { user: c, setUser: f, setToken: u } = bt(),
+    d = Ue(),
+    g = async () => {
+      try {
+        const { logout: y } = await vt(
+          async () => {
+            const { logout: m } = await import('./firebase-_GfKOiAI.js').then(
+              (S) => S.f
+            );
+            return { logout: m };
+          },
+          __vite__mapDeps([0, 1])
+        );
+        (await y(), f(null), u(null), d('/'));
+      } catch (y) {
+        console.error('Log error', y);
+      }
+    };
+  return !e || !a
+    ? null
+    : l.jsx('header', {
+        className: 'sticky top-0 z-50 w-full',
+        children: l.jsx('div', {
+          className:
+            `sticky top-0  py-2 z-50 w-full backdrop-blur-sm  px-4 py-2 ${i ? '' : 'transition-all duration-300 ease-in-out'} ` +
+            (n
+              ? 'bg-white/80 border-b border-pink-300 shadow-md'
+              : 'bg-transparent border-b-0'),
+          children: l.jsxs('nav', {
+            className: 'flex flex-row justify-between items-center',
+            children: [
+              l.jsx(H, {
+                to: '/',
+                end: !0,
+                children: l.jsx('img', {
+                  src: '/app-logo.svg',
+                  width: '60',
+                  height: '60',
+                }),
+              }),
+              l.jsx('div', {
+                className: 'w-[300px] flex items-center justify-center',
+                children: l.jsx(ro, {}),
+              }),
+              l.jsx('div', {
+                className:
+                  'flex flex-row items-center justify-center  w-[300px] gap-2',
+                children: c
+                  ? l.jsxs(l.Fragment, {
+                      children: [
+                        l.jsx(ve, {
+                          variant: 'custom',
+                          onClick: g,
+                          children: s('auth.logOut'),
+                        }),
+                        l.jsx(H, {
+                          to: '/mainClint',
+                          end: !0,
+                          className: 'w-1/2',
+                          children: l.jsx(ve, {
+                            variant: 'custom',
+                            children: s('app.mainPage'),
+                          }),
+                        }),
+                      ],
+                    })
+                  : l.jsxs(l.Fragment, {
+                      children: [
+                        l.jsx(H, {
+                          to: '/signIn',
+                          end: !0,
+                          className: 'w-1/2 flex justify-end',
+                          children: l.jsx(xe, { text: 'auth.signIn' }),
+                        }),
+                        l.jsx(H, {
+                          to: '/signUp',
+                          end: !0,
+                          className: 'w-1/2',
+                          children: l.jsx(xe, { text: 'auth.signUp' }),
+                        }),
+                      ],
+                    }),
+              }),
+            ],
+          }),
+        }),
+      });
+}
+const io = $r({ reducer: { language: to } }),
+  bo = mt(function () {
+    const t = Ue();
+    return (
+      h.useEffect(() => {
+        const n = St(t);
+        return () => {
+          n();
+        };
+      }, [t]),
+      l.jsxs('html', {
+        lang: 'en',
+        children: [
+          l.jsxs('head', {
+            children: [
+              l.jsx('meta', { charSet: 'UTF-8' }),
+              l.jsx('title', { children: 'My App' }),
+            ],
+          }),
+          l.jsx('body', {
+            children: l.jsx(xt, {
+              children: l.jsx(kt, {
+                children: l.jsx(Xt, {
+                  store: io,
+                  children: l.jsxs('div', {
+                    className: 'bg-pink-100 min-h-screen flex flex-col',
+                    children: [
+                      l.jsx(oo, {}),
+                      l.jsx('main', {
+                        className:
+                          'flex-1 w-full flex flex-col items-center justify-center bg-pink-100 overflow-y-auto px-8 py-6 pt-0',
+                        children: l.jsx('div', {
+                          className:
+                            'p-[2vw] w-full min-h-[83dvh] rounded-2xl bg-pink-200 flex flex-col items-stretch box-border',
+                          children: l.jsx(lr, { children: l.jsx(yt, {}) }),
+                        }),
+                      }),
+                      l.jsx(wt, {}),
+                      l.jsx(fr, {}),
+                    ],
+                  }),
+                }),
+              }),
+            }),
+          }),
+        ],
+      })
+    );
+  });
+export { bo as default };

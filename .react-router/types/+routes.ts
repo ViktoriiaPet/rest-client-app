@@ -71,8 +71,8 @@ type RouteFiles = {
     id: "pages/variables";
     page: "/auth/clientVariales";
   };
-  "./pages/history.server.tsx": {
-    id: "pages/history.server";
+  "./pages/history.tsx": {
+    id: "pages/history";
     page: "/auth/clientHistory";
   };
   "./pages/restfull.tsx": {
