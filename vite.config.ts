@@ -9,7 +9,12 @@ export default defineConfig(({ mode }) => {
   const isTest = mode === 'test' || !!process.env.VITEST;
 
   return {
-    plugins: [tailwindcss(), !isTest && reactRouter(), envOnlyMacros(), vercelPreset(),],
+    plugins: [
+      tailwindcss(),
+      !isTest && reactRouter(),
+      envOnlyMacros(),
+      vercelPreset(),
+    ],
     define: {
       global: 'globalThis',
       'process.env': {},
