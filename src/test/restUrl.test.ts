@@ -15,7 +15,7 @@ beforeAll(() => {
 describe('buildClientUrl / parseClientUrl (minimal)', () => {
   it('uses defaults when values missing', () => {
     const built = buildClientUrl({ method: '', url: '' });
-    expect(built).toBe('/auth/restfull/GET/');
+    expect(built).toBe('/auth/restfull/GET/?__bm=none');
 
     const parsed = parseClientUrl({});
     expect(parsed.method).toBe('GET');

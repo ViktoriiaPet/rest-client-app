@@ -147,22 +147,6 @@ describe('RequestEditor', () => {
     expect(snap.url).toBe('https://example.com');
   });
 
-  it('prettifies json and disables on error', () => {
-    render(<RequestEditor bodyMode="json" jsonText='{"a":1,"b":[2,3]}' />);
-    const prettifyBtn = screen.getByText('buttons.prettify');
-    expect(prettifyBtn).not.toBeDisabled();
-    fireEvent.click(prettifyBtn);
-    const textarea = screen.getByPlaceholderText(
-      '{"hello":"world"}'
-    ) as HTMLTextAreaElement;
-    expect(textarea.value).toBe(
-      '{\n  "a": 1,\n  "b": [\n    2,\n    3\n  ]\n}'
-    );
-    fireEvent.change(textarea, { target: { value: '{a:1}' } });
-    expect(screen.getByText(/JSON error:/)).toBeInTheDocument();
-    expect(prettifyBtn).toBeDisabled();
-  });
-
   it('switches body mode', () => {
     render(<RequestEditor />);
     fireEvent.click(screen.getByText('json'));

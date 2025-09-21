@@ -1,15 +1,22 @@
 import type { HttpMethod } from '@/types/apiMethods';
+import type { BodyMode } from '@/types/restFullClient';
 
 export type BuildArgs = {
   method: string;
   url: string;
   headers?: Record<string, string>;
+  bodyMode?: BodyMode;
+  bodyText?: string;
+  formData?: Array<{ key: string; value: string }>;
 };
 
 export type ParsedClientUrl = {
   method: string;
   url: string;
   headers: Record<string, string>;
+  bodyMode: BodyMode;
+  bodyText?: string;
+  formData?: Array<{ key: string; value: string }>;
 };
 
 export type RestFullChangePayload = { method: HttpMethod; url: string };
@@ -59,17 +66,35 @@ function base64UrlDecode(value?: string): string {
   return new TextDecoder().decode(bytes);
 }
 
+const RESERVED_KEYS = new Set(['__bm', '__body_b64']);
+
 export function buildClientUrl({
   method,
   url,
   headers = {},
+  bodyMode = 'none',
+  bodyText = '',
+  formData,
 }: BuildArgs): string {
   const normalizedMethod = (method || 'GET').toUpperCase();
   const encodedUrl = base64UrlEncode(url || '');
-  const query = new URLSearchParams(
-    Object.entries(headers).filter(([key]) => !!key)
-  );
-  const qs = query.toString();
+
+  const search = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(headers)) {
+    if (!key) continue;
+    if (!RESERVED_KEYS.has(key)) search.append(key, value);
+  }
+
+  search.set('__bm', bodyMode);
+  if (bodyMode === 'form-data') {
+    const arr = (formData ?? []).map(({ key, value }) => ({ key, value }));
+    search.set('__body_b64', base64UrlEncode(JSON.stringify(arr)));
+  } else if (bodyMode === 'json' || bodyMode === 'raw') {
+    search.set('__body_b64', base64UrlEncode(bodyText ?? ''));
+  }
+
+  const qs = search.toString();
   return `/auth/restfull/${normalizedMethod}/${encodedUrl}${qs ? `?${qs}` : ''}`;
 }
 
@@ -78,11 +103,41 @@ export function parseClientUrl(params: {
   urlB64?: string;
   search?: string;
 }): ParsedClientUrl {
+  const sp = new URLSearchParams(params.search || '');
+
+  const headers: Record<string, string> = {};
+  sp.forEach((v, k) => {
+    if (!RESERVED_KEYS.has(k)) headers[k] = v;
+  });
+
+  const bodyMode = (sp.get('__bm') as BodyMode) || 'none';
+  const rawBodyB64 = sp.get('__body_b64') || '';
+  const decoded = base64UrlDecode(rawBodyB64);
+
+  let bodyText: string | undefined;
+  let formData: Array<{ key: string; value: string }> | undefined;
+
+  if (bodyMode === 'form-data') {
+    try {
+      const arr = JSON.parse(decoded);
+      if (Array.isArray(arr)) {
+        formData = arr.filter(
+          (x) => x && typeof x.key === 'string' && typeof x.value === 'string'
+        );
+      }
+    } catch {
+      formData = [];
+    }
+  } else if (bodyMode === 'json' || bodyMode === 'raw') {
+    bodyText = decoded;
+  }
+
   return {
     method: (params.method || 'GET').toUpperCase(),
     url: base64UrlDecode(params.urlB64),
-    headers: Object.fromEntries(
-      new URLSearchParams(params.search || '')
-    ) as Record<string, string>,
+    headers,
+    bodyMode,
+    bodyText,
+    formData,
   };
 }

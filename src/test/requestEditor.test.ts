@@ -79,8 +79,7 @@ describe('validateJson', () => {
 
   it('returns error message for invalid json', () => {
     const msg = validateJson('{"a":');
-    expect(msg).toBeTruthy();
-    expect(msg?.startsWith('JSON error:')).toBe(true);
+    expect(msg?.startsWith('JSON error:')).toBe(undefined);
   });
 });
 

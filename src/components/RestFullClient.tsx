@@ -33,6 +33,7 @@ import {
   resolveBodyText,
   utf8Bytes,
 } from '@/utils/restfull';
+import ErrorModal from './modal';
 
 export default function RestFullClient({
   method,
@@ -80,6 +81,9 @@ export default function RestFullClient({
   const [lastSentSnapshot, setLastSentSnapshot] =
     useState<RequestSnapshot | null>(null);
 
+  const [errorOpen, setErrorOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
   const lastSentRef = useRef<RestFullChangePayload | null>(null);
   const emitChange = useCallback(
     (raw: RestFullChangePayload): void => {
@@ -98,7 +102,7 @@ export default function RestFullClient({
     const t0 = performance.now();
 
     const vars = getLSVars(user?.uid);
-    const resolvedUrl = applyVariables(snapshot.url, vars);
+    const resolvedUrl = applyVariables(snapshot.url, vars, { wrap: false });
     const resolvedBodyText = resolveBodyText(snapshot, vars);
 
     const enabledParams: StringRecord = toRecord(snapshot.params);
@@ -117,13 +121,6 @@ export default function RestFullClient({
       return;
     }
 
-    const permalink = buildClientUrl({
-      method: snapshot.method,
-      url: requestUrl,
-      headers: enabledHeaders,
-    });
-    navigate(permalink, { replace: true });
-
     const initialHeaders = ensureContentType({ ...enabledHeaders }, snapshot);
     const requestBody = buildRequestBody(snapshot, resolvedBodyText, vars);
     const {
@@ -137,6 +134,30 @@ export default function RestFullClient({
       initialHeaders,
       requestBody
     );
+
+    const bodyMode = snapshot.body.mode;
+    const bodyTextForUrl =
+      bodyMode === 'json'
+        ? resolvedBodyText
+        : bodyMode === 'raw'
+          ? resolvedBodyText
+          : '';
+    const formDataForUrl =
+      bodyMode === 'form-data'
+        ? (snapshot.body.formData ?? [])
+            .filter((r) => r.enabled && r.key)
+            .map((r) => ({ key: r.key, value: r.value }))
+        : undefined;
+
+    const permalink = buildClientUrl({
+      method: snapshot.method,
+      url: requestUrl,
+      headers: finalHeaders,
+      bodyMode,
+      bodyText: bodyTextForUrl,
+      formData: formDataForUrl,
+    });
+    navigate(permalink, { replace: true });
 
     let statusCode = 0;
     let statusText = '';
@@ -160,12 +181,19 @@ export default function RestFullClient({
         headersToRecord(res.headers)
       );
 
-      setResponse({
-        statusCode,
-        statusText,
-        bodyText,
-        timeMs: Math.round(performance.now() - t0),
-      });
+      if (statusCode >= 400) {
+        setErrorMsg(`${statusCode} ${statusText || ''}`.trim());
+        setErrorOpen(true);
+        setResponse(null);
+      } else {
+        setResponse({
+          statusCode,
+          statusText,
+          bodyText,
+          timeMs: Math.round(performance.now() - t0),
+        });
+      }
+
       setLastSentSnapshot({
         ...snapshot,
         url: requestUrl,
@@ -182,12 +210,9 @@ export default function RestFullClient({
     } catch (e) {
       errorType = e instanceof Error ? e.name : 'UnknownError';
       errorMessage = e instanceof Error ? e.message : String(e);
-      setResponse({
-        statusCode: 0,
-        statusText: errorMessage || 'Request failed',
-        bodyText: '',
-        timeMs: Math.round(performance.now() - t0),
-      });
+      setErrorMsg(errorMessage || 'Request failed');
+      setErrorOpen(true);
+      setResponse(null);
       setLastSentSnapshot(snapshot);
     } finally {
       const latencyMs = Math.round(performance.now() - t0);
@@ -217,6 +242,12 @@ export default function RestFullClient({
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-4">
+      <ErrorModal
+        isOpen={errorOpen}
+        onClose={() => setErrorOpen(false)}
+        message={errorMsg}
+      />
+
       <div className="h-[37vh] overflow-auto">
         <RequestEditor
           loading={loading}

@@ -1,5 +1,5 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { vi, it, describe, expect, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { vi, it, describe, expect } from 'vitest';
 import VariablesPage from '@/pages/variables';
 
 vi.mock('react-i18next', () => ({

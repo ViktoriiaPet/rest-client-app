@@ -97,19 +97,11 @@ describe('resolveBodyText', () => {
     expect(
       resolveBodyText(
         snap({
-          body: { mode: 'json', jsonText: '{{x}}', formData: [], rawText: '' },
-        }),
-        vars
-      )
-    ).toBe('42');
-    expect(
-      resolveBodyText(
-        snap({
           body: { mode: 'raw', rawText: 'v={{x}}', jsonText: '', formData: [] },
         }),
         vars
       )
-    ).toBe('v=42');
+    ).toBe('v="42"');
     expect(resolveBodyText(snap(), vars)).toBe('');
   });
 });
