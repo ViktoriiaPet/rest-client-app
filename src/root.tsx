@@ -23,7 +23,7 @@ export default function Root(): JSX.Element {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [navigate]);
 
   return (
     <html lang="en">
