@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { vi, it, describe, expect } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 import Footer from '@/components/Footer';
 
 vi.mock('react-i18next', () => ({
@@ -11,25 +11,28 @@ vi.mock('react-i18next', () => ({
     },
   }),
 }));
+vi.mock('../../public/rss-logo.svg', () => ({
+  default: 'rss-logo.svg',
+}));
 
 describe('Footer component', () => {
-  it('renders correctly', () => {
+  it('renders correctly after mount', async () => {
     render(<Footer />);
 
-    const githubLink = screen.getByText('app.github');
+    const githubLink = await screen.findByText('app.github');
     expect(githubLink).toBeInTheDocument();
     expect(githubLink).toHaveAttribute(
       'href',
       'https://github.com/ViktoriiaPet/rest-client-app'
     );
 
-    expect(screen.getByText('2025')).toBeInTheDocument();
+    expect(await screen.findByText('2025')).toBeInTheDocument();
 
-    const rsImage = screen.getByAltText('rss logo');
+    const rsImage = await screen.findByAltText('rss logo');
     expect(rsImage).toBeInTheDocument();
     expect(rsImage).toHaveAttribute(
       'src',
-      'https://rs.school/_next/static/media/rss-logo.c19ce1b4.svg'
+      expect.stringContaining('rss-logo.svg')
     );
   });
 });

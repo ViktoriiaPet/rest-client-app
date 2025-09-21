@@ -77,11 +77,9 @@
     "history": "History"
   },
   "variables": {
-    "title": "Variables",
     "addButton": "Add",
     "variableName": "Variable name",
     "variableValue": "Variable value",
-    "actions": "Actions",
     "delete": "Delete"
   },
   "aboutDarya": {

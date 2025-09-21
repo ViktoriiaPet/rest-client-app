@@ -8,7 +8,6 @@ import { useAuth } from '@/context/AuthContext';
 import { useVariables } from '@/context/VariablesContext';
 import { Loader } from '@/components/Loader';
 const TableRow = React.lazy(() => import('@/components/TableRow'));
-const TableHeader = React.lazy(() => import('@/components/TableHeader'));
 const VariablesAddBar = React.lazy(
   () => import('@/components/VariablesAddBar')
 );
@@ -38,14 +37,10 @@ export default function VariablesPage(): JSX.Element {
   if (!user) return <Navigate to="/" replace />;
 
   return (
-    <div className="p-[5vw] flex flex-col align-middle justify-center items-center">
-      <div className="text-[46px] tracking-[1vw] text-purple-600 pb-[2vw]">
-        {t('variables.title')}
-      </div>
+    <div className="p-[5vw] flex flex-col align-middle justify-center items-centerl">
       <div>
         <Suspense fallback={<Loader />}>
-          <div className="grid grid-cols-3 gap-4 mb-4 items-center">
-            <TableHeader />
+          <div className="grid grid-cols-3 gap-4 mb-4 items-center  w-ful">
             <VariablesAddBar onAdd={addVariable} />
           </div>
           <div className="flex flex-col gap-5">

@@ -8,7 +8,9 @@ const _LazyPage = lazy(async () => ({
   ),
 }));
 
-export default function HistoryPage(props: { loaderData: { tableHtml: string } }) {
+export default function HistoryPage(props: {
+  loaderData: { tableHtml: string };
+}) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <_LazyPage loaderData={props.loaderData} />
