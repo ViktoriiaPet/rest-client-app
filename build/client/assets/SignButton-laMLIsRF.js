@@ -1,0 +1,1 @@
+import{j as r}from"./chunk-B7RQU5TL-BAM8tVsL.js";import{B as n}from"./button-DEmol27v.js";import{u as s}from"./useTranslation-CbMF285u.js";const m=({text:o})=>{const{t}=s();return r.jsx(n,{variant:"outline",className:"hover:bg-yellow-100 bg-pink-300 text-purple-600 font-semibold py-2 px-4 rounded-lg shadow-md",children:t(o)})};export{m as S};
