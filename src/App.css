@@ -1,9 +1,93 @@
 @import 'tailwindcss';
-
-@plugin 'tailwindcss-animate';
 @import 'tw-animate-css';
+@source inline("hover:bg-lavender-300");
 
 @custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-pink-100: #f0c8e9;
+  --color-pink-200: #eebee7;
+  --color-pink-300: #e396d6;
+  --color-pink-400: #e06bbd;
+
+  --color-purple-300: #d3b5e5;
+  --color-purple-400: #bc7db7;
+  --color-purple-500: #9e829d;
+  --color-purple-600: #6e5f6f;
+
+  --color-gray-50: #fdf5f9;
+  --color-gray-200: #e7dfe8;
+  --color-gray-900: #2a2229;
+
+  --color-lavender-100: #ede7f6;
+  --color-lavender-300: #c5aee6;
+  --color-lavender-500: #8e7ab5;
+
+  --color-rose-200: #ffd6e7;
+  --color-rose-400: #ff9bb3;
+  --color-rose-600: #e85b81;
+
+  --color-cream-100: #fff8f1;
+  --color-cream-300: #fde2c8;
+
+  --color-green-600: #009966;
+  --color-blue-600: #0084d1;
+  --color-orange-500: #fe9a00;
+
+  --font-inter: Inter, sans-serif;
+
+  --text-xs: 14px;
+  --leading-xs: 1.25;
+  --text-base: 16px;
+  --tracking-base: 0.01em;
+  --leading-base: 1.5;
+  --text-lg: 18px;
+  --tracking-lg: 0.01em;
+  --leading-lg: 1.6;
+  --text-xl: 20px;
+  --tracking-xl: -0.01em;
+  --leading-xl: 1.6;
+  --text-2xl: 24px;
+  --tracking-2xl: -0.015em;
+  --leading-2xl: 1.4;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
 
 #root {
   max-width: 1280px;
@@ -43,7 +127,6 @@
 .card {
   padding: 2em;
 }
-
 .read-the-docs {
   color: #888;
 }
@@ -60,44 +143,6 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
   -webkit-text-fill-color: #9b10fa !important;
   transition: background-color 9999s ease-in-out 0s;
-}
-
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 :root {

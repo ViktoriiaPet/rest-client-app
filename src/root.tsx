@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { Outlet, Scripts, useNavigate } from 'react-router';
+import { Outlet, Scripts, useNavigate, Links, Meta } from 'react-router';
 
 import { AuthProvider } from './context/AuthContext.tsx';
 import { initAuthWatcher } from './service/firebase.ts';
@@ -17,17 +17,17 @@ import './App.css';
 
 export default function Root(): JSX.Element {
   const navigate = useNavigate();
+
   useEffect(() => {
     const unsubscribe = initAuthWatcher(navigate);
-
-    return () => {
-      unsubscribe();
-    };
+    return () => unsubscribe();
   }, [navigate]);
 
   return (
     <html lang="en">
       <head>
+        <Meta />
+        <Links />
         <meta charSet="UTF-8" />
         <title>My App</title>
       </head>
@@ -44,12 +44,12 @@ export default function Root(): JSX.Element {
                     </ErrorBoundary>
                   </div>
                 </main>
-                <Scripts />
                 <Footer />
               </div>
             </Provider>
           </VariablesProvider>
         </AuthProvider>
+        <Scripts />
       </body>
     </html>
   );
