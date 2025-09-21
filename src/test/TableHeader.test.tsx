@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, vi, expect } from 'vitest';
 import TableHeader from '@/components/TableHeader';
 
