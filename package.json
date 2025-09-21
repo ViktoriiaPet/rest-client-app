@@ -9,6 +9,7 @@
     "lint": "eslint . --fix",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
+    "format-fix": "npm run lint && npm run format:write",
     "preview": "vite preview",
     "prepare": "husky",
     "test": "vitest",

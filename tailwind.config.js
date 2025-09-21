@@ -49,6 +49,7 @@ export default {
         inter: ['Inter', 'sans-serif'],
       },
       fontSize: {
+        xs: ['14px', { lineHeight: '1.25' }],
         base: ['16px', { letterSpacing: '0.01em', lineHeight: '1.5' }],
         lg: ['18px', { letterSpacing: '0.01em', lineHeight: '1.6' }],
         xl: ['20px', { letterSpacing: '-0.01em', lineHeight: '1.6' }],

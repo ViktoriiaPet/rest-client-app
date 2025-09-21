@@ -1,4 +1,8 @@
-import { badgeColor, getMethodTextColor } from '@/utils/getStatusCodeColor';
+import {
+  badgeColor,
+  getMethodTextColor,
+  getStatusColor,
+} from '@/utils/getStatusCodeColor';
 import type { HttpMethod } from '@/types/apiMethods';
 import { describe, it, expect } from 'vitest';
 
@@ -43,5 +47,34 @@ describe('getMethodTextColor', () => {
 
   it('falls back to empty string for unknown methods', () => {
     expect(getMethodTextColor('' as HttpMethod)).toBe('');
+  });
+});
+
+describe('getStatusColor', () => {
+  it('returns gray when no status provided', () => {
+    expect(getStatusColor(undefined)).toBe('bg-gray-300');
+    expect(getStatusColor(0)).toBe('bg-gray-300');
+  });
+
+  it('maps first digit buckets to Tailwind classes', () => {
+    const cases: Array<[number, string]> = [
+      [100, 'bg-purple-300'],
+      [199, 'bg-purple-300'],
+      [200, 'bg-purple-400'],
+      [250, 'bg-purple-400'],
+      [299, 'bg-purple-400'],
+      [300, 'bg-indigo-500'],
+      [399, 'bg-indigo-500'],
+      [400, 'bg-pink-300'],
+      [499, 'bg-pink-300'],
+      [500, 'bg-pink-400'],
+      [599, 'bg-pink-400'],
+      [600, 'bg-gray-200'],
+      [777, 'bg-gray-200'],
+    ];
+
+    for (const [code, expected] of cases) {
+      expect(getStatusColor(code)).toBe(expected);
+    }
   });
 });

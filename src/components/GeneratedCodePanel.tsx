@@ -66,7 +66,7 @@ export default function GeneratedCodePanel({
       <div className="flex items-center justify-between gap-2 border-b px-4 py-2">
         <h3 className="text-sm font-semibold">{t('restfull.generatedCode')}</h3>
         {state.status === 'ready' && (
-          <span className="text-xs text-slate-500">
+          <span className="text-[14px] text-slate-500">
             {state.context.method} • {state.context.url}
           </span>
         )}
@@ -111,7 +111,7 @@ export default function GeneratedCodePanel({
           ) : (
             <>
               <div className="flex items-center justify-between">
-                <div className="text-xs text-slate-500">{selected}</div>
+                <div className="text-[14px] text-slate-500">{selected}</div>
                 <Button
                   size="sm"
                   variant="outline"
@@ -120,7 +120,7 @@ export default function GeneratedCodePanel({
                   {t('buttons.copy')}
                 </Button>
               </div>
-              <pre className="overflow-auto rounded-lg border bg-slate-50 p-3 text-xs">
+              <pre className="overflow-auto rounded-lg border bg-slate-50 p-3 text-[14px]">
                 {currentSnippet}
               </pre>
             </>

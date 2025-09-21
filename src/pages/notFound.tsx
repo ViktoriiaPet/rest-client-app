@@ -8,7 +8,7 @@ export default function NotFound(): JSX.Element {
   const { t } = useTranslation();
 
   return (
-    <main className="grid min-h-[100svh] place-items-center px-4">
+    <main className="grid min-h-[80svh] place-items-center px-4">
       <section className="mx-auto max-w-xl p-8 text-center space-y-4">
         <img
           src="/ice-cream.svg"
@@ -20,12 +20,15 @@ export default function NotFound(): JSX.Element {
 
         <div className="flex gap-3 justify-center">
           <button
-            className="rounded-2xl px-4 py-2 shadow"
+            className="hover:bg-yellow-100 bg-pink-300 text-purple-600 font-semibold py-2 px-4 rounded-lg shadow-md"
             onClick={() => navigate(-1)}
           >
             {t('notFound.back')}
           </button>
-          <Link className="rounded-2xl px-4 py-2 shadow" to="/">
+          <Link
+            className="hover:bg-yellow-100 bg-pink-300 text-purple-600 font-semibold py-2 px-4 rounded-lg shadow-md"
+            to="/"
+          >
             {t('notFound.home')}
           </Link>
         </div>
