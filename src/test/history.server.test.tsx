@@ -9,7 +9,7 @@ vi.mock('vite-env-only/macros', () => ({
 }));
 
 describe('HistoryPage', () => {
-  it('renders the table HTML from loaderData', () => {
+  it('renders the table HTML from loaderData', async () => {
     const loaderData = {
       tableHtml: '<div>Test table content</div>',
     };
@@ -19,7 +19,7 @@ describe('HistoryPage', () => {
         <HistoryPage loaderData={loaderData} />
       </MemoryRouter>
     );
-
-    expect(screen.getByText('Test table content')).toBeInTheDocument();
+    const content = await screen.findByText('Test table content');
+    expect(content).toBeInTheDocument();
   });
 });
