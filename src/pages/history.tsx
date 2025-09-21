@@ -1,4 +1,3 @@
-
 import { loader as serverLoader } from './history.server';
 export { serverLoader as loader };
 import React from 'react';
