@@ -110,9 +110,9 @@ export default function RequestEditor({
         onSend={() => submit()}
       />
 
-      <div className="px-1 h-4 text-xs ml-30">
+      <div className="px-1 h-4 ml-30">
         {urlInvalid && (
-          <div className="px-1 text-xs text-rose-600">
+          <div className="px-1 text-[14px] text-rose-600">
             {t('request.invalidUrl')}
           </div>
         )}
@@ -163,7 +163,7 @@ export default function RequestEditor({
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <div
-                  className={`text-xs ${jsonError ? 'text-rose-600' : 'text-slate-500'}`}
+                  className={`text-[14px] ${jsonError ? 'text-rose-600' : 'text-slate-500'}`}
                 >
                   {jsonError}
                 </div>

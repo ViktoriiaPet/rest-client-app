@@ -24,6 +24,7 @@ export default defineConfig({
         'src/routes.ts',
         'node_modules/**',
         'dist/**',
+        'src/root.tsx',
       ],
       reporter: ['text', 'html', 'lcov'],
     },

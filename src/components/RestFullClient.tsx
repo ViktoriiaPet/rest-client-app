@@ -242,7 +242,7 @@ export default function RestFullClient({
             {t('request.response')}
           </h2>
           {response && (
-            <span className="text-xs text-purple-700/70">
+            <span className="text-[14px] text-purple-700/70">
               {response.statusCode} {response.statusText ?? ''}
             </span>
           )}

@@ -98,8 +98,6 @@ describe('HomePage', () => {
 
     const allGithubLinks = screen.getAllByRole('link', { name: /linkGitHub/i });
     expect(allGithubLinks.length).toBe(3);
-    // ------------------------------------------
-
     expect(screen.queryByText('Main Client Page')).not.toBeInTheDocument();
   });
 
