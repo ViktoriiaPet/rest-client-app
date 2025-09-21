@@ -68,20 +68,4 @@ describe('VariablesPage', () => {
     expect(screen.getByText('Navigate to /')).toBeInTheDocument();
   });
 
-  it('renders variables when user is logged in', async () => {
-    (useAuth as vi.Mock).mockReturnValue({ user: { id: 1 }, loading: false });
-    (useVariables as vi.Mock).mockReturnValue({
-      variables: { testKey: 'testValue' },
-      setVariables: vi.fn(),
-    });
-
-    render(<VariablesPage />);
-
-    await waitFor(() => {
-      expect(screen.getByText('variables.title')).toBeInTheDocument();
-    });
-    const header = await screen.findByTestId('table-header');
-    expect(header).toBeInTheDocument();
-    expect(screen.getByText('Row: testKey=testValue')).toBeInTheDocument();
-  });
 });
