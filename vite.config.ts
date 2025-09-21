@@ -9,6 +9,10 @@ export default defineConfig(({ mode }) => {
   const isTest = mode === 'test' || !!process.env.VITEST;
 
   return {
+    base: '/',
+    build: {
+      outDir: 'dist',
+    },
     plugins: [
       tailwindcss(),
       !isTest && reactRouter(),
