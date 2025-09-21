@@ -85,7 +85,6 @@ export const loader = serverOnly$(
       (headerLang?.startsWith('ru') ? 'ru' : 'en');
     const t = translations[lang];
 
-
     const snap = await getDocs(
       query(
         collection(db, 'requests').withConverter<FireRequestDoc>({
@@ -119,12 +118,14 @@ export const loader = serverOnly$(
           <a href="${href}" title="${d.url ?? ''}" class="underline text-blue-600 truncate">${d.url ?? ''}</a>
         </td>
                 <td class="px-4 py-2 border-b text-purple-600">${
-    d.createdAt
-      ? (d.createdAt instanceof Date
-          ? d.createdAt.toISOString()
-          : (d.createdAt as { toDate?: () => Date }).toDate?.()?.toISOString() ?? '')
-      : ''
-  }</td>
+                  d.createdAt
+                    ? d.createdAt instanceof Date
+                      ? d.createdAt.toISOString()
+                      : ((d.createdAt as { toDate?: () => Date })
+                          .toDate?.()
+                          ?.toISOString() ?? '')
+                    : ''
+                }</td>
         <td class="px-4 py-2 border-b text-purple-600">${d.latencyMs ?? ''}</td>
         <td class="px-4 py-2 border-b text-purple-600">${d.requestBytes ?? ''}</td>
         <td class="px-4 py-2 border-b text-purple-600">${d.responseBytes ?? ''}</td>
