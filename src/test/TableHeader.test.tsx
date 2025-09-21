@@ -19,6 +19,6 @@ describe('TableHeader component', () => {
 
     expect(screen.getByText('variables.variableName')).toBeInTheDocument();
     expect(screen.getByText('variables.variableValue')).toBeInTheDocument();
-    expect(screen.getByText('variables.delete')).toBeInTheDocument();
+    expect(screen.getByText('variables.actions')).toBeInTheDocument();
   });
 });
