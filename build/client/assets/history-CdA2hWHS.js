@@ -1,1 +1,14 @@
-import{r as e,j as a,w as r}from"./chunk-B7RQU5TL-DOPFqT0B.js";const o=e.lazy(async()=>({default:t=>a.jsx("div",{dangerouslySetInnerHTML:{__html:t.loaderData.tableHtml}})})),l=r(function(s){return a.jsx(e.Suspense,{fallback:a.jsx("div",{children:"Loading..."}),children:a.jsx(o,{loaderData:s.loaderData})})});export{l as default};
+import { r as e, j as a, w as r } from './chunk-B7RQU5TL-DOPFqT0B.js';
+const o = e.lazy(async () => ({
+    default: (t) =>
+      a.jsx('div', {
+        dangerouslySetInnerHTML: { __html: t.loaderData.tableHtml },
+      }),
+  })),
+  l = r(function (s) {
+    return a.jsx(e.Suspense, {
+      fallback: a.jsx('div', { children: 'Loading...' }),
+      children: a.jsx(o, { loaderData: s.loaderData }),
+    });
+  });
+export { l as default };

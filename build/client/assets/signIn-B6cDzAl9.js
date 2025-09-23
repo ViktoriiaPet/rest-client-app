@@ -1,1 +1,154 @@
-import{w as y,r,u as P,j as s}from"./chunk-B7RQU5TL-DOPFqT0B.js";import{E as U,F as A,a as D,g}from"./modal-snOD3Bw2.js";import{l as O}from"./firebase-_GfKOiAI.js";import{B as T}from"./button-B9xj3Fbv.js";import{u as B}from"./AuthContext-B8r0X3Wy.js";import{u as L}from"./useTranslation-0WW_tMsO.js";import{F as R}from"./index.esm-BE3Wjq2f.js";import"./i18next-Bhq85MQn.js";import"./x-DuRsou1H.js";import"./index-DSc-_UGc.js";import"./index-BVdamgSP.js";const Z=y(function(){const{t:c}=L(),[t,v]=r.useState({username:"",email:"",password:""}),[p,u]=r.useState({}),[,b]=r.useState(!1),{user:m,token:j,setUser:E,setToken:N}=B(),f=P(),[k,h]=r.useState(!1),[S,C]=r.useState(""),[F,I]=r.useState(!1);r.useEffect(()=>{I(!0)},[]);const d=l=>{C(l),h(!0)};r.useEffect(()=>{m&&f("/mainClint")},[m,f]);const w=l=>{const{name:o,value:i}=l.target;v(n=>({...n,[o]:i}));const a=g().safeParse({...t,[o]:i});if(a.success)u(n=>({...n,[o]:void 0}));else{const n=a.error.issues.find(x=>x.path[0]===o);u(x=>({...x,[o]:n?n.message:void 0}))}},M=async l=>{l.preventDefault(),b(!0);const i=g().safeParse(t);if(i.success){u({});try{const e=await O(t.email,t.password);e&&(E(e.user),N(e.token),document.cookie=`userToken=${e.token}; path=/; max-age=3600; samesite=lax;`,document.cookie=`userId=${e.user.uid}; path=/; max-age=3600; samesite=lax;`,f("/mainClint"))}catch(e){e instanceof R?(d(e.message),console.error("Firebase error:",e)):e instanceof Error?(e.message.includes("setUser must be used within AuthProvider")?console.warn("Internal React hook error, ignoring for modal:",e):d(e.message),console.error("JS error:",e)):(d("Unknown error"),console.error("Unknown error:",e))}}else{const e={};i.error.issues.forEach(a=>{a.path[0]&&(e[a.path[0]]=a.message)}),u(e)}};return r.useEffect(()=>{},[m,j]),F?s.jsxs("form",{onSubmit:M,className:"form-position  text-purple-600  flex flex-col items-center",children:[s.jsx(U,{isOpen:k,onClose:()=>h(!1),message:S}),s.jsx("h2",{className:"pb-[3vw] font-inter text-xl text-purple-600",children:c("auth.signIn")}),s.jsxs("div",{className:"flex flex-col items-center p-[5vw] w-[550px] gap-[1vw] rounded-[15%] border-2 border-purple-300",children:[s.jsx("p",{className:"errors text-center w-full",children:p.username||""}),s.jsxs("div",{className:"relative w-full max-w-[40vw]",children:[s.jsx(A,{className:"absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400"}),s.jsx("input",{name:"email",placeholder:c("form.email"),value:t.email,onChange:w,className:"pl-10 pr-2 text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"})]}),s.jsx("p",{className:"errors text-center w-full",children:p.email||""}),s.jsxs("div",{className:"relative w-full max-w-[40vw]",children:[s.jsx(D,{className:"absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400"}),s.jsx("input",{name:"password",type:"password",placeholder:c("form.password"),value:t.password,onChange:w,className:"pl-10 pr-2 text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap"})]}),s.jsx("p",{className:"errors text-center w-full",children:p.password||""}),s.jsx("div",{className:"buttons-block pt-[3vw]",children:s.jsx(T,{variant:"custom",type:"submit",children:c("form.submit")})})]})]}):null});export{Z as default};
+import { w as y, r, u as P, j as s } from './chunk-B7RQU5TL-DOPFqT0B.js';
+import { E as U, F as A, a as D, g } from './modal-snOD3Bw2.js';
+import { l as O } from './firebase-_GfKOiAI.js';
+import { B as T } from './button-B9xj3Fbv.js';
+import { u as B } from './AuthContext-B8r0X3Wy.js';
+import { u as L } from './useTranslation-0WW_tMsO.js';
+import { F as R } from './index.esm-BE3Wjq2f.js';
+import './i18next-Bhq85MQn.js';
+import './x-DuRsou1H.js';
+import './index-DSc-_UGc.js';
+import './index-BVdamgSP.js';
+const Z = y(function () {
+  const { t: c } = L(),
+    [t, v] = r.useState({ username: '', email: '', password: '' }),
+    [p, u] = r.useState({}),
+    [, b] = r.useState(!1),
+    { user: m, token: j, setUser: E, setToken: N } = B(),
+    f = P(),
+    [k, h] = r.useState(!1),
+    [S, C] = r.useState(''),
+    [F, I] = r.useState(!1);
+  r.useEffect(() => {
+    I(!0);
+  }, []);
+  const d = (l) => {
+    (C(l), h(!0));
+  };
+  r.useEffect(() => {
+    m && f('/mainClint');
+  }, [m, f]);
+  const w = (l) => {
+      const { name: o, value: i } = l.target;
+      v((n) => ({ ...n, [o]: i }));
+      const a = g().safeParse({ ...t, [o]: i });
+      if (a.success) u((n) => ({ ...n, [o]: void 0 }));
+      else {
+        const n = a.error.issues.find((x) => x.path[0] === o);
+        u((x) => ({ ...x, [o]: n ? n.message : void 0 }));
+      }
+    },
+    M = async (l) => {
+      (l.preventDefault(), b(!0));
+      const i = g().safeParse(t);
+      if (i.success) {
+        u({});
+        try {
+          const e = await O(t.email, t.password);
+          e &&
+            (E(e.user),
+            N(e.token),
+            (document.cookie = `userToken=${e.token}; path=/; max-age=3600; samesite=lax;`),
+            (document.cookie = `userId=${e.user.uid}; path=/; max-age=3600; samesite=lax;`),
+            f('/mainClint'));
+        } catch (e) {
+          e instanceof R
+            ? (d(e.message), console.error('Firebase error:', e))
+            : e instanceof Error
+              ? (e.message.includes('setUser must be used within AuthProvider')
+                  ? console.warn(
+                      'Internal React hook error, ignoring for modal:',
+                      e
+                    )
+                  : d(e.message),
+                console.error('JS error:', e))
+              : (d('Unknown error'), console.error('Unknown error:', e));
+        }
+      } else {
+        const e = {};
+        (i.error.issues.forEach((a) => {
+          a.path[0] && (e[a.path[0]] = a.message);
+        }),
+          u(e));
+      }
+    };
+  return (
+    r.useEffect(() => {}, [m, j]),
+    F
+      ? s.jsxs('form', {
+          onSubmit: M,
+          className:
+            'form-position  text-purple-600  flex flex-col items-center',
+          children: [
+            s.jsx(U, { isOpen: k, onClose: () => h(!1), message: S }),
+            s.jsx('h2', {
+              className: 'pb-[3vw] font-inter text-xl text-purple-600',
+              children: c('auth.signIn'),
+            }),
+            s.jsxs('div', {
+              className:
+                'flex flex-col items-center p-[5vw] w-[550px] gap-[1vw] rounded-[15%] border-2 border-purple-300',
+              children: [
+                s.jsx('p', {
+                  className: 'errors text-center w-full',
+                  children: p.username || '',
+                }),
+                s.jsxs('div', {
+                  className: 'relative w-full max-w-[40vw]',
+                  children: [
+                    s.jsx(A, {
+                      className:
+                        'absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400',
+                    }),
+                    s.jsx('input', {
+                      name: 'email',
+                      placeholder: c('form.email'),
+                      value: t.email,
+                      onChange: w,
+                      className:
+                        'pl-10 pr-2 text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap',
+                    }),
+                  ],
+                }),
+                s.jsx('p', {
+                  className: 'errors text-center w-full',
+                  children: p.email || '',
+                }),
+                s.jsxs('div', {
+                  className: 'relative w-full max-w-[40vw]',
+                  children: [
+                    s.jsx(D, {
+                      className:
+                        'absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400',
+                    }),
+                    s.jsx('input', {
+                      name: 'password',
+                      type: 'password',
+                      placeholder: c('form.password'),
+                      value: t.password,
+                      onChange: w,
+                      className:
+                        'pl-10 pr-2 text-center bg-transparent w-full border-b border-purple-400 text-purple-500 placeholder-purple-300 focus:outline-none focus:border-purple-600 font-inter text-xl overflow-x-auto whitespace-nowrap',
+                    }),
+                  ],
+                }),
+                s.jsx('p', {
+                  className: 'errors text-center w-full',
+                  children: p.password || '',
+                }),
+                s.jsx('div', {
+                  className: 'buttons-block pt-[3vw]',
+                  children: s.jsx(T, {
+                    variant: 'custom',
+                    type: 'submit',
+                    children: c('form.submit'),
+                  }),
+                }),
+              ],
+            }),
+          ],
+        })
+      : null
+  );
+});
+export { Z as default };

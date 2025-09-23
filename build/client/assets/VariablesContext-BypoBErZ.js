@@ -1,1 +1,30 @@
-import{r as t,j as n}from"./chunk-B7RQU5TL-DOPFqT0B.js";import{u as l}from"./AuthContext-B8r0X3Wy.js";const c=e=>JSON.parse(localStorage.getItem(`userVariables_${e}`)||"{}"),b=(e,s)=>{localStorage.setItem(`userVariables_${e}`,JSON.stringify(s))},i=t.createContext(null);function x({children:e}){const{user:s}=l(),[o,a]=t.useState({});t.useEffect(()=>{if(s?.uid){const r=c(s.uid);a(r)}else a({})},[s]);const u=r=>{a(r),s?.uid&&b(s.uid,r)};return n.jsx(i.Provider,{value:{variables:o,setVariables:u},children:e})}function d(){const e=t.useContext(i);if(!e)throw new Error("useVariables must be used within VariablesProvider");return e}export{x as V,d as u};
+import { r as t, j as n } from './chunk-B7RQU5TL-DOPFqT0B.js';
+import { u as l } from './AuthContext-B8r0X3Wy.js';
+const c = (e) => JSON.parse(localStorage.getItem(`userVariables_${e}`) || '{}'),
+  b = (e, s) => {
+    localStorage.setItem(`userVariables_${e}`, JSON.stringify(s));
+  },
+  i = t.createContext(null);
+function x({ children: e }) {
+  const { user: s } = l(),
+    [o, a] = t.useState({});
+  t.useEffect(() => {
+    if (s?.uid) {
+      const r = c(s.uid);
+      a(r);
+    } else a({});
+  }, [s]);
+  const u = (r) => {
+    (a(r), s?.uid && b(s.uid, r));
+  };
+  return n.jsx(i.Provider, {
+    value: { variables: o, setVariables: u },
+    children: e,
+  });
+}
+function d() {
+  const e = t.useContext(i);
+  if (!e) throw new Error('useVariables must be used within VariablesProvider');
+  return e;
+}
+export { x as V, d as u };

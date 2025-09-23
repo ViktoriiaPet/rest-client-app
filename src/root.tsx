@@ -19,7 +19,6 @@ export function links() {
   return [{ rel: 'stylesheet', href: './App.css?url' }];
 }
 
-
 export default function Root(): JSX.Element {
   const navigate = useNavigate();
   useEffect(() => {

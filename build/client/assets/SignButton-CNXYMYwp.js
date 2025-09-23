@@ -1,1 +1,8 @@
-import{j as r}from"./chunk-B7RQU5TL-DOPFqT0B.js";import{B as s}from"./button-B9xj3Fbv.js";import{u as n}from"./useTranslation-0WW_tMsO.js";const u=({text:t})=>{const{t:o}=n();return r.jsx(s,{variant:"custom",children:o(t)})};export{u as S};
+import { j as r } from './chunk-B7RQU5TL-DOPFqT0B.js';
+import { B as s } from './button-B9xj3Fbv.js';
+import { u as n } from './useTranslation-0WW_tMsO.js';
+const u = ({ text: t }) => {
+  const { t: o } = n();
+  return r.jsx(s, { variant: 'custom', children: o(t) });
+};
+export { u as S };
