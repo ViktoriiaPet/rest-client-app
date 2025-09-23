@@ -107,9 +107,9 @@
     }
   },
   "reactRouterConfig": {
-    "appDirectory": "C:/Users/pc/Desktop/final/rest-client-app/src",
+    "appDirectory": "C:/Users/pc/Desktop/comprueba/rest-client-app/src",
     "basename": "/",
-    "buildDirectory": "C:/Users/pc/Desktop/final/rest-client-app/build",
+    "buildDirectory": "C:/Users/pc/Desktop/comprueba/rest-client-app/build",
     "future": {
       "v8_middleware": false,
       "unstable_optimizeDeps": false,

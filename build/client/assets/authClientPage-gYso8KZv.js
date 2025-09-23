@@ -1,0 +1,71 @@
+import {
+  w as o,
+  r as n,
+  j as e,
+  N as d,
+  a as s,
+  O as u,
+} from './chunk-B7RQU5TL-DOPFqT0B.js';
+import { u as c } from './AuthContext-B8r0X3Wy.js';
+import { u as p } from './useTranslation-0WW_tMsO.js';
+const g = o(function () {
+  const [i, l] = n.useState(!1),
+    { t } = p(),
+    { user: r, loading: a } = c();
+  return (
+    n.useEffect(() => {
+      l(!0);
+    }, []),
+    i
+      ? a
+        ? e.jsx('div', { children: t('app.loading') })
+        : r
+          ? e.jsxs('nav', {
+              className: 'p-[5vw] text-center flex flex-col items-center gap-3',
+              children: [
+                e.jsxs('div', {
+                  className:
+                    'text-[46px] tracking-[1vw] text-purple-600 pb-[2vw]',
+                  children: [t('auth.welcome'), ', ', r.displayName],
+                }),
+                e.jsxs('div', {
+                  className: `flex flex-row mb-[3vw] gap-[2vw] items-stretch\r
+                [&>div]:flex-1 [&>div]:basis-0 [&>div]:min-w-0`,
+                  children: [
+                    e.jsx(s, {
+                      className:
+                        'bg-pink-300 text-purple-600 shadow-md rounded-lg px-6 py-3 inline-block transition-colors duration-300 ease-in-out hover:bg-lavender-500 hover:bg-yellow-100 font-semibold',
+                      to: '/auth/restfull',
+                      end: !0,
+                      children: e.jsx('div', {
+                        children: t('clientPage.restfull'),
+                      }),
+                    }),
+                    e.jsx(s, {
+                      className:
+                        'bg-pink-300 text-purple-600 shadow-md rounded-lg px-6 py-3 inline-block transition-colors duration-300 ease-in-out hover:bg-lavender-500 hover:bg-yellow-100 font-semibold',
+                      to: '/auth/clientVariales',
+                      end: !0,
+                      children: e.jsx('div', {
+                        children: t('clientPage.variables'),
+                      }),
+                    }),
+                    e.jsx(s, {
+                      className:
+                        'bg-pink-300 text-purple-600 shadow-md rounded-lg px-6 py-3 inline-block transition-colors duration-300 ease-in-out hover:bg-lavender-500 hover:bg-yellow-100 font-semibold',
+                      to: '/auth/clientHistory',
+                      end: !0,
+                      children: e.jsx('div', {
+                        children: t('clientPage.history'),
+                      }),
+                    }),
+                  ],
+                }),
+                e.jsx(u, {}),
+              ],
+            })
+          : e.jsx(d, { to: '/', replace: !0 })
+      : null
+  );
+});
+export { g as default };
