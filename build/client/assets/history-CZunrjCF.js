@@ -1,6 +1,0 @@
-import { R as e, w as n, j as r } from './chunk-B7RQU5TL-BAM8tVsL.js';
-e.lazy(async () => ({ default: () => null }));
-const o = n(function ({ loaderData: t }) {
-  return r.jsx('div', { dangerouslySetInnerHTML: { __html: t.tableHtml } });
-});
-export { o as default };
