@@ -1,6 +1,6 @@
 import { loader as serverLoader } from './history.server';
 export { serverLoader as loader };
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 
 const _LazyPage = lazy(async () => ({
   default: (props: { loaderData: { tableHtml: string } }) => (

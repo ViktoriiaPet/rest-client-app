@@ -10,7 +10,7 @@ import {
   r,
   k,
   s,
-} from './assets/server-build-CEPa8WgQ.js';
+} from './assets/server-build-CKDFL2Wv.js';
 import 'react/jsx-runtime';
 import 'node:stream';
 import '@react-router/node';
@@ -31,7 +31,6 @@ import 'tailwind-merge';
 import '@reduxjs/toolkit';
 import '@radix-ui/react-slot';
 import 'class-variance-authority';
-import '@radix-ui/react-avatar';
 import 'react-icons/fa';
 import 'zod';
 import '@radix-ui/react-dialog';

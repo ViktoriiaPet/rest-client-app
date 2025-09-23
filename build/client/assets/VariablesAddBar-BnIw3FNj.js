@@ -1,0 +1,66 @@
+import { r as a, j as e } from './chunk-B7RQU5TL-DOPFqT0B.js';
+import { B as u } from './button-B9xj3Fbv.js';
+import { u as c } from './useTranslation-0WW_tMsO.js';
+const b = ({ onAdd: l }) => {
+  const { t } = c(),
+    [r, i] = a.useState(''),
+    [s, n] = a.useState(''),
+    d = () => {
+      !r.trim() || !s.trim() || (l(r, s), i(''), n(''));
+    };
+  return e.jsxs(e.Fragment, {
+    children: [
+      e.jsx('input', {
+        name: 'variableName',
+        type: 'text',
+        placeholder: t('variables.variableName'),
+        value: r,
+        onChange: (o) => {
+          i(o.target.value);
+        },
+        className:
+          'flex bg-transparent py-1 transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm h-9 w-full rounded-md border px-3 text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 disabled:cursor-not-allowed disabled:opacity-50 border-pink-300',
+      }),
+      e.jsx('input', {
+        name: 'variableValue',
+        type: 'text',
+        placeholder: t('variables.variableValue'),
+        value: s,
+        onChange: (o) => {
+          n(o.target.value);
+        },
+        className:
+          'flex bg-transparent py-1 transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm h-9 w-full rounded-md border px-3 text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 disabled:cursor-not-allowed disabled:opacity-50 border-pink-300',
+      }),
+      e.jsx('div', {
+        className: ' flex justify-center items-center',
+        children: e.jsxs(u, {
+          variant: 'custom',
+          type: 'submit',
+          onClick: d,
+          children: [
+            e.jsxs('svg', {
+              xmlns: 'http://www.w3.org/2000/svg',
+              width: '24',
+              height: '24',
+              viewBox: '0 0 24 24',
+              fill: 'none',
+              stroke: 'currentColor',
+              strokeWidth: '2',
+              strokeLinecap: 'round',
+              strokeLinejoin: 'round',
+              className: 'lucide lucide-plus mr-2 h-4 w-4',
+              'aria-hidden': 'true',
+              children: [
+                e.jsx('path', { d: 'M5 12h14' }),
+                e.jsx('path', { d: 'M12 5v14' }),
+              ],
+            }),
+            t('variables.addButton'),
+          ],
+        }),
+      }),
+    ],
+  });
+};
+export { b as default };
